@@ -157,6 +157,38 @@ Refer to AGENTS.md for library split. Implementation details in components.
 
 ---
 
+## 8. Responsive Design
+
+Every component and layout must be fully responsive across all screen sizes — from 320px mobile to 1920px+ desktop. No element should overflow, clip, overlap, or appear broken at any viewport width.
+
+### Breakpoints (Tailwind defaults)
+
+| Breakpoint | Min Width | Target |
+|---|---|---|
+| `sm` | 640px | Large phones |
+| `md` | 768px | Tablets |
+| `lg` | 1024px | Small laptops |
+| `xl` | 1280px | Desktops |
+
+### Core rules
+
+1. **Change layout when necessary** — don't just stack vertically at every breakpoint. Use `md:flex-row`, `lg:grid-cols-3`, etc. to create proper layouts that adapt.
+2. **Grids must reflow** — never hardcode a single column for all sizes. Always define column counts per breakpoint (e.g. `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`).
+3. **Text must reflow** — headings should scale down on mobile (`text-3xl md:text-5xl`). Long text should never overflow or cause horizontal scroll.
+4. **Touch targets** — buttons, links, and interactive elements must be at least 44px tall on mobile for touch. Use `py-3` or larger.
+5. **No horizontal scroll** — any element wider than the viewport is a bug. Use `overflow-hidden` only as a last resort; prefer responsive widths (`w-full`, `max-w-full`, `grid-cols-1`).
+6. **Images** — always `w-full h-auto` or `object-cover` with explicit aspect ratio. Never fixed pixel widths.
+7. **Side-by-side content** — on mobile, collapse side-by-side layouts (flex row to column, grid multi-col to single col).
+8. **Padding/margins** — reduce outer padding on mobile (`px-4 sm:px-6`) so content fills the full width on small screens.
+9. **Navigation** — desktop horizontal nav to mobile hamburger menu. Footer links: row on desktop, wrap or column on mobile.
+
+### Testing
+
+Check every component at: 320px, 375px, 640px, 768px, 1024px, 1280px, 1440px.
+No overflowing text, no broken grids, no elements clipped by containers, no awkward gaps.
+
+---
+
 ## 7. Icons
 
 - Import from `react-icons`:

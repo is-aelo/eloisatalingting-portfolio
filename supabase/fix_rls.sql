@@ -133,3 +133,37 @@ DROP POLICY IF EXISTS "Public read" ON public.site_settings;
 DROP POLICY IF EXISTS "Admin all" ON public.site_settings;
 CREATE POLICY "Public read" ON public.site_settings FOR SELECT USING (true);
 CREATE POLICY "Admin all" ON public.site_settings FOR ALL USING (auth.role() = 'authenticated');
+
+-- education
+CREATE TABLE IF NOT EXISTS public.education (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  institution text NOT NULL,
+  degree text NOT NULL,
+  field_of_study text,
+  start_date date NOT NULL,
+  end_date date,
+  gpa text,
+  description text,
+  order_index integer DEFAULT 0,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT education_pkey PRIMARY KEY (id)
+);
+
+ALTER TABLE public.education ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public read" ON public.education;
+DROP POLICY IF EXISTS "Admin all" ON public.education;
+CREATE POLICY "Public read" ON public.education FOR SELECT USING (true);
+CREATE POLICY "Admin all" ON public.education FOR ALL USING (auth.role() = 'authenticated');
+
+-- ========================================
+-- 7. STORAGE BUCKET
+-- ========================================
+INSERT INTO storage.buckets (id, name, public) VALUES ('images', 'images', true) ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Public read" ON storage.objects;
+DROP POLICY IF EXISTS "Admin upload" ON storage.objects;
+DROP POLICY IF EXISTS "Admin delete" ON storage.objects;
+CREATE POLICY "Public read" ON storage.objects FOR SELECT USING (bucket_id = 'images');
+CREATE POLICY "Admin upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'images' AND auth.role() = 'authenticated');
+CREATE POLICY "Admin delete" ON storage.objects FOR DELETE USING (bucket_id = 'images' AND auth.role() = 'authenticated');

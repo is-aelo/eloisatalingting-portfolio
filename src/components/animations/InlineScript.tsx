@@ -1,7 +1,7 @@
 export function InlineScript({ html }: { html: string }) {
+  if (typeof window !== "undefined") return null;
   return (
     <script
-      type={typeof window === "undefined" ? "text/javascript" : "text/plain"}
       suppressHydrationWarning
       dangerouslySetInnerHTML={{ __html: html }}
     />

@@ -484,6 +484,46 @@ export interface HeroContentUpdate {
   updated_at?: string;
 }
 
+export interface EducationRow {
+  id: string;
+  institution: string;
+  degree: string;
+  field_of_study: string | null;
+  start_date: string;
+  end_date: string | null;
+  gpa: string | null;
+  description: string | null;
+  order_index: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EducationInsert {
+  id?: string;
+  institution: string;
+  degree: string;
+  field_of_study?: string | null;
+  start_date: string;
+  end_date?: string | null;
+  gpa?: string | null;
+  description?: string | null;
+  order_index?: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface EducationUpdate {
+  institution?: string;
+  degree?: string;
+  field_of_study?: string | null;
+  start_date?: string;
+  end_date?: string | null;
+  gpa?: string | null;
+  description?: string | null;
+  order_index?: number;
+  updated_at?: string;
+}
+
 export interface SiteSettingsRow {
   id: string;
   site_name: string | null;

@@ -1,10 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { LuSun, LuMoon } from "react-icons/lu";
 
 export function ThemeToggle() {
   const { isDark, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <button
+        aria-label="Toggle theme"
+        className="text-primary transition-colors cursor-pointer"
+      >
+        <span className="inline-block h-5 w-5" />
+      </button>
+    );
+  }
 
   return (
     <button
