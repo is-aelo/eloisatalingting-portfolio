@@ -1,4 +1,4 @@
-import { LuArrowUpRight } from "react-icons/lu";
+
 
 type Experience = {
   id: string;
@@ -42,7 +42,7 @@ export function ExperienceSection({ experiences }: { experiences: Experience[] }
                       rel="noopener noreferrer"
                       className="mt-0.5 inline-flex cursor-pointer items-center gap-1 font-body text-sm text-secondary transition-opacity hover:text-accent-secondary"
                     >
-                      {exp.company_name} <LuArrowUpRight size={14} />
+                      {exp.company_name}
                     </a>
                   ) : (
                     <p className="mt-0.5 font-body text-sm text-secondary">{exp.company_name}</p>

@@ -15,12 +15,37 @@ export default async function Home() {
     supabase.from("about").select("full_name").maybeSingle(),
     supabase.from("experiences").select("*").order("sort_order", { ascending: true }),
     supabase.from("education").select("*").order("order_index", { ascending: true }),
-    supabase.from("projects").select("slug, title, short_description, project_type, thumbnail_url, tech_stack_summary").eq("featured", true).eq("display", true).order("created_at", { ascending: false }),
+    supabase.from("projects").select("id, slug, title, short_description, project_type, thumbnail_url, tech_stack_summary").eq("featured", true).eq("display", true).order("created_at", { ascending: false }),
     supabase.from("tools").select("name, logo_url, category").order("sort_order", { ascending: true }),
   ]);
 
   const experiences = experiencesResult.data ?? [];
   const education = educationResult.data ?? [];
+  const projects = projectsResult.data ?? [];
+
+  let projectCtas: Record<string, { label: string; url: string } | undefined> = {};
+  if (projects.length > 0) {
+    const { data: ctas } = await supabase
+      .from("project_ctas")
+      .select("project_id, label, url")
+      .in("project_id", projects.map((p) => p.id))
+      .order("sort_order", { ascending: true });
+
+    if (ctas) {
+      const seen = new Set<string>();
+      for (const cta of ctas) {
+        if (!seen.has(cta.project_id)) {
+          seen.add(cta.project_id);
+          projectCtas[cta.project_id] = { label: cta.label, url: cta.url };
+        }
+      }
+    }
+  }
+
+  const projectsWithCtas = projects.map((p) => ({
+    ...p,
+    cta: projectCtas[p.id] ?? null,
+  }));
 
   let experienceIds = experiences.map((e) => e.id);
   let tasksByExp: Record<string, { task: string }[]> = {};
@@ -49,7 +74,7 @@ export default async function Home() {
       <HeroSection content={hero} fullName={about?.full_name} />
       <ExperienceSection experiences={experiencesWithTasks} />
       <EducationSection education={education} />
-      <FeaturedProjects projects={projectsResult.data ?? []} />
+      <FeaturedProjects projects={projectsWithCtas} />
       <ToolsMarquee tools={toolsResult.data ?? []} />
     </>
   );
