@@ -55,7 +55,7 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
                 </p>
               )}
               {project.tech_stack_summary && (
-                <p className="mt-4 text-sm text-muted">{project.tech_stack_summary}</p>
+                <p className="mt-4 text-sm text-accent-tertiary">{project.tech_stack_summary}</p>
               )}
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 <Link

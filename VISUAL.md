@@ -2,8 +2,8 @@
 
 ## Brand Overview
 
-- **Vibe**: Senior-level, clean, sophisticated. Not junior, not trendy.
-- **Theme**: Dark/light with system preference detection. Manual toggle available.
+- **Vibe**: Refined developer aesthetic. Clean, focused, vibrant without being noisy.
+- **Theme**: Dark/light with system preference detection. Manual toggle available. Inspired by Monokai Pro.
 - **No emojis anywhere.** Icons only where functional (react-icons: Simple Icons for tech/brand, Lucide for UI).
 
 ---
@@ -16,29 +16,33 @@ All colors are CSS custom properties in `globals.css`. Components only use Tailw
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--background` | `#fafaf9` | Page background |
+| `--background` | `#f9f9f9` | Page background |
 | `--surface` | `#ffffff` | Card, container, elevated areas |
-| `--surface-muted` | `#f5f5f4` | Subtle background variant |
-| `--border` | `#e7e5e4` | Borders, dividers, strokes |
-| `--primary` | `#0c0a09` | Main body text, headings |
-| `--secondary` | `#57534e` | Secondary text, labels |
-| `--muted` | `#a8a29e` | Placeholder, disabled, subtle text |
-| `--accent` | `#0c0a09` | Interactive text, primary buttons (same as primary for minimal look) |
-| `--accent-secondary` | `#9333ea` | Links, hover states, decorative accents (plum) |
+| `--surface-muted` | `#f0f0f0` | Subtle background variant |
+| `--border` | `#e0e0e0` | Borders, dividers, strokes |
+| `--primary` | `#2d2a2e` | Main body text, headings |
+| `--secondary` | `#5a575c` | Secondary text, labels |
+| `--muted` | `#8e8d8d` | Placeholder, disabled, subtle text |
+| `--accent` | `#2d2a2e` | Interactive text, primary buttons (same as primary for minimal look) |
+| `--accent-secondary` | `#fc9867` | Links, hover states, primary accent (Monokai Pro orange) |
+| `--accent-tertiary` | `#78dce8` | Tags, badges, decorative lines, secondary accent (Monokai Pro cyan) |
+| `--accent-quaternary` | `#ff6188` | Special highlights, icon accents, tertiary accent (Monokai Pro pink) |
 
 ### Dark Mode (`[data-theme="dark"]`)
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--background` | `#0c0a09` | Page background |
-| `--surface` | `#1c1917` | Card, container, elevated areas |
-| `--surface-muted` | `#292524` | Subtle background variant |
-| `--border` | `#44403c` | Borders, dividers, strokes |
-| `--primary` | `#fafaf9` | Main body text, headings |
-| `--secondary` | `#a8a29e` | Secondary text, labels |
-| `--muted` | `#78716c` | Placeholder, disabled, subtle text |
-| `--accent` | `#fafaf9` | Interactive text, primary buttons |
-| `--accent-secondary` | `#d8b4fe` | Links, hover states, decorative accents (plum light) |
+| `--background` | `#2d2a2e` | Page background |
+| `--surface` | `#363436` | Card, container, elevated areas |
+| `--surface-muted` | `#3d3a3f` | Subtle background variant |
+| `--border` | `#4a474f` | Borders, dividers, strokes |
+| `--primary` | `#fcfcfa` | Main body text, headings |
+| `--secondary` | `#c1c0c0` | Secondary text, labels |
+| `--muted` | `#727072` | Placeholder, disabled, subtle text |
+| `--accent` | `#fcfcfa` | Interactive text, primary buttons |
+| `--accent-secondary` | `#fc9867` | Links, hover states, primary accent (Monokai Pro orange) |
+| `--accent-tertiary` | `#78dce8` | Tags, badges, decorative lines, secondary accent (Monokai Pro cyan) |
+| `--accent-quaternary` | `#ff6188` | Special highlights, icon accents, tertiary accent (Monokai Pro pink) |
 
 ### Rule
 
@@ -46,8 +50,13 @@ Never use hex codes in components. Always use Tailwind classes:
 - `bg-background`, `bg-surface`, `bg-surface-muted`
 - `text-primary`, `text-secondary`, `text-muted`
 - `text-accent-secondary` for links/hoverable text
+- `text-accent-tertiary` for tags, badges, decorative metadata
+- `text-accent-quaternary` for special highlights, icon accents
 - `border-border`
 - `hover:text-accent-secondary` for interactive hover
+- `bg-accent-secondary/10` for subtle accent backgrounds
+- `bg-accent-tertiary/10` for subtle tertiary backgrounds
+- `from-accent-secondary to-accent-tertiary` for gradient accents
 
 ---
 

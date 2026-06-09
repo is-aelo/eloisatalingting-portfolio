@@ -15,7 +15,7 @@ export function ToolsMarquee({ tools }: { tools: Tool[] }) {
 
         <div className="mt-10 flex flex-wrap gap-3">
           {tools.map((tool, i) => (
-            <span key={i} className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-secondary transition-colors hover:border-accent-secondary/30">
+            <span key={i} className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-secondary transition-colors hover:border-accent-tertiary/40 hover:text-accent-tertiary">
               {tool.name}
             </span>
           ))}

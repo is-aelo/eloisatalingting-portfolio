@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { NAV_LINKS } from "@/data/constants";
 import { LuMenu } from "react-icons/lu";
 
 type ContactLink = {
@@ -17,6 +15,8 @@ type ContactLink = {
 export function Header({ fullName, contact }: { fullName: string; contact?: ContactLink | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
@@ -25,20 +25,17 @@ export function Header({ fullName, contact }: { fullName: string; contact?: Cont
             {fullName}
           </Link>
 
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="cursor-pointer text-primary transition-colors hover:text-accent-secondary"
-              aria-label="Open menu"
-            >
-              <LuMenu size={24} />
-            </button>
-          </div>
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+            aria-label="Open menu"
+          >
+            <LuMenu size={20} />
+          </button>
         </div>
       </header>
 
-      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} fullName={fullName} contact={contact} />
+      <MobileNav open={menuOpen} onClose={closeMenu} fullName={fullName} contact={contact} />
     </>
   );
 }

@@ -1,81 +1,49 @@
+export const dynamic = "force-dynamic";
+
 import { createClient } from "@/lib/supabase/server";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { ExperienceSection } from "@/components/sections/ExperienceSection";
-import { EducationSection } from "@/components/sections/EducationSection";
-import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
-import { ToolsMarquee } from "@/components/sections/ToolsMarquee";
-
-export const dynamic = "force-dynamic";
+import { EducationExperience } from "@/components/sections/EducationExperience";
+import { SkillsSection } from "@/components/sections/SkillsSection";
+import { ProjectCardStack } from "@/components/project/ProjectCardStack";
+import { ContactSection } from "@/components/sections/ContactSection";
 
 export default async function Home() {
   const supabase = await createClient();
 
-  const [{ data: hero }, { data: about }, experiencesResult, educationResult, projectsResult, toolsResult] = await Promise.all([
-    supabase.from("hero_content").select("*").maybeSingle(),
-    supabase.from("about").select("full_name").maybeSingle(),
-    supabase.from("experiences").select("*").order("sort_order", { ascending: true }),
-    supabase.from("education").select("*").order("order_index", { ascending: true }),
-    supabase.from("projects").select("id, slug, title, short_description, project_type, thumbnail_url, tech_stack_summary").eq("featured", true).eq("display", true).order("created_at", { ascending: false }),
-    supabase.from("tools").select("name, logo_url, category").order("sort_order", { ascending: true }),
-  ]);
+  const [{ data: hero }, { data: tools }, { data: about }, { data: education }, { data: experiences }, { data: categories }, { data: skills }, { data: projects }, { data: contact }] =
+    await Promise.all([
+      supabase.from("hero_content").select("*").eq("display", true).maybeSingle(),
+      supabase.from("tools").select("name, logo_url, category").order("sort_order"),
+      supabase.from("about").select("full_name").maybeSingle(),
+      supabase.from("education").select("id, institution, degree, field_of_study, start_date, end_date").order("start_date", { ascending: false }),
+      supabase.from("experiences").select("id, company_name, role_title, start_date, end_date, currently_working").order("start_date", { ascending: false }),
+      supabase.from("skill_categories").select("id, name").order("sort_order"),
+      supabase.from("skills").select("id, category_id, name").order("sort_order"),
+      supabase.from("projects").select("slug, title, short_description, cover_image_url, thumbnail_url, project_type, tech_stack_summary, project_ctas(label, url)").eq("display", true).order("featured", { ascending: false }).order("created_at", { ascending: false }),
+      supabase.from("contact").select("email, linkedin_url").maybeSingle(),
+    ]);
 
-  const experiences = experiencesResult.data ?? [];
-  const education = educationResult.data ?? [];
-  const projects = projectsResult.data ?? [];
+  const fullName = about?.full_name ?? "";
 
-  let projectCtas: Record<string, { label: string; url: string } | undefined> = {};
-  if (projects.length > 0) {
-    const { data: ctas } = await supabase
-      .from("project_ctas")
-      .select("project_id, label, url")
-      .in("project_id", projects.map((p) => p.id))
-      .order("sort_order", { ascending: true });
-
-    if (ctas) {
-      const seen = new Set<string>();
-      for (const cta of ctas) {
-        if (!seen.has(cta.project_id)) {
-          seen.add(cta.project_id);
-          projectCtas[cta.project_id] = { label: cta.label, url: cta.url };
-        }
-      }
-    }
-  }
-
-  const projectsWithCtas = projects.map((p) => ({
-    ...p,
-    cta: projectCtas[p.id] ?? null,
-  }));
-
-  let experienceIds = experiences.map((e) => e.id);
-  let tasksByExp: Record<string, { task: string }[]> = {};
-  if (experienceIds.length > 0) {
-    const { data: tasks } = await supabase
-      .from("experience_tasks")
-      .select("experience_id, task")
-      .in("experience_id", experienceIds)
-      .order("sort_order", { ascending: true });
-
-    if (tasks) {
-      for (const t of tasks) {
-        if (!tasksByExp[t.experience_id]) tasksByExp[t.experience_id] = [];
-        tasksByExp[t.experience_id].push({ task: t.task });
-      }
-    }
-  }
-
-  const experiencesWithTasks = experiences.map((e) => ({
-    ...e,
-    tasks: tasksByExp[e.id] ?? [],
-  }));
+  const skillGroups = (categories ?? []).map((cat) => ({
+    category: cat.name,
+    items: (skills ?? []).filter((s) => s.category_id === cat.id).map((s) => s.name),
+  })).filter((g) => g.items.length > 0);
 
   return (
     <>
-      <HeroSection content={hero} fullName={about?.full_name} />
-      <ExperienceSection experiences={experiencesWithTasks} />
-      <EducationSection education={education} />
-      <FeaturedProjects projects={projectsWithCtas} />
-      <ToolsMarquee tools={toolsResult.data ?? []} />
-    </>
+      <HeroSection
+        hero={hero}
+        tools={tools ?? []}
+        fullName={fullName}
+      />
+      <SkillsSection skillGroups={skillGroups} />
+      <EducationExperience
+        education={education ?? []}
+        experiences={experiences ?? []}
+      />
+      <ProjectCardStack projects={projects ?? []} />
+      <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
+    </>  
   );
 }

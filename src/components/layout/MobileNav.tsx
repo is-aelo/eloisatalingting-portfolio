@@ -7,7 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/data/constants";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
-import { LuMail, LuX } from "react-icons/lu";
+import { LuFileText, LuFolderKanban, LuMail, LuMoon, LuSun, LuUser, LuX } from "react-icons/lu";
+import { useTheme } from "@/hooks/useTheme";
 
 type ContactLink = {
   email?: string | null;
@@ -23,12 +24,20 @@ type MobileNavProps = {
   contact?: ContactLink | null;
 };
 
+const navIcons: Record<string, React.ReactNode> = {
+  LuFolderKanban: <LuFolderKanban size={18} />,
+  LuUser: <LuUser size={18} />,
+  LuFileText: <LuFileText size={18} />,
+  LuMail: <LuMail size={18} />,
+};
+
 export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) {
   const pathname = usePathname();
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     onClose();
-  }, [pathname]);
+  }, [pathname, onClose]);
 
   useEffect(() => {
     if (open && window.innerWidth < 768) {
@@ -51,9 +60,9 @@ export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) 
     <AnimatePresence>
       {open && (
         <>
-          {/* Backdrop — fullscreen on mobile only */}
+          {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 z-[60] bg-black/50 md:hidden"
+            className="fixed inset-0 z-[60] bg-black/50 md:bg-transparent"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -66,9 +75,9 @@ export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) 
             className="fixed z-[60] flex flex-col
               inset-0 md:inset-auto
               bg-background/70 backdrop-blur-xl
-              md:top-20 md:right-6 md:w-72 md:rounded-2xl md:bg-surface/95 md:shadow-xl md:ring-1 md:ring-border md:p-6
-              items-center justify-center md:items-stretch md:justify-start
-              px-6"
+              md:top-24 md:right-6 md:w-72 md:rounded-2xl md:bg-surface/95 md:shadow-xl md:ring-1 md:ring-border md:p-6
+              items-start justify-start
+              px-6 pt-20 md:pt-16"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -76,14 +85,14 @@ export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) 
           >
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+              className="absolute top-6 right-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
               aria-label="Close menu"
             >
               <LuX size={20} />
             </button>
 
             <motion.div
-              className="flex flex-col items-center gap-10 md:gap-6 md:items-stretch"
+              className="flex w-full flex-col items-stretch gap-6"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 16 }}
@@ -94,7 +103,7 @@ export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) 
                 <span className="font-heading text-xl text-primary">{fullName}</span>
               </div>
 
-              <nav className="flex flex-col items-center gap-2 md:items-stretch">
+              <nav className="flex flex-col gap-1">
                 {NAV_LINKS.map((link, i) => {
                   const isActive = pathname === link.href;
                   return (
@@ -107,12 +116,13 @@ export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) 
                       <Link
                         href={link.href}
                         onClick={onClose}
-                        className={`block rounded-xl px-8 py-3 text-center transition-colors md:px-4 md:text-left md:text-base md:py-2.5 text-lg ${
+                        className={`flex items-center gap-5 rounded-xl px-4 py-2.5 text-base transition-colors ${
                           isActive
                             ? "bg-surface-muted font-medium text-primary"
                             : "text-secondary hover:bg-surface-muted hover:text-primary"
                         }`}
                       >
+                        {navIcons[link.icon]}
                         {link.label}
                       </Link>
                     </motion.div>
@@ -120,9 +130,17 @@ export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) 
                 })}
               </nav>
 
+              <button
+                onClick={toggleTheme}
+                className="flex cursor-pointer items-center gap-5 rounded-xl px-4 py-2.5 text-base text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
+              >
+                {isDark ? <LuSun size={18} /> : <LuMoon size={18} />}
+                <span className="font-body">{isDark ? "Light" : "Dark"}</span>
+              </button>
+
               {socialLinks.length > 0 && (
                 <motion.div
-                  className="flex items-center justify-center gap-4 md:justify-start"
+                  className="flex items-center gap-4 px-4"
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const, delay: 0.3 + (NAV_LINKS.length - 1) * 0.05 }}
