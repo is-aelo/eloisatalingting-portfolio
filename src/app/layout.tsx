@@ -29,9 +29,12 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${rethinkSans.variable} ${dmSans.variable}`}
     >
-      <head />
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.setAttribute("data-theme","dark");else document.documentElement.setAttribute("data-theme","light")}catch(e){}})();`,
+        }} />
+      </head>
       <body className="min-h-dvh bg-background font-body antialiased">
-        <ThemeInit />
         {children}
       </body>
     </html>

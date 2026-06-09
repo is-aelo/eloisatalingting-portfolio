@@ -36,12 +36,12 @@ export function EducationExperience({
   return (
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-12">
           {/* Experience — left */}
           {experiences.length > 0 && (
             <div>
               <p className="font-body text-xs text-muted uppercase tracking-wider">Experience</p>
-              <div className="mt-4 space-y-6">
+              <div className="mt-6 space-y-6">
                 {experiences.slice(0, 2).map((exp) => (
                   <div key={exp.id}>
                     <p className="font-heading text-base font-medium text-primary">{exp.role_title}</p>
@@ -59,7 +59,7 @@ export function EducationExperience({
           {education.length > 0 && (
             <div>
               <p className="font-body text-xs text-muted uppercase tracking-wider">Education</p>
-              <div className="mt-4 space-y-6">
+              <div className="mt-6 space-y-6">
                 {education.slice(0, 2).map((edu) => (
                   <div key={edu.id}>
                     <p className="font-heading text-base font-medium text-primary">{edu.degree}</p>

@@ -76,9 +76,19 @@
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(ellipse 900px 600px at 20% 5%, color-mix(in srgb, var(--accent-secondary) 6%, transparent), transparent),
+    radial-gradient(ellipse 700px 800px at 80% 45%, color-mix(in srgb, var(--accent-tertiary) 4%, transparent), transparent),
+    radial-gradient(ellipse 600px 500px at 50% 85%, color-mix(in srgb, var(--accent-quaternary) 3%, transparent), transparent),
+    var(--background);
+  background-attachment: fixed;
   color: var(--primary);
   font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+}
+
+p, h1, h2, h3, h4, h5, h6, span, a, li {
+  overflow-wrap: break-word;
 }
 
 .ProseMirror {

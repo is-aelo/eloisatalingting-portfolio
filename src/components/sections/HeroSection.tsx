@@ -65,7 +65,7 @@ export function HeroSection({ hero, tools, fullName }: Props) {
   const marqueeItems = [...tools, ...tools];
 
   return (
-    <section className="relative flex min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)] flex-col items-center justify-center overflow-hidden">
+    <section id="about" className="relative flex min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)] flex-col items-center justify-center overflow-hidden">
       <div className="mx-auto flex w-full max-w-6xl flex-1 items-center px-6">
         <div className="max-w-3xl">
           {fullName && (
@@ -100,7 +100,7 @@ export function HeroSection({ hero, tools, fullName }: Props) {
 
           <div className="mt-8 flex flex-nowrap items-center gap-3">
             <Link
-              href="/projects"
+              href="/#projects"
               className="inline-block cursor-pointer whitespace-nowrap rounded-lg bg-accent px-4 py-2.5 text-sm font-body text-background transition-opacity hover:opacity-90 md:px-6 md:py-3 md:text-base"
             >
               View Projects

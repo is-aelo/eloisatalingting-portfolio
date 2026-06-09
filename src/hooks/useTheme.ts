@@ -21,17 +21,21 @@ function getStoredTheme(): Theme | null {
   return null;
 }
 
-function resolveTheme(): Theme {
-  return getStoredTheme() ?? getSystemTheme();
-}
-
 function setDOMTheme(theme: Theme) {
   document.documentElement.setAttribute("data-theme", theme);
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(resolveTheme);
-  const [systemPrefers, setSystemPrefers] = useState(getSystemTheme);
+  const [theme, setThemeState] = useState<Theme>("light");
+  const [systemPrefers, setSystemPrefers] = useState<Theme>("light");
+
+  useEffect(() => {
+    const attr = document.documentElement.getAttribute("data-theme");
+    if (attr === "dark" || attr === "light") {
+      setThemeState(attr);
+    }
+    setSystemPrefers(getSystemTheme());
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");

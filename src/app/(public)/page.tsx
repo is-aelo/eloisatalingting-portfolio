@@ -6,6 +6,7 @@ import { EducationExperience } from "@/components/sections/EducationExperience";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { ProjectCardStack } from "@/components/project/ProjectCardStack";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -37,13 +38,19 @@ export default async function Home() {
         tools={tools ?? []}
         fullName={fullName}
       />
-      <SkillsSection skillGroups={skillGroups} />
-      <EducationExperience
-        education={education ?? []}
-        experiences={experiences ?? []}
-      />
+      <ScrollReveal stagger={0.15} selector="[class*='grid'] > *">
+        <SkillsSection skillGroups={skillGroups} />
+      </ScrollReveal>
+      <ScrollReveal>
+        <EducationExperience
+          education={education ?? []}
+          experiences={experiences ?? []}
+        />
+      </ScrollReveal>
       <ProjectCardStack projects={projects ?? []} />
-      <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
+      <ScrollReveal y={20}>
+        <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
+      </ScrollReveal>
     </>  
   );
 }

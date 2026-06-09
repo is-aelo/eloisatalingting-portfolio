@@ -7,8 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/data/constants";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
-import { LuFileText, LuFolderKanban, LuMail, LuMoon, LuSun, LuUser, LuX } from "react-icons/lu";
-import { useTheme } from "@/hooks/useTheme";
+import { LuDownload, LuFolderKanban, LuMail, LuUser, LuX } from "react-icons/lu";
 
 type ContactLink = {
   email?: string | null;
@@ -22,18 +21,17 @@ type MobileNavProps = {
   onClose: () => void;
   fullName: string;
   contact?: ContactLink | null;
+  resumeUrl?: string | null;
 };
 
 const navIcons: Record<string, React.ReactNode> = {
   LuFolderKanban: <LuFolderKanban size={18} />,
   LuUser: <LuUser size={18} />,
-  LuFileText: <LuFileText size={18} />,
   LuMail: <LuMail size={18} />,
 };
 
-export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) {
+export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: MobileNavProps) {
   const pathname = usePathname();
-  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     onClose();
@@ -128,15 +126,23 @@ export function MobileNav({ open, onClose, fullName, contact }: MobileNavProps) 
                     </motion.div>
                   );
                 })}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const, delay: 0.1 + NAV_LINKS.length * 0.05 }}
+                >
+                  <a
+                    href={resumeUrl ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={onClose}
+                    className="flex items-center gap-5 rounded-xl px-4 py-2.5 text-base text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
+                  >
+                    <LuDownload size={18} />
+                    Download Resume
+                  </a>
+                </motion.div>
               </nav>
-
-              <button
-                onClick={toggleTheme}
-                className="flex cursor-pointer items-center gap-5 rounded-xl px-4 py-2.5 text-base text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
-              >
-                {isDark ? <LuSun size={18} /> : <LuMoon size={18} />}
-                <span className="font-body">{isDark ? "Light" : "Dark"}</span>
-              </button>
 
               {socialLinks.length > 0 && (
                 <motion.div

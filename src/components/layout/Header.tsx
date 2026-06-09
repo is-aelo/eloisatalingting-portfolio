@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { LuMenu } from "react-icons/lu";
+import { LuMenu, LuMoon, LuSun } from "react-icons/lu";
+import { useTheme } from "@/hooks/useTheme";
 
 type ContactLink = {
   email?: string | null;
@@ -12,8 +13,12 @@ type ContactLink = {
   tiktok_url?: string | null;
 };
 
-export function Header({ fullName, contact }: { fullName: string; contact?: ContactLink | null }) {
+export function Header({ fullName, contact, resumeUrl }: { fullName: string; contact?: ContactLink | null; resumeUrl?: string | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
+
+  useEffect(() => { setMounted(true); }, []);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -25,17 +30,28 @@ export function Header({ fullName, contact }: { fullName: string; contact?: Cont
             {fullName}
           </Link>
 
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
-            aria-label="Open menu"
-          >
-            <LuMenu size={20} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
+              aria-label={`Switch to ${mounted && isDark ? "light" : "dark"} mode`}
+            >
+              {mounted ? (isDark ? <LuSun size={16} /> : <LuMoon size={16} />) : <LuMoon size={16} />}
+              <span className="hidden md:inline">{mounted ? (isDark ? "Light" : "Dark") : "Dark"}</span>
+            </button>
+
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+              aria-label="Open menu"
+            >
+              <LuMenu size={20} />
+            </button>
+          </div>
         </div>
       </header>
 
-      <MobileNav open={menuOpen} onClose={closeMenu} fullName={fullName} contact={contact} />
+      <MobileNav open={menuOpen} onClose={closeMenu} fullName={fullName} contact={contact} resumeUrl={resumeUrl} />
     </>
   );
 }

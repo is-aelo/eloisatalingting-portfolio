@@ -42,21 +42,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     const OVERLAP = 0.72;
 
     const ctx = gsap.context(() => {
-      if (header) {
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top top",
-          end: `${OVERLAP * 100}% top`,
-          scrub: 0.4,
-          onUpdate: (self) => {
-            gsap.set(header, {
-              opacity: 1 - self.progress,
-              y: -self.progress * 24,
-            });
-          },
-        });
-      }
-
       cards.forEach((card, i) => {
         const isLast = i === cards.length - 1;
 
@@ -122,29 +107,31 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
 
   return (
     <section
+      id="projects"
       ref={sectionRef}
       className="relative"
       style={{ height: `${projects.length * 120}vh` }}
     >
-      <div
-        ref={headerRef}
-        className="mx-auto max-w-6xl px-6 pt-4 md:px-12 md:pt-12"
-      >
-        <div className="flex items-end justify-between">
-          <div>
-            <p className="font-body text-xs text-muted uppercase tracking-wider">
-              Projects
-            </p>
-            <h2 className="mt-2 font-heading text-2xl text-primary md:text-3xl">
-              Selected Work
-            </h2>
+      <div className="sticky top-14 flex h-[calc(100dvh-3.5rem)] w-full flex-col gap-6 overflow-hidden md:top-16 md:h-[calc(100dvh-4rem)] md:gap-8">
+        <div
+          ref={headerRef}
+          className="shrink-0 bg-background pt-4 md:pt-12"
+        >
+          <div className="mx-auto flex max-w-6xl items-end justify-between px-6">
+            <div>
+              <p className="font-body text-xs text-muted uppercase tracking-wider">
+                Projects
+              </p>
+              <h2 className="mt-2 font-heading text-2xl text-primary md:text-3xl">
+                Selected Work
+              </h2>
+            </div>
+            <span className="font-heading text-6xl font-bold leading-none text-accent-quaternary/10 md:text-8xl">
+              {String(projects.length).padStart(2, "0")}
+            </span>
           </div>
-          <span className="font-heading text-6xl font-bold leading-none text-accent-quaternary/10 md:text-8xl">
-            {String(projects.length).padStart(2, "0")}
-          </span>
         </div>
-      </div>
-        <div className="sticky top-0 -mt-14 h-screen w-full overflow-hidden md:-mt-12">
+        <div className="relative min-h-0 flex-1">
         {projects.map((project, i) => (
           <div
             key={project.slug}
@@ -153,12 +140,11 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
             style={{ zIndex: i + 1 }}
           >
             <div
-              className="mx-auto w-full max-w-6xl px-6"
+              className="mx-auto w-full max-w-6xl md:px-6"
               style={{ height: CARD_HEIGHT }}
             >
               <div
-                className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-surface md:flex-row"
-                style={{ boxShadow: "0 2px 40px rgba(0,0,0,0.10)" }}
+                className="flex h-full w-full flex-col overflow-hidden bg-surface md:rounded-xl md:border md:border-border md:shadow-sm md:flex-row"
               >
                 <div className="relative h-[45%] w-full shrink-0 overflow-hidden md:hidden">
                   {(project.cover_image_url || project.thumbnail_url) ? (
@@ -206,7 +192,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                     )}
                   </div>
 
-                  <h2 className="mt-3 font-heading text-lg text-primary md:text-2xl">
+                  <h2 className="mt-3 font-heading text-sm text-primary md:text-2xl">
                     {project.title}
                   </h2>
 
@@ -232,7 +218,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                   <div className="mt-6 flex w-full gap-3">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 font-body text-xs text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary md:flex-initial md:px-5 md:py-2.5 md:text-sm"
+                      className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-body text-sm text-background transition-opacity hover:opacity-90 md:flex-initial"
                     >
                       View case study
                     </Link>
@@ -241,7 +227,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                         href={project.project_ctas[0].url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2 font-body text-xs text-background transition-opacity hover:opacity-90 md:flex-initial md:px-5 md:py-2.5 md:text-sm"
+                        className="hidden flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-accent px-4 py-2 font-body text-xs text-accent transition-colors hover:bg-accent/10 md:flex md:flex-initial md:px-5 md:py-2.5 md:text-sm"
                       >
                         {project.project_ctas[0].label}
                       </a>
@@ -252,6 +238,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </section>
   );
