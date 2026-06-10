@@ -155,7 +155,7 @@ export function HeroSection({ hero, tools, fullName }: Props) {
           <div ref={ctasRef} className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3 md:justify-center" style={{ opacity: 0 }}>
             <Link
               href={hero?.cta_primary_url || "/#projects"}
-              className="inline-block cursor-pointer whitespace-nowrap rounded-full bg-accent-secondary px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
+              className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-full bg-accent-secondary px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
             >
               {hero?.cta_primary_label || "View Projects"}
             </Link>

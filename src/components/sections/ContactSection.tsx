@@ -16,10 +16,10 @@ export function ContactSection({ email, linkedinUrl }: Props) {
           Let&apos;s work together
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-secondary sm:mt-5 sm:text-base md:text-lg">
-          From planning and sketch to wireframe and development —
+          From concept to launch —
           <br className="hidden sm:inline" />
           <span className="sm:hidden"> </span>
-          every project starts with an idea and ends with something real.
+          designing and building digital products with clarity, purpose, and clean execution.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10">
           {email && (
