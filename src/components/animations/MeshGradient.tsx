@@ -26,68 +26,42 @@ interface BlobConfig {
 
 const BLOBS: BlobConfig[] = [
   {
-    size: 600, blur: 100,
+    size: 500, blur: 120,
     color: "var(--blob-1-bg)",
-    from: { x: 15, y: 10 }, to: { x: 25, y: 30 },
+    from: { x: 10, y: 15 }, to: { x: 20, y: 35 },
     scrollStart: 0, scrollEnd: 0.7,
     scrollEase: "power1.out",
     driftFrames: [
-      { x: 1, y: -2, duration: 10 },
+      { x: 2, y: -2, duration: 10 },
       { x: -2, y: 3, duration: 8 },
-      { x: 2, y: -1, duration: 9 },
-      { x: 0, y: 0, duration: 8 },
+      { x: 1.5, y: -1, duration: 9 },
+      { x: -1, y: 1.5, duration: 8 },
     ],
   },
   {
-    size: 500, blur: 90,
+    size: 400, blur: 100,
     color: "var(--blob-2-bg)",
-    from: { x: 70, y: 35 }, to: { x: 60, y: 50 },
+    from: { x: 65, y: 40 }, to: { x: 55, y: 55 },
     scrollStart: 0.1, scrollEnd: 0.85,
     scrollEase: "sine.inOut",
     driftFrames: [
-      { x: 2, y: 1, duration: 12 },
-      { x: -1, y: 3, duration: 10 },
-      { x: -2, y: 0, duration: 9 },
-      { x: 0, y: 0, duration: 9 },
+      { x: 2.5, y: 1.5, duration: 12 },
+      { x: -1.5, y: 2.5, duration: 10 },
+      { x: 1, y: -1, duration: 11 },
+      { x: -2, y: 0.5, duration: 10 },
     ],
   },
   {
-    size: 450, blur: 85,
+    size: 350, blur: 90,
     color: "var(--blob-3-bg)",
-    from: { x: 50, y: 80 }, to: { x: 55, y: 65 },
-    scrollStart: 0.15, scrollEnd: 1,
+    from: { x: 45, y: 70 }, to: { x: 50, y: 60 },
+    scrollStart: 0.2, scrollEnd: 1,
     scrollEase: "power2.inOut",
     driftFrames: [
-      { x: 0, y: -4, duration: 7 },
-      { x: 1.5, y: 0, duration: 6 },
-      { x: 0, y: 4, duration: 8 },
-      { x: -1.5, y: 0, duration: 7 },
-    ],
-  },
-  {
-    size: 350, blur: 80,
-    color: "var(--blob-4-bg)",
-    from: { x: 82, y: 15 }, to: { x: 88, y: 8 },
-    scrollStart: 0, scrollEnd: 0.5,
-    scrollEase: "power4.out",
-    driftFrames: [
-      { x: -3, y: 1, duration: 5 },
-      { x: 2, y: -2, duration: 4 },
-      { x: -1, y: 2, duration: 5 },
-      { x: 0, y: 0, duration: 4 },
-    ],
-  },
-  {
-    size: 550, blur: 95,
-    color: "var(--blob-5-bg)",
-    from: { x: 28, y: 60 }, to: { x: 18, y: 78 },
-    scrollStart: 0.3, scrollEnd: 1,
-    scrollEase: "power1.in",
-    driftFrames: [
-      { x: 0, y: -2, duration: 9 },
+      { x: 0, y: -3, duration: 8 },
       { x: 2, y: 0, duration: 7 },
-      { x: 0, y: 2, duration: 8 },
-      { x: -2, y: 0, duration: 6 },
+      { x: -1, y: 2, duration: 9 },
+      { x: 0, y: -1, duration: 8 },
     ],
   },
 ];
@@ -110,8 +84,8 @@ export function MeshGradient() {
     if (mq.matches) return;
 
     const isMobile = window.innerWidth < 768;
-    const driftMult = isMobile ? 3 : 1;
-    const timeScale = isMobile ? 0.7 : 1;
+    const driftMult = isMobile ? 2 : 1.5;
+    const timeScale = isMobile ? 0.8 : 1.2;
 
     const ctx = gsap.context(() => {
       blobsRef.current.forEach((el, i) => {

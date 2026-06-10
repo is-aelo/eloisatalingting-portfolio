@@ -2,8 +2,8 @@
 
 ## Brand Overview
 
-- **Vibe**: Refined developer aesthetic. Clean, focused, vibrant without being noisy.
-- **Theme**: Dark/light with system preference detection. Manual toggle available. Inspired by Monokai Pro.
+- **Vibe**: Editorial warmth. Minimal and clean with bold typographic personality. Wine, cherry, and amber accents for a rich, luxurious identity. Premium without pretension.
+- **Theme**: Dark/light with system preference detection. Manual toggle available.
 - **No emojis anywhere.** Icons only where functional (react-icons: Simple Icons for tech/brand, Lucide for UI).
 
 ---
@@ -16,33 +16,33 @@ All colors are CSS custom properties in `globals.css`. Components only use Tailw
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--background` | `#f9f9f9` | Page background |
+| `--background` | `#f5f2ed` | Page background — warm cream, not cold white |
 | `--surface` | `#ffffff` | Card, container, elevated areas |
-| `--surface-muted` | `#f0f0f0` | Subtle background variant |
-| `--border` | `#e0e0e0` | Borders, dividers, strokes |
-| `--primary` | `#2d2a2e` | Main body text, headings |
-| `--secondary` | `#5a575c` | Secondary text, labels |
-| `--muted` | `#8e8d8d` | Placeholder, disabled, subtle text |
-| `--accent` | `#2d2a2e` | Interactive text, primary buttons (same as primary for minimal look) |
-| `--accent-secondary` | `#fc9867` | Links, hover states, primary accent (Monokai Pro orange) |
-| `--accent-tertiary` | `#78dce8` | Tags, badges, decorative lines, secondary accent (Monokai Pro cyan) |
-| `--accent-quaternary` | `#ff6188` | Special highlights, icon accents, tertiary accent (Monokai Pro pink) |
+| `--surface-muted` | `#ede9e3` | Subtle background variant |
+| `--border` | `#d9d4cc` | Borders, dividers, strokes |
+| `--primary` | `#1a1814` | Main body text, headings — rich near-black |
+| `--secondary` | `#6b635a` | Secondary text, labels |
+| `--muted` | `#9e968c` | Placeholder, disabled, subtle text |
+| `--accent` | `#1a1814` | Interactive text, primary buttons (same as primary for minimal look) |
+| `--accent-secondary` | `#9f1239` | Links, hover states, primary accent — wine |
+| `--accent-tertiary` | `#dc2626` | Tags, badges, decorative lines, secondary accent — cherry |
+| `--accent-quaternary` | `#92400e` | Special highlights, icon accents, tertiary accent — amber |
 
 ### Dark Mode (`[data-theme="dark"]`)
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--background` | `#2d2a2e` | Page background |
-| `--surface` | `#363436` | Card, container, elevated areas |
-| `--surface-muted` | `#3d3a3f` | Subtle background variant |
-| `--border` | `#4a474f` | Borders, dividers, strokes |
-| `--primary` | `#fcfcfa` | Main body text, headings |
-| `--secondary` | `#c1c0c0` | Secondary text, labels |
-| `--muted` | `#727072` | Placeholder, disabled, subtle text |
-| `--accent` | `#fcfcfa` | Interactive text, primary buttons |
-| `--accent-secondary` | `#fc9867` | Links, hover states, primary accent (Monokai Pro orange) |
-| `--accent-tertiary` | `#78dce8` | Tags, badges, decorative lines, secondary accent (Monokai Pro cyan) |
-| `--accent-quaternary` | `#ff6188` | Special highlights, icon accents, tertiary accent (Monokai Pro pink) |
+| `--background` | `#1a1814` | Page background — warm charcoal |
+| `--surface` | `#242119` | Card, container, elevated areas |
+| `--surface-muted` | `#2e2a22` | Subtle background variant |
+| `--border` | `#3d3830` | Borders, dividers, strokes |
+| `--primary` | `#f0ece5` | Main body text, headings — warm white |
+| `--secondary` | `#a8a099` | Secondary text, labels |
+| `--muted` | `#6b635a` | Placeholder, disabled, subtle text |
+| `--accent` | `#f0ece5` | Interactive text, primary buttons |
+| `--accent-secondary` | `#f43f5e` | Links, hover states, primary accent — bright wine |
+| `--accent-tertiary` | `#f87171` | Tags, badges, decorative lines, secondary accent — bright cherry |
+| `--accent-quaternary` | `#d97706` | Special highlights, icon accents, tertiary accent — bright amber |
 
 ### Rule
 
@@ -64,13 +64,13 @@ Never use hex codes in components. Always use Tailwind classes:
 
 | Role | Font | CSS Variable | Tailwind Class |
 |------|------|-------------|----------------|
-| Headings | Rethink Sans | `--font-heading` | `font-heading` |
-| Body | DM Sans | `--font-body` | `font-body` |
+| Headings | Prata | `--font-heading` | `font-heading` — headings only, never on labels/badges/small text |
+| Body | DM Sans | `--font-body` | `font-body` — body, labels, badges, captions, meta text |
 
 ### Scale
 
-- **Hero title**: `text-5xl` or `text-6xl` `font-heading` `tracking-tight`
-- **Section heading**: `text-3xl` `font-heading`
+- **Hero title**: `text-5xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem]` `font-heading` `tracking-tight` centered
+- **Section heading**: `text-3xl md:text-4xl` `font-heading`
 - **Card title**: `text-xl` `font-heading`
 - **Body**: `text-base` `font-body` `leading-relaxed`
 - **Small / meta**: `text-sm` `font-body` `text-muted`
@@ -78,9 +78,9 @@ Never use hex codes in components. Always use Tailwind classes:
 
 ### Weights
 
-- Headings: use Rethink Sans default weights (variable font, typically 400-700)
-- Body: DM Sans default (typically 400 for body, 500 for emphasis)
-- No hardcoded font-weight values — rely on font's natural weight scale.
+- Headings: Prata (weight 400 only — hierarchy via size and serif/sans contrast, not weight)
+- Body: DM Sans default (400 for body, 500 for emphasis)
+- **Rule**: Prata (`font-heading`) is for headings only — section titles, hero text, card titles, page titles. Never use on labels, badges, captions, meta text, or any element smaller than `text-base`.
 
 ---
 
@@ -90,23 +90,23 @@ Never use hex codes in components. Always use Tailwind classes:
 - Section spacing: `py-16` to `py-24` between major sections
 - Card padding: `p-6` or `p-8`
 - Grid gap: `gap-6` or `gap-8` for project grids
-- Max content width: use `Container` component (centered `max-w-6xl` with `px-4` or `px-6`)
+- Max content width: `max-w-6xl` with `px-4` or `px-6`
 - Border radius: `rounded-lg` for cards, `rounded-xl` for large containers, `rounded-full` for avatars/badges
-- Shadows: use `shadow-sm` for subtle elevation. No hardcoded shadow values.
+- Shadows: `shadow-sm` for subtle elevation. No hardcoded shadow values.
 
 ---
 
 ## 4. Component Patterns
 
 ### Buttons
-- Primary: `bg-accent text-background font-body px-6 py-3 rounded-lg hover:opacity-90 transition-opacity`
-- Secondary/Outline: `border border-border text-primary px-6 py-3 rounded-lg hover:border-accent-secondary hover:text-accent-secondary transition-colors`
+- Primary: `bg-accent-secondary text-white font-body px-6 py-3 rounded-full hover:opacity-90 transition-opacity`
+- Secondary/Outline: `border border-border text-primary px-6 py-3 rounded-full hover:border-accent-secondary hover:text-accent-secondary transition-colors`
 - Ghost: `text-secondary hover:text-accent-secondary transition-colors`
 - Cursor: add `cursor-pointer` on all interactive elements.
 
 ### Cards (Project cards, etc.)
 - Container: `bg-surface border border-border rounded-xl overflow-hidden`
-- Hover: `hover:border-accent-secondary/30 transition-colors` (subtle border tint)
+- Hover: `hover:border-accent-secondary/30 transition-colors`
 - Image aspect ratio: `aspect-video` or `aspect-4/3` for thumbnails
 - No shadow unless specified.
 
@@ -117,11 +117,13 @@ Never use hex codes in components. Always use Tailwind classes:
 - Active link: `text-primary font-medium`
 
 ### Hero Section
-- Full viewport minus header: `min-h-[calc(100dvh-4rem)]`
-- Centered content: `flex flex-col items-center justify-center text-center`
-- Headline: `font-heading text-5xl md:text-6xl lg:text-7xl tracking-tight`
-- Subheadline: `text-lg md:text-xl text-secondary mt-4 max-w-2xl`
-- CTA buttons: group below subheadline with `mt-8` and `gap-4`
+- Full-width centered layout (editorial/magazine style)
+- Name: `font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem] tracking-tight uppercase` centered
+- Accent line: `h-0.5 w-16 bg-accent-secondary mx-auto` centered below name
+- Headline: `font-heading text-lg md:text-xl lg:text-2xl text-accent-secondary max-w-2xl mx-auto`
+- Subheadline: `text-base md:text-lg text-secondary max-w-xl mx-auto`
+- CTA buttons: `mt-8 flex gap-4 justify-center`
+- Tech marquee: label "TECHNOLOGIES I WORK WITH" with thin line, scrolling tools below
 
 ### Section Layout
 - Wrapper: `py-16 md:py-24`
@@ -137,7 +139,7 @@ Never use hex codes in components. Always use Tailwind classes:
 
 ### Tags / Tech Stack
 - Container: `flex flex-wrap gap-2`
-- Individual tag: `text-xs font-body text-muted bg-surface-muted px-3 py-1 rounded-full`
+- Individual tag: `text-xs font-body text-accent-tertiary bg-accent-tertiary/10 px-3 py-1 rounded-full`
 
 ### Form Inputs (Contact + Admin)
 - Input: `w-full bg-surface border border-border rounded-lg px-4 py-3 text-primary placeholder:text-muted focus:outline-none focus:border-accent-secondary transition-colors`
@@ -166,7 +168,7 @@ Refer to AGENTS.md for library split. Implementation details in components.
 
 ---
 
-## 8. Responsive Design
+## 7. Responsive Design
 
 Every component and layout must be fully responsive across all screen sizes — from 320px mobile to 1920px+ desktop. No element should overflow, clip, overlap, or appear broken at any viewport width.
 
@@ -198,7 +200,7 @@ No overflowing text, no broken grids, no elements clipped by containers, no awkw
 
 ---
 
-## 7. Icons
+## 8. Icons
 
 - Import from `react-icons`:
   - Tech/brand logos: `import { SiReact, SiFigma } from "react-icons/si"`

@@ -18,79 +18,79 @@
 }
 
 :root {
-  --background: #f9f9f9;
+  --background: #f5f2ed;
   --surface: #ffffff;
-  --surface-muted: #f0f0f0;
-  --border: #e0e0e0;
-  --primary: #2d2a2e;
-  --secondary: #5a575c;
-  --muted: #8e8d8d;
-  --accent: #2d2a2e;
-  --accent-secondary: #fc9867;
-  --accent-tertiary: #78dce8;
-  --accent-quaternary: #ff6188;
-  --blob-1-bg: color-mix(in srgb, var(--accent-quaternary) 22%, transparent);
-  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 18%, transparent);
-  --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 18%, transparent);
-  --blob-4-bg: color-mix(in srgb, var(--accent-quaternary) 14%, transparent);
-  --blob-5-bg: color-mix(in srgb, var(--accent-quaternary) 14%, transparent);
-  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-quaternary) 14%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 10%, transparent) 50%, transparent 70%);
+  --surface-muted: #ede9e3;
+  --border: #d9d4cc;
+  --primary: #1a1814;
+  --secondary: #6b635a;
+  --muted: #9e968c;
+  --accent: #1a1814;
+  --accent-secondary: #9f1239;
+  --accent-tertiary: #dc2626;
+  --accent-quaternary: #92400e;
+  --blob-1-bg: color-mix(in srgb, var(--accent-secondary) 15%, transparent);
+  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 12%, transparent);
+  --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 10%, transparent);
+  --blob-4-bg: color-mix(in srgb, var(--accent-secondary) 8%, transparent);
+  --blob-5-bg: color-mix(in srgb, var(--accent-tertiary) 8%, transparent);
+  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-secondary) 10%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 8%, transparent) 50%, transparent 70%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #2d2a2e;
-    --surface: #363436;
-    --surface-muted: #3d3a3f;
-    --border: #4a474f;
-    --primary: #fcfcfa;
-    --secondary: #c1c0c0;
-    --muted: #727072;
-    --accent: #fcfcfa;
-    --accent-secondary: #fc9867;
-    --accent-tertiary: #78dce8;
-    --accent-quaternary: #ff6188;
-    --blob-1-bg: color-mix(in srgb, var(--accent-quaternary) 12%, transparent);
-    --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 10%, transparent);
-    --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 10%, transparent);
-    --blob-4-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
-    --blob-5-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
-    --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-quaternary) 6%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 4%, transparent) 50%, transparent 70%);
+    --background: #1a1814;
+    --surface: #242119;
+    --surface-muted: #2e2a22;
+    --border: #3d3830;
+    --primary: #f0ece5;
+    --secondary: #a8a099;
+    --muted: #6b635a;
+    --accent: #f0ece5;
+    --accent-secondary: #f43f5e;
+    --accent-tertiary: #f87171;
+    --accent-quaternary: #d97706;
+    --blob-1-bg: color-mix(in srgb, var(--accent-secondary) 10%, transparent);
+    --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 8%, transparent);
+    --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 7%, transparent);
+    --blob-4-bg: color-mix(in srgb, var(--accent-secondary) 6%, transparent);
+    --blob-5-bg: color-mix(in srgb, var(--accent-tertiary) 6%, transparent);
+    --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-secondary) 7%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 5%, transparent) 50%, transparent 70%);
   }
 }
 
 [data-theme="light"] {
-  --background: #f9f9f9;
+  --background: #f5f2ed;
   --surface: #ffffff;
-  --surface-muted: #f0f0f0;
-  --border: #e0e0e0;
-  --primary: #2d2a2e;
-  --secondary: #5a575c;
-  --muted: #8e8d8d;
-  --accent: #2d2a2e;
-  --accent-secondary: #fc9867;
-  --accent-tertiary: #78dce8;
-  --accent-quaternary: #ff6188;
+  --surface-muted: #ede9e3;
+  --border: #d9d4cc;
+  --primary: #1a1814;
+  --secondary: #6b635a;
+  --muted: #9e968c;
+  --accent: #1a1814;
+  --accent-secondary: #9f1239;
+  --accent-tertiary: #dc2626;
+  --accent-quaternary: #92400e;
 }
 
 [data-theme="dark"] {
-  --background: #2d2a2e;
-  --surface: #363436;
-  --surface-muted: #3d3a3f;
-  --border: #4a474f;
-  --primary: #fcfcfa;
-  --secondary: #c1c0c0;
-  --muted: #727072;
-  --accent: #fcfcfa;
-  --accent-secondary: #fc9867;
-  --accent-tertiary: #78dce8;
-  --accent-quaternary: #ff6188;
-  --blob-1-bg: color-mix(in srgb, var(--accent-quaternary) 12%, transparent);
-  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 10%, transparent);
-  --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 10%, transparent);
-  --blob-4-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
-  --blob-5-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
-  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-quaternary) 6%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 4%, transparent) 50%, transparent 70%);
+  --background: #1a1814;
+  --surface: #242119;
+  --surface-muted: #2e2a22;
+  --border: #3d3830;
+  --primary: #f0ece5;
+  --secondary: #a8a099;
+  --muted: #6b635a;
+  --accent: #f0ece5;
+  --accent-secondary: #f43f5e;
+  --accent-tertiary: #f87171;
+  --accent-quaternary: #d97706;
+  --blob-1-bg: color-mix(in srgb, var(--accent-secondary) 10%, transparent);
+  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 8%, transparent);
+  --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 7%, transparent);
+  --blob-4-bg: color-mix(in srgb, var(--accent-secondary) 6%, transparent);
+  --blob-5-bg: color-mix(in srgb, var(--accent-tertiary) 6%, transparent);
+  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-secondary) 7%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 5%, transparent) 50%, transparent 70%);
 }
 
 body {
@@ -138,6 +138,14 @@ p, h1, h2, h3, h4, h5, h6, span, a, li {
   border-radius: 0.5rem;
   padding: 1em;
   overflow-x: auto;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes marquee {

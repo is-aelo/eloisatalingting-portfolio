@@ -4,6 +4,7 @@ import { NAV_LINKS } from "@/data/constants";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
 import { LuMail } from "react-icons/lu";
+import { renderTextWithAmpersand } from "@/lib/text";
 
 export async function Footer() {
   const supabase = await createClient();
@@ -22,20 +23,20 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 md:px-8 lg:px-6 py-10 sm:py-12">
+        <div className="flex flex-col items-center justify-between gap-6 sm:gap-8 md:flex-row">
           <div>
-            <Link href="/" className="font-heading text-lg text-primary transition-colors hover:text-accent-secondary">
-              {name}
+            <Link href="/" className="font-heading text-base sm:text-lg font-medium text-primary transition-colors hover:text-accent-secondary">
+              {renderTextWithAmpersand(name)}
             </Link>
           </div>
 
-          <nav className="flex gap-6">
+          <nav className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-secondary transition-colors hover:text-accent-secondary"
+                className="text-xs text-secondary transition-colors hover:text-accent-secondary sm:text-sm"
               >
                 {link.label}
               </Link>
@@ -43,7 +44,7 @@ export async function Footer() {
           </nav>
 
           {socialLinks.length > 0 && (
-            <div className="flex gap-4">
+            <div className="flex gap-2.5 sm:gap-3">
               {socialLinks.map((link) => {
                 const Icon = link.icon;
                 return (
@@ -53,9 +54,9 @@ export async function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={link.label}
-                    className="text-secondary transition-colors hover:text-accent-secondary"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary sm:h-9 sm:w-9"
                   >
-                    <Icon size={20} />
+                    <Icon size={16} />
                   </a>
                 );
               })}
@@ -63,7 +64,7 @@ export async function Footer() {
           )}
         </div>
 
-        <p className="mt-8 text-center text-xs text-muted">
+        <p className="mt-6 text-center text-[10px] text-muted sm:mt-8 sm:text-xs">
           &copy; {new Date().getFullYear()} {name}. All rights reserved.
         </p>
       </div>

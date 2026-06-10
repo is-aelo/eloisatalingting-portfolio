@@ -8,6 +8,7 @@ import { NAV_LINKS } from "@/data/constants";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
 import { LuDownload, LuFolderKanban, LuMail, LuUser, LuX } from "react-icons/lu";
+import { renderTextWithAmpersand } from "@/lib/text";
 
 type ContactLink = {
   email?: string | null;
@@ -73,9 +74,10 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
             className="fixed z-[60] flex flex-col
               inset-0 md:inset-auto
               bg-background/70 backdrop-blur-xl
-              md:top-24 md:right-6 md:w-72 md:rounded-2xl md:bg-surface/95 md:shadow-xl md:ring-1 md:ring-border md:p-6
+              md:top-20 md:right-4 md:w-72 md:rounded-2xl md:bg-surface/95 md:shadow-xl md:ring-1 md:ring-border md:p-6
+              lg:right-6 lg:w-80
               items-start justify-start
-              px-6 pt-20 md:pt-16"
+              px-6 pt-20 md:pt-14"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -83,7 +85,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
           >
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+              className="absolute top-6 right-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
               aria-label="Close menu"
             >
               <LuX size={20} />
@@ -98,7 +100,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
             >
               {/* Name — mobile only */}
               <div className="flex items-center gap-3 md:hidden">
-                <span className="font-heading text-xl text-primary">{fullName}</span>
+                <span className="font-heading text-xl text-primary">{renderTextWithAmpersand(fullName)}</span>
               </div>
 
               <nav className="flex flex-col gap-1">
@@ -114,9 +116,9 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
                       <Link
                         href={link.href}
                         onClick={onClose}
-                        className={`flex items-center gap-5 rounded-xl px-4 py-2.5 text-base transition-colors ${
+                        className={`flex items-center gap-4 rounded-full px-4 py-2.5 text-base transition-colors sm:gap-5 sm:px-5 sm:py-3 lg:text-lg ${
                           isActive
-                            ? "bg-surface-muted font-medium text-primary"
+                            ? "bg-accent-secondary/10 font-medium text-accent-secondary"
                             : "text-secondary hover:bg-surface-muted hover:text-primary"
                         }`}
                       >
@@ -136,7 +138,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={onClose}
-                    className="flex items-center gap-5 rounded-xl px-4 py-2.5 text-base text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
+                    className="flex items-center gap-4 rounded-full px-4 py-2.5 text-base text-secondary transition-colors hover:bg-surface-muted hover:text-primary sm:gap-5 sm:px-5 sm:py-3 lg:text-lg"
                   >
                     <LuDownload size={18} />
                     Download Resume
@@ -160,7 +162,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={link.label}
-                        className="flex h-10 w-10 items-center justify-center rounded-xl text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+                        className="flex h-10 w-10 items-center justify-center rounded-full text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
                       >
                         <Icon size={20} />
                       </a>

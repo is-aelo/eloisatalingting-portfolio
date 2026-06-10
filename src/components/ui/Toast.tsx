@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useRef } from "react";
 import { LuCheck, LuX, LuCircleAlert } from "react-icons/lu";
 
 type ToastType = "success" | "error";
@@ -25,10 +25,10 @@ export function useToast() {
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([]);
-  let nextId = 0;
+  const nextIdRef = useRef(0);
 
   const toast = useCallback((message: string, type: ToastType = "success") => {
-    const id = nextId++;
+    const id = nextIdRef.current++;
     setItems((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setItems((prev) => prev.filter((t) => t.id !== id));
@@ -42,10 +42,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {items.map((item) => (
           <div
             key={item.id}
-            className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-sm shadow-sm transition-all ${
+            className={`flex items-center gap-3 rounded-full border px-4 py-3 text-sm shadow-sm transition-all ${
               item.type === "success"
-                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                : "border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400"
+                ? "border-accent-tertiary/30 bg-accent-tertiary/10 text-accent-tertiary"
+                : "border-accent-quaternary/30 bg-accent-quaternary/10 text-accent-quaternary"
             }`}
           >
             {item.type === "success" ? (

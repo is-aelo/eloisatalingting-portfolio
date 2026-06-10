@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Rethink_Sans, DM_Sans } from "next/font/google";
-import { ThemeInit } from "@/components/ui/ThemeInit";
+import { Prata, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const rethinkSans = Rethink_Sans({
+const prata = Prata({
+  weight: "400",
   variable: "--font-heading",
   subsets: ["latin"],
 });
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${rethinkSans.variable} ${dmSans.variable}`}
+      className={`${prata.variable} ${dmSans.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{

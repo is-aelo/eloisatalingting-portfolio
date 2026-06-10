@@ -139,7 +139,7 @@ export default function AdminTestimonials() {
               {forms.length > 1 && (
                 <button onClick={() => setForms(forms.filter((_, j) => j !== i))} className="absolute top-3 right-3 cursor-pointer text-secondary hover:text-red-500"><LuX size={18} /></button>
               )}
-              <p className="mb-4 font-heading text-sm text-secondary">Testimonial {i + 1}</p>
+              <p className="mb-4 font-body text-sm text-secondary">Testimonial {i + 1}</p>
               <div className="flex flex-col gap-4">
                 <div className="flex gap-4">
                   <InputField label="Name" value={form.name} onChange={(e) => updateForm(i, { name: e.target.value })} />

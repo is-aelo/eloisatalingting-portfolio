@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { renderTextWithAmpersand } from "@/lib/text";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,10 +29,23 @@ const CARD_HEIGHT = "clamp(320px, 60vh, 600px)";
 export function ProjectCardStack({ projects }: { projects: Project[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Desktop: vertical sticky card stack with GSAP
+  useEffect(() => {
+    if (isMobile) return;
+
     const section = sectionRef.current;
-    const header = headerRef.current;
     if (!section) return;
 
     const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-card]"));
@@ -43,8 +57,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
 
     const ctx = gsap.context(() => {
       cards.forEach((card, i) => {
-        const isLast = i === cards.length - 1;
-
         gsap.set(card, {
           y: i === 0 ? 0 : "100vh",
           scale: 1,
@@ -64,9 +76,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
               const p = self.progress;
               const eased = gsap.parseEase("power3.out")(p);
 
-              gsap.set(card, {
-                y: `${(1 - eased) * 100}vh`,
-              });
+              gsap.set(card, { y: `${(1 - eased) * 100}vh` });
 
               for (let j = 0; j < i; j++) {
                 const depth = i - j;
@@ -83,25 +93,128 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
           });
         }
 
-        if (!isLast) {
-          const img = card.querySelector<HTMLElement>("img");
-          if (img) {
-            ScrollTrigger.create({
-              trigger: card,
-              start: "top top",
-              end: "bottom top",
-              scrub: 1.4,
-              onUpdate: (self) => {
-                gsap.set(img, { yPercent: self.progress * 8 });
-              },
-            });
-          }
+        const img = card.querySelector<HTMLElement>("img");
+        if (img && i < cards.length - 1) {
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1.4,
+            onUpdate: (self) => {
+              gsap.set(img, { yPercent: self.progress * 8 });
+            },
+          });
         }
       });
     }, section);
 
     return () => ctx.revert();
-  }, [projects]);
+  }, [projects, isMobile]);
+
+  // Mobile: GSAP-powered horizontal scroll with smooth animations
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const cardEls = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+    if (!cardEls.length) return;
+
+    // Animate cards on mount — staggered entrance
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardEls,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out",
+          delay: 0.2,
+        }
+      );
+    }, container);
+
+    // Track scroll position for active index and card animations
+    let rafId: number;
+    let lastIndex = -1;
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const scrollLeft = container.scrollLeft;
+        const cardWidth = cardEls[0]?.offsetWidth ?? 0;
+        const gap = 16;
+        const newIndex = Math.round(scrollLeft / (cardWidth + gap));
+
+        if (newIndex !== lastIndex && newIndex >= 0 && newIndex < cardEls.length) {
+          lastIndex = newIndex;
+          setActiveIndex(newIndex);
+
+          // Animate active card — scale up slightly, brighten
+          cardEls.forEach((card, i) => {
+            if (i === newIndex) {
+              gsap.to(card, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.3,
+                ease: "power2.out",
+              });
+            } else {
+              const distance = Math.abs(i - newIndex);
+              gsap.to(card, {
+                scale: Math.max(0.95, 1 - distance * 0.03),
+                opacity: Math.max(0.7, 1 - distance * 0.15),
+                duration: 0.3,
+                ease: "power2.out",
+              });
+            }
+          });
+
+          // Parallax images based on scroll
+          cardEls.forEach((card, i) => {
+            const img = card.querySelector<HTMLElement>("img");
+            if (!img) return;
+            const cardCenter = (cardWidth + gap) * i + cardWidth / 2;
+            const viewCenter = scrollLeft + container.offsetWidth / 2;
+            const offset = (cardCenter - viewCenter) / container.offsetWidth;
+            gsap.to(img, {
+              xPercent: offset * -10,
+              duration: 0.4,
+              ease: "power1.out",
+            });
+          });
+        }
+      });
+    };
+
+    container.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      ctx.revert();
+      cancelAnimationFrame(rafId);
+      container.removeEventListener("scroll", onScroll);
+    };
+  }, [projects, isMobile]);
+
+  const scrollToCard = useCallback((index: number) => {
+    const container = scrollContainerRef.current;
+    const card = cardsRef.current[index];
+    if (!container || !card) return;
+
+    const cardWidth = card.offsetWidth;
+    const gap = 16;
+    const scrollTo = index * (cardWidth + gap);
+
+    gsap.to(container, {
+      scrollLeft: scrollTo,
+      duration: 0.6,
+      ease: "power3.out",
+    });
+  }, []);
 
   if (!projects.length) return null;
 
@@ -110,43 +223,51 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
       id="projects"
       ref={sectionRef}
       className="relative"
-      style={{ height: `${projects.length * 120}vh` }}
+      style={!isMobile ? { height: `${projects.length * 120}vh` } : undefined}
     >
-      <div className="sticky top-14 flex h-[calc(100dvh-3.5rem)] w-full flex-col gap-6 overflow-hidden md:top-16 md:h-[calc(100dvh-4rem)] md:gap-8">
+      {/* Mobile section header */}
+      {isMobile && (
         <div
           ref={headerRef}
-          className="shrink-0 pt-6 md:pt-12"
+          className="shrink-0 px-4 pt-4 pb-3"
         >
-          <div className="mx-auto flex max-w-6xl items-end justify-between px-6">
+          <div className="mx-auto flex max-w-6xl items-end justify-between">
             <div>
-              <p className="font-body text-[10px] text-muted uppercase tracking-wider md:text-xs">
+              <p className="font-body text-[10px] text-muted uppercase tracking-wider">
                 Projects
               </p>
-              <h2 className="mt-2 font-heading text-2xl text-primary md:text-3xl">
+              <h2 className="mt-1 font-heading text-lg text-primary">
                 Selected Work
               </h2>
             </div>
-            <span className="font-heading text-6xl font-bold leading-none text-accent-quaternary/10 md:text-8xl">
+            <span className="font-heading text-4xl leading-none text-accent-quaternary/10">
               {String(projects.length).padStart(2, "0")}
             </span>
           </div>
         </div>
-        <div className="relative min-h-0 flex-1">
-        {projects.map((project, i) => (
+      )}
+
+      {/* Mobile: GSAP-enhanced horizontal carousel */}
+      {isMobile && (
+        <div className="relative">
           <div
-            key={project.slug}
-            data-card
-            className="absolute inset-0 flex items-center justify-center will-change-transform"
-            style={{ zIndex: i + 1 }}
+            ref={scrollContainerRef}
+            className="flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide [-webkit-overflow-scrolling:touch]"
+            style={{ scrollSnapType: "x mandatory" }}
           >
-            <div
-              className="mx-auto w-full max-w-6xl px-4 md:px-6"
-              style={{ height: CARD_HEIGHT }}
-            >
+            {projects.map((project, i) => (
               <div
-                className="flex h-full w-full flex-col overflow-hidden bg-surface rounded-xl border border-border shadow-sm lg:flex-row"
+                key={project.slug}
+                ref={(el) => { cardsRef.current[i] = el; }}
+                className="shrink-0 w-[85vw] flex flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm"
+                  style={{
+                    height: "auto",
+                    maxHeight: "calc(100dvh - 10rem)",
+                    scrollSnapAlign: "center",
+                  }}
               >
-                <div className="relative h-[58%] w-full shrink-0 overflow-hidden lg:hidden">
+              {/* Image */}
+              <div className="relative h-80 w-full shrink-0 overflow-hidden sm:h-96">
                   {(project.cover_image_url || project.thumbnail_url) ? (
                     <img
                       src={project.cover_image_url ?? project.thumbnail_url!}
@@ -155,59 +276,43 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-surface-muted">
-                      <span className="font-heading text-6xl text-muted">
+                      <span className="font-heading text-5xl text-muted">
                         {project.title.charAt(0)}
                       </span>
                     </div>
                   )}
                 </div>
 
-                <div className="relative hidden h-full w-3/5 shrink-0 overflow-hidden lg:block">
-                  {(project.cover_image_url || project.thumbnail_url) ? (
-                    <img
-                      src={project.cover_image_url ?? project.thumbnail_url!}
-                      alt={project.title}
-                      className="absolute inset-0 h-full w-full object-cover"
-                      style={{ willChange: "transform" }}
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-surface-muted">
-                      <span className="font-heading text-6xl text-muted">
-                        {project.title.charAt(0)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex h-[42%] w-full shrink-0 flex-col justify-center overflow-hidden px-5 py-6 lg:h-full lg:w-2/5 lg:p-8">
-                  <div className="mt-1 flex items-center gap-3">
-                    <span className="font-heading text-xs text-accent-quaternary">
+                {/* Content */}
+                <div className="flex flex-col overflow-hidden px-5 pt-5 pb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="font-body text-xs text-accent-secondary">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="h-px w-8 bg-border" />
+                    <span className="h-px w-6 bg-border" />
                     {project.project_type && (
-                      <p className="font-body text-[10px] text-muted uppercase tracking-wider md:text-xs">
+                      <p className="font-body text-[10px] text-muted uppercase tracking-wider">
                         {project.project_type}
                       </p>
                     )}
                   </div>
 
-                  <h2 className="mt-3 font-heading text-base text-primary md:text-2xl">
-                    {project.title}
+                  <h2 className="mt-2 font-heading text-lg text-primary">
+                    {renderTextWithAmpersand(project.title)}
                   </h2>
 
                   {project.short_description && (
-                    <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-secondary md:text-base">
+                    <p className="mt-2 text-xs leading-relaxed text-secondary">
                       {project.short_description}
                     </p>
                   )}
 
                   {project.tech_stack_summary && (
-                    <div className="mt-4 flex flex-wrap gap-1.5 md:mt-5 md:gap-2">
+                    <div className="mt-3 flex flex-wrap gap-1.5">
                       {project.tech_stack_summary.split(",").map((tech) => (
                         <span
                           key={tech.trim()}
-                          className="rounded-full bg-accent-tertiary/10 px-2.5 py-0.5 font-body text-[11px] text-accent-tertiary md:px-3 md:py-1 md:text-xs"
+                          className="rounded-full bg-accent-secondary/10 px-2.5 py-0.5 font-body text-[10px] text-accent-secondary"
                         >
                           {tech.trim()}
                         </span>
@@ -215,10 +320,11 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                     </div>
                   )}
 
-                  <div className="mt-6 mb-4 flex w-full gap-3">
+                  {/* Buttons — stacked, full-width, touch-friendly */}
+                  <div className="mt-3 flex flex-col gap-2">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-body text-sm text-background transition-opacity hover:opacity-90 lg:flex-initial"
+                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
                     >
                       View case study
                     </Link>
@@ -227,7 +333,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                         href={project.project_ctas[0].url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hidden sm:flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-accent px-4 py-2 font-body text-xs text-accent transition-colors hover:bg-accent/10 lg:flex-initial md:px-5 md:py-2.5 md:text-sm"
+                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-border px-5 py-3 font-body text-sm text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary active:scale-[0.98]"
                       >
                         {project.project_ctas[0].label}
                       </a>
@@ -235,11 +341,139 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+
+          {/* Dot indicator */}
+          <div className="mt-4 flex items-center justify-center gap-2">
+            {projects.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => scrollToCard(i)}
+                className={`cursor-pointer rounded-full transition-all duration-300 ${
+                  i === activeIndex
+                    ? "h-2 w-6 bg-accent-secondary"
+                    : "h-2 w-2 bg-border hover:bg-muted"
+                }`}
+                aria-label={`Go to project ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Desktop: vertical sticky card stack with pinned header */}
+      {!isMobile && (
+        <div className="sticky top-16 flex h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden">
+          <div ref={headerRef} className="shrink-0 px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4 md:pt-12 md:pb-6">
+            <div className="mx-auto flex max-w-6xl items-end justify-between">
+              <div>
+                <p className="font-body text-[10px] text-muted uppercase tracking-wider md:text-xs">
+                  Projects
+                </p>
+                <h2 className="mt-1 font-heading text-lg text-primary sm:text-xl md:mt-2 md:text-2xl lg:text-3xl">
+                  Selected Work
+                </h2>
+              </div>
+              <span className="font-heading text-4xl leading-none text-accent-quaternary/10 sm:text-5xl md:text-6xl lg:text-8xl">
+                {String(projects.length).padStart(2, "0")}
+              </span>
             </div>
           </div>
-        ))}
-      </div>
-      </div>
+          <div className="relative min-h-0 flex-1">
+          {projects.map((project, i) => (
+            <div
+              key={project.slug}
+              data-card
+              className="absolute inset-0 flex items-center justify-center will-change-transform"
+              style={{ zIndex: i + 1 }}
+            >
+              <div
+                className="mx-auto w-full max-w-6xl px-4 sm:px-6"
+                style={{ height: CARD_HEIGHT }}
+              >
+                <div
+                  className="flex h-full w-full flex-row overflow-hidden bg-surface rounded-xl border border-border shadow-sm"
+                >
+                  <div className="relative h-full w-3/5 shrink-0 overflow-hidden">
+                    {(project.cover_image_url || project.thumbnail_url) ? (
+                      <img
+                        src={project.cover_image_url ?? project.thumbnail_url!}
+                        alt={project.title}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        style={{ willChange: "transform" }}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-surface-muted">
+                        <span className="font-heading text-4xl text-muted md:text-6xl">
+                          {project.title.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex h-full w-2/5 shrink-0 flex-col justify-center overflow-hidden p-5 sm:p-6 md:p-8">
+                    <div className="mt-1 flex items-center gap-2 sm:gap-3">
+                      <span className="font-body text-xs text-accent-secondary">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="h-px w-6 bg-border sm:w-8" />
+                      {project.project_type && (
+                        <p className="font-body text-[10px] text-muted uppercase tracking-wider sm:text-xs">
+                          {project.project_type}
+                        </p>
+                      )}
+                    </div>
+
+                    <h2 className="mt-2 font-heading text-lg text-primary sm:text-xl md:mt-3 md:text-2xl">
+                      {renderTextWithAmpersand(project.title)}
+                    </h2>
+
+                    {project.short_description && (
+                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-secondary md:mt-3 md:text-base">
+                        {project.short_description}
+                      </p>
+                    )}
+
+                    {project.tech_stack_summary && (
+                      <div className="mt-3 flex flex-wrap gap-1.5 md:mt-5 md:gap-2">
+                        {project.tech_stack_summary.split(",").map((tech) => (
+                          <span
+                            key={tech.trim()}
+                            className="rounded-full bg-accent-secondary/10 px-2 py-0.5 font-body text-[10px] text-accent-secondary sm:px-3 sm:py-1 sm:text-xs"
+                          >
+                            {tech.trim()}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="mt-4 mb-3 flex w-full gap-2 sm:gap-3 md:mt-6 md:mb-4">
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-5 py-2.5 font-body text-sm text-white transition-opacity hover:opacity-90 sm:px-6 sm:py-3 sm:text-base md:px-7"
+                      >
+                        View case study
+                      </Link>
+                      {project.project_ctas && project.project_ctas.length > 0 && (
+                        <a
+                          href={project.project_ctas[0].url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex cursor-pointer items-center justify-center gap-2 rounded-full border border-border px-4 py-2.5 font-body text-xs text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:px-5 sm:text-sm"
+                        >
+                          {project.project_ctas[0].label}
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
