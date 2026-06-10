@@ -115,11 +115,11 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
       <div className="sticky top-14 flex h-[calc(100dvh-3.5rem)] w-full flex-col gap-6 overflow-hidden md:top-16 md:h-[calc(100dvh-4rem)] md:gap-8">
         <div
           ref={headerRef}
-          className="shrink-0 bg-background pt-4 md:pt-12"
+          className="shrink-0 pt-6 md:pt-12"
         >
           <div className="mx-auto flex max-w-6xl items-end justify-between px-6">
             <div>
-              <p className="font-body text-xs text-muted uppercase tracking-wider">
+              <p className="font-body text-[10px] text-muted uppercase tracking-wider md:text-xs">
                 Projects
               </p>
               <h2 className="mt-2 font-heading text-2xl text-primary md:text-3xl">
@@ -140,13 +140,13 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
             style={{ zIndex: i + 1 }}
           >
             <div
-              className="mx-auto w-full max-w-6xl md:px-6"
+              className="mx-auto w-full max-w-6xl px-4 md:px-6"
               style={{ height: CARD_HEIGHT }}
             >
               <div
-                className="flex h-full w-full flex-col overflow-hidden bg-surface md:rounded-xl md:border md:border-border md:shadow-sm md:flex-row"
+                className="flex h-full w-full flex-col overflow-hidden bg-surface rounded-xl border border-border shadow-sm lg:flex-row"
               >
-                <div className="relative h-[45%] w-full shrink-0 overflow-hidden md:hidden">
+                <div className="relative h-[58%] w-full shrink-0 overflow-hidden lg:hidden">
                   {(project.cover_image_url || project.thumbnail_url) ? (
                     <img
                       src={project.cover_image_url ?? project.thumbnail_url!}
@@ -162,7 +162,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                   )}
                 </div>
 
-                <div className="relative hidden h-full w-3/5 shrink-0 overflow-hidden md:block">
+                <div className="relative hidden h-full w-3/5 shrink-0 overflow-hidden lg:block">
                   {(project.cover_image_url || project.thumbnail_url) ? (
                     <img
                       src={project.cover_image_url ?? project.thumbnail_url!}
@@ -179,25 +179,25 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                   )}
                 </div>
 
-                <div className="flex h-[55%] w-full shrink-0 flex-col justify-center overflow-hidden p-4 md:h-full md:w-2/5 md:p-8">
-                  <div className="flex items-center gap-3">
+                <div className="flex h-[42%] w-full shrink-0 flex-col justify-center overflow-hidden px-5 py-6 lg:h-full lg:w-2/5 lg:p-8">
+                  <div className="mt-1 flex items-center gap-3">
                     <span className="font-heading text-xs text-accent-quaternary">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="h-px w-8 bg-border" />
                     {project.project_type && (
-                      <p className="font-body text-xs text-muted uppercase tracking-wider">
+                      <p className="font-body text-[10px] text-muted uppercase tracking-wider md:text-xs">
                         {project.project_type}
                       </p>
                     )}
                   </div>
 
-                  <h2 className="mt-3 font-heading text-sm text-primary md:text-2xl">
+                  <h2 className="mt-3 font-heading text-base text-primary md:text-2xl">
                     {project.title}
                   </h2>
 
                   {project.short_description && (
-                    <p className="mt-3 hidden text-sm leading-relaxed text-secondary md:block md:text-base">
+                    <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-secondary md:text-base">
                       {project.short_description}
                     </p>
                   )}
@@ -215,10 +215,10 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                     </div>
                   )}
 
-                  <div className="mt-6 flex w-full gap-3">
+                  <div className="mt-6 mb-4 flex w-full gap-3">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-body text-sm text-background transition-opacity hover:opacity-90 md:flex-initial"
+                      className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-body text-sm text-background transition-opacity hover:opacity-90 lg:flex-initial"
                     >
                       View case study
                     </Link>
@@ -227,7 +227,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                         href={project.project_ctas[0].url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hidden flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-accent px-4 py-2 font-body text-xs text-accent transition-colors hover:bg-accent/10 md:flex md:flex-initial md:px-5 md:py-2.5 md:text-sm"
+                        className="hidden sm:flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-accent px-4 py-2 font-body text-xs text-accent transition-colors hover:bg-accent/10 lg:flex-initial md:px-5 md:py-2.5 md:text-sm"
                       >
                         {project.project_ctas[0].label}
                       </a>

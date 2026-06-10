@@ -29,6 +29,12 @@
   --accent-secondary: #fc9867;
   --accent-tertiary: #78dce8;
   --accent-quaternary: #ff6188;
+  --blob-1-bg: color-mix(in srgb, var(--accent-quaternary) 22%, transparent);
+  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 18%, transparent);
+  --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 18%, transparent);
+  --blob-4-bg: color-mix(in srgb, var(--accent-quaternary) 14%, transparent);
+  --blob-5-bg: color-mix(in srgb, var(--accent-quaternary) 14%, transparent);
+  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-quaternary) 14%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 10%, transparent) 50%, transparent 70%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -44,6 +50,12 @@
     --accent-secondary: #fc9867;
     --accent-tertiary: #78dce8;
     --accent-quaternary: #ff6188;
+    --blob-1-bg: color-mix(in srgb, var(--accent-quaternary) 12%, transparent);
+    --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 10%, transparent);
+    --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 10%, transparent);
+    --blob-4-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
+    --blob-5-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
+    --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-quaternary) 6%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 4%, transparent) 50%, transparent 70%);
   }
 }
 
@@ -73,15 +85,16 @@
   --accent-secondary: #fc9867;
   --accent-tertiary: #78dce8;
   --accent-quaternary: #ff6188;
+  --blob-1-bg: color-mix(in srgb, var(--accent-quaternary) 12%, transparent);
+  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 10%, transparent);
+  --blob-3-bg: color-mix(in srgb, var(--accent-quaternary) 10%, transparent);
+  --blob-4-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
+  --blob-5-bg: color-mix(in srgb, var(--accent-quaternary) 8%, transparent);
+  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-quaternary) 6%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 4%, transparent) 50%, transparent 70%);
 }
 
 body {
-  background:
-    radial-gradient(ellipse 900px 600px at 20% 5%, color-mix(in srgb, var(--accent-secondary) 6%, transparent), transparent),
-    radial-gradient(ellipse 700px 800px at 80% 45%, color-mix(in srgb, var(--accent-tertiary) 4%, transparent), transparent),
-    radial-gradient(ellipse 600px 500px at 50% 85%, color-mix(in srgb, var(--accent-quaternary) 3%, transparent), transparent),
-    var(--background);
-  background-attachment: fixed;
+  background: var(--background);
   color: var(--primary);
   font-family: var(--font-body), sans-serif;
   overflow-x: hidden;

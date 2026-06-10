@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
+import { MeshGradient } from "@/components/animations/MeshGradient";
 
 export default async function PublicLayout({
   children,
@@ -20,6 +21,7 @@ export default async function PublicLayout({
 
   return (
     <>
+      <MeshGradient />
       <SmoothScroll />
       <Header fullName={fullName} contact={contact} resumeUrl={resumeUrl} />
       <PageTransition>
