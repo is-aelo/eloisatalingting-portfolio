@@ -64,7 +64,7 @@ export async function Footer() {
           )}
         </div>
 
-        <p className="mt-6 text-center text-[10px] text-muted sm:mt-8 sm:text-xs">
+        <p className="mt-6 text-center text-[10px] text-primary/80 sm:mt-8 sm:text-xs">
           &copy; {new Date().getFullYear()} {name}. All rights reserved.
         </p>
       </div>

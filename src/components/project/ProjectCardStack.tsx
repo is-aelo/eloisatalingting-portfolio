@@ -8,6 +8,18 @@ import { renderTextWithAmpersand } from "@/lib/text";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function getCSSVariable(name: string): string {
+  if (typeof window === "undefined") return "#000000";
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 type ProjectCTA = {
   label: string;
   url: string;
@@ -30,12 +42,12 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const cardsRef = useRef<(HTMLElement | null)[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const check = () => setIsMobile(window.innerWidth < 1024);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -54,6 +66,18 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     const CARD_PEEK = 28;
     const CARD_SCALE_BURIED = 1;
     const OVERLAP = 0.72;
+
+          // Set initial border state for all cards
+          const borderColor = hexToRgba(getCSSVariable("--border"), 0.3);
+          cards.forEach((card) => {
+            const inner = card.querySelector<HTMLElement>("[data-card-inner]");
+            if (inner) {
+              gsap.set(inner, {
+                borderColor: borderColor,
+                boxShadow: "none",
+              });
+            }
+          });
 
     const ctx = gsap.context(() => {
       cards.forEach((card, i) => {
@@ -88,9 +112,44 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                   scale: Math.max(targetScale, CARD_SCALE_BURIED),
                   y: targetY,
                 });
+
+                // Reset border on buried cards
+                const buriedInner = cards[j].querySelector<HTMLElement>("[data-card-inner]");
+                if (buriedInner) {
+                  gsap.to(buriedInner, {
+                    borderColor: hexToRgba(getCSSVariable("--border"), 0.3),
+                    boxShadow: "none",
+                    duration: 0.3,
+                    ease: "power2.out",
+                  });
+                }
+              }
+
+              // Apply accent border and glow to incoming card
+              const activeInner = card.querySelector<HTMLElement>("[data-card-inner]");
+              if (activeInner && eased > 0.5) {
+                const accentColor = getCSSVariable("--accent-secondary");
+                gsap.to(activeInner, {
+                  borderColor: hexToRgba(accentColor, 0.5),
+                  boxShadow: `0 0 20px ${hexToRgba(accentColor, 0.15)}, 0 0 40px ${hexToRgba(accentColor, 0.05)}`,
+                  duration: 0.3,
+                  ease: "power2.out",
+                });
               }
             },
           });
+        }
+
+        // First card gets accent border immediately
+        if (i === 0) {
+          const firstInner = card.querySelector<HTMLElement>("[data-card-inner]");
+          if (firstInner) {
+            const accentColor = getCSSVariable("--accent-secondary");
+            gsap.set(firstInner, {
+              borderColor: hexToRgba(accentColor, 0.5),
+              boxShadow: `0 0 20px ${hexToRgba(accentColor, 0.15)}, 0 0 40px ${hexToRgba(accentColor, 0.05)}`,
+            });
+          }
         }
 
         const img = card.querySelector<HTMLElement>("img");
@@ -118,10 +177,9 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const cardEls = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+    const cardEls = cardsRef.current.filter(Boolean) as HTMLElement[];
     if (!cardEls.length) return;
 
-    // Animate cards on mount — staggered entrance
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cardEls,
@@ -137,7 +195,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
       );
     }, container);
 
-    // Track scroll position for active index and card animations
     let rafId: number;
     let lastIndex = -1;
 
@@ -153,27 +210,32 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
           lastIndex = newIndex;
           setActiveIndex(newIndex);
 
-          // Animate active card — scale up slightly, brighten
           cardEls.forEach((card, i) => {
             if (i === newIndex) {
+              const accentColor = getCSSVariable("--accent-secondary");
               gsap.to(card, {
                 scale: 1,
                 opacity: 1,
+                filter: "saturate(1) brightness(1)",
+                borderColor: hexToRgba(accentColor, 0.5),
+                boxShadow: `0 0 20px ${hexToRgba(accentColor, 0.15)}, 0 0 40px ${hexToRgba(accentColor, 0.05)}`,
                 duration: 0.3,
                 ease: "power2.out",
               });
             } else {
               const distance = Math.abs(i - newIndex);
               gsap.to(card, {
-                scale: Math.max(0.95, 1 - distance * 0.03),
-                opacity: Math.max(0.7, 1 - distance * 0.15),
+                scale: Math.max(0.92, 1 - distance * 0.04),
+                opacity: Math.max(0.5, 1 - distance * 0.25),
+                filter: "saturate(0.3) brightness(0.7)",
+                borderColor: hexToRgba(getCSSVariable("--border"), 0.3),
+                boxShadow: "none",
                 duration: 0.3,
                 ease: "power2.out",
               });
             }
           });
 
-          // Parallax images based on scroll
           cardEls.forEach((card, i) => {
             const img = card.querySelector<HTMLElement>("img");
             if (!img) return;
@@ -229,53 +291,50 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
       {isMobile && (
         <div
           ref={headerRef}
-          className="shrink-0 px-4 pt-4 pb-3"
+          className="shrink-0 px-5 pt-6 pb-4"
         >
           <div className="mx-auto flex max-w-6xl items-end justify-between">
             <div>
-              <p className="font-body text-[10px] text-muted uppercase tracking-wider">
+              <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider">
                 Projects
               </p>
-              <h2 className="mt-1 font-heading text-lg text-primary">
+              <h2 className="mt-1 font-heading text-xl text-primary">
                 Selected Work
               </h2>
             </div>
-            <span className="font-heading text-4xl leading-none text-accent-quaternary/10">
+            <span className="font-heading text-4xl leading-none text-accent-secondary/10">
               {String(projects.length).padStart(2, "0")}
             </span>
           </div>
         </div>
       )}
 
-      {/* Mobile: GSAP-enhanced horizontal carousel */}
+      {/* Mobile: horizontal scroll with Apple/Vercel-style cards */}
       {isMobile && (
         <div className="relative">
           <div
             ref={scrollContainerRef}
-            className="flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide [-webkit-overflow-scrolling:touch]"
+            className="flex gap-4 overflow-x-auto px-5 pb-4 scrollbar-hide [-webkit-overflow-scrolling:touch]"
             style={{ scrollSnapType: "x mandatory" }}
           >
             {projects.map((project, i) => (
-              <div
+              <Link
                 key={project.slug}
+                href={`/projects/${project.slug}`}
                 ref={(el) => { cardsRef.current[i] = el; }}
-                className="shrink-0 w-[85vw] flex flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm"
-                  style={{
-                    height: "auto",
-                    maxHeight: "calc(100dvh - 10rem)",
-                    scrollSnapAlign: "center",
-                  }}
+                className="shrink-0 w-[80vw] flex flex-col overflow-hidden rounded-lg border border-border bg-surface-muted"
+                style={{ scrollSnapAlign: "center" }}
               >
-              {/* Image */}
-              <div className="relative h-80 w-full shrink-0 overflow-hidden sm:h-96">
+                {/* Image */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
                   {(project.cover_image_url || project.thumbnail_url) ? (
                     <img
                       src={project.cover_image_url ?? project.thumbnail_url!}
                       alt={project.title}
-                      className="absolute inset-0 h-full w-full object-cover"
+                      className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-surface-muted">
+                    <div className="flex h-full w-full items-center justify-center bg-surface-muted">
                       <span className="font-heading text-5xl text-muted">
                         {project.title.charAt(0)}
                       </span>
@@ -284,25 +343,25 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col overflow-hidden px-5 pt-5 pb-4">
-                  <div className="flex items-center gap-3">
-                    <span className="font-body text-xs text-accent-secondary">
+                <div className="flex flex-col px-4 pt-4 pb-5">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-body text-xs font-medium text-accent-secondary">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="h-px w-6 bg-border" />
+                    <span className="h-px w-5 bg-border" />
                     {project.project_type && (
-                      <p className="font-body text-[10px] text-muted uppercase tracking-wider">
+              <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider">
                         {project.project_type}
                       </p>
                     )}
                   </div>
 
-                  <h2 className="mt-2 font-heading text-lg text-primary">
+                  <h2 className="mt-2.5 font-heading text-base text-primary">
                     {renderTextWithAmpersand(project.title)}
                   </h2>
 
                   {project.short_description && (
-                    <p className="mt-2 text-xs leading-relaxed text-secondary">
+                    <p className="mt-1.5 text-xs leading-relaxed text-secondary line-clamp-2">
                       {project.short_description}
                     </p>
                   )}
@@ -312,7 +371,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                       {project.tech_stack_summary.split(",").map((tech) => (
                         <span
                           key={tech.trim()}
-                          className="rounded-full bg-accent-secondary/10 px-2.5 py-0.5 font-body text-[10px] text-accent-secondary"
+                          className="rounded-full bg-surface-muted px-2 py-0.5 font-body text-[10px] text-secondary"
                         >
                           {tech.trim()}
                         </span>
@@ -320,27 +379,14 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                     </div>
                   )}
 
-                  {/* Buttons — stacked, full-width, touch-friendly */}
-                  <div className="mt-3 flex flex-col gap-2">
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
-                    >
-                      View case study
-                    </Link>
-                    {project.project_ctas && project.project_ctas.length > 0 && (
-                      <a
-                        href={project.project_ctas[0].url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-border px-5 py-3 font-body text-sm text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary active:scale-[0.98]"
-                      >
-                        {project.project_ctas[0].label}
-                      </a>
-                    )}
+                  <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-accent-secondary">
+                    <span>View case study</span>
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -352,7 +398,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 onClick={() => scrollToCard(i)}
                 className={`cursor-pointer rounded-full transition-all duration-300 ${
                   i === activeIndex
-                    ? "h-2 w-6 bg-accent-secondary"
+                    ? "h-2 w-5 bg-accent-secondary"
                     : "h-2 w-2 bg-border hover:bg-muted"
                 }`}
                 aria-label={`Go to project ${i + 1}`}
@@ -368,14 +414,14 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
           <div ref={headerRef} className="shrink-0 px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4 md:pt-12 md:pb-6">
             <div className="mx-auto flex max-w-6xl items-end justify-between">
               <div>
-                <p className="font-body text-[10px] text-muted uppercase tracking-wider md:text-xs">
+                <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider md:text-xs">
                   Projects
                 </p>
                 <h2 className="mt-1 font-heading text-lg text-primary sm:text-xl md:mt-2 md:text-2xl lg:text-3xl">
                   Selected Work
                 </h2>
               </div>
-              <span className="font-heading text-4xl leading-none text-accent-quaternary/10 sm:text-5xl md:text-6xl lg:text-8xl">
+              <span className="font-heading text-4xl leading-none text-accent-secondary/10 sm:text-5xl md:text-6xl lg:text-8xl">
                 {String(projects.length).padStart(2, "0")}
               </span>
             </div>
@@ -393,7 +439,8 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 style={{ height: CARD_HEIGHT }}
               >
                 <div
-                  className="flex h-full w-full flex-row overflow-hidden bg-surface rounded-xl border border-border shadow-sm"
+                  data-card-inner
+                  className="flex h-full w-full flex-row overflow-hidden bg-surface-muted rounded-lg border border-border shadow-sm"
                 >
                   <div className="relative h-full w-3/5 shrink-0 overflow-hidden">
                     {(project.cover_image_url || project.thumbnail_url) ? (
@@ -419,7 +466,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                       </span>
                       <span className="h-px w-6 bg-border sm:w-8" />
                       {project.project_type && (
-                        <p className="font-body text-[10px] text-muted uppercase tracking-wider sm:text-xs">
+                        <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider sm:text-xs">
                           {project.project_type}
                         </p>
                       )}

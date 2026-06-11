@@ -11,7 +11,7 @@ export function SkillsSection({ skillGroups }: { skillGroups: SkillGroup[] }) {
   return (
     <section className="py-12 sm:py-16 md:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 md:px-8 lg:px-6">
-        <p className="font-body text-xs text-muted uppercase tracking-wider">Skills</p>
+        <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Skills</p>
         <div className="mt-6 grid grid-cols-1 gap-8 sm:gap-10 md:mt-8 md:grid-cols-2 md:gap-10 lg:grid-cols-3 lg:gap-12">
           {skillGroups.map((group) => (
             <div key={group.category}>

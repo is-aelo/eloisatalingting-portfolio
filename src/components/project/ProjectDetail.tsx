@@ -25,175 +25,166 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
 
   return (
     <article>
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 md:px-8 lg:px-6 pt-6 sm:pt-8 md:pt-12">
-        <nav className="mb-5 font-body text-xs text-muted md:mb-8 md:text-sm">
-          <Link href="/#projects" className="transition-colors hover:text-accent-secondary">Projects</Link>
-          <span className="mx-2">/</span>
-          <span className="text-primary">{project.title}</span>
+      {/* Breadcrumb */}
+      <div className="mx-auto w-full max-w-5xl px-5 sm:px-6 md:px-8 lg:px-6 pt-6 sm:pt-8 md:pt-10">
+        <nav className="font-body text-xs text-primary/80 md:text-sm">
+          <Link href="/#projects" className="transition-colors hover:text-accent-secondary">
+            Projects
+          </Link>
+          <span className="mx-2 text-border">/</span>
+          <span className="text-secondary">{project.title}</span>
         </nav>
+      </div>
+
+      {/* Cover Image */}
+      <div className="mx-auto w-full max-w-5xl px-5 sm:px-6 md:px-8 lg:px-6 mt-5 sm:mt-6 md:mt-8">
         {project.cover_image_url ? (
-          <div className="-mx-5 overflow-hidden sm:-mx-6 md:mx-0 md:rounded-xl">
+          <div className="overflow-hidden rounded-xl border border-border">
             <img
               src={project.cover_image_url}
               alt={project.title}
-              className="w-full object-cover md:h-[67.5rem]"
+              className="w-full object-cover md:h-[40rem]"
             />
           </div>
         ) : (
-          <div className="-mx-5 flex h-40 items-center justify-center sm:-mx-6 sm:h-48 md:mx-0 md:rounded-xl bg-surface-muted">
-            <span className="font-heading text-5xl text-muted md:text-6xl">
+          <div className="flex h-48 items-center justify-center rounded-xl border border-border bg-surface-muted sm:h-64 md:h-80">
+            <span className="font-heading text-6xl text-muted/30 md:text-8xl">
               {project.title.charAt(0)}
             </span>
           </div>
         )}
       </div>
 
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 md:px-8 lg:px-6 pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-12 md:pb-16">
+      {/* Title & Meta */}
+      <div className="mx-auto w-full max-w-5xl px-5 sm:px-6 md:px-8 lg:px-6 mt-8 sm:mt-10 md:mt-14">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+          <div className="flex-1">
+            {project.project_type && (
+              <span className="inline-block font-body text-[10px] text-accent-secondary uppercase tracking-widest sm:text-xs">
+                {project.project_type}
+              </span>
+            )}
+            <h1 className="mt-2 font-heading text-2xl uppercase tracking-tight text-primary sm:text-3xl md:text-4xl lg:text-5xl">
+              {renderTextWithAmpersand(project.title)}
+            </h1>
+            {project.short_description && (
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-secondary sm:mt-4 sm:text-base md:text-lg">
+                {project.short_description}
+              </p>
+            )}
 
-        <div className="mb-3 md:mb-6">
-          {project.project_type && (
-            <p className="font-body text-[10px] text-muted uppercase tracking-wider sm:text-xs">
-              {project.project_type}
-            </p>
-          )}
-          <h1 className="mt-1.5 font-heading text-xl uppercase text-primary sm:text-2xl md:mt-2 md:text-4xl lg:text-5xl">
-            {renderTextWithAmpersand(project.title)}
-          </h1>
-        </div>
-
-        {project.short_description && (
-          <p className="mb-8 text-xs italic leading-relaxed text-secondary sm:mb-10 sm:text-sm md:mb-12 md:text-lg">
-            {project.short_description}
-          </p>
-        )}
-
-        <div className="grid gap-8 sm:gap-10 md:grid-cols-3">
-          <aside className="md:col-span-1">
-            <div className="space-y-6 sm:space-y-8 md:sticky md:top-24">
-              {project.role && (
-                <div>
-                  <h3 className="font-body text-[10px] text-muted uppercase tracking-wider sm:text-xs">
-                    Role
-                  </h3>
-                    <p className="mt-1 font-body text-[11px] text-primary sm:text-xs">
-                    {project.role}
-                  </p>
-                </div>
-              )}
-
-              {project.client_name && (
-                <div>
-                  <h3 className="font-body text-[10px] text-muted uppercase tracking-wider sm:text-xs">
-                    Client
-                  </h3>
-                  <p className="mt-1 font-body text-[11px] text-primary sm:text-xs">
-                    {project.client_name}
-                  </p>
-                </div>
-              )}
-
-              {dateRange && (
-                <div>
-                  <h3 className="font-body text-[10px] text-muted uppercase tracking-wider sm:text-xs">
-                    Date
-                  </h3>
-                  <p className="mt-1 font-body text-[11px] text-primary sm:text-xs">
-                    {dateRange}
-                  </p>
-                </div>
-              )}
-
-              {tools.length > 0 && (
-                <div>
-                  <h3 className="font-body text-[10px] text-muted uppercase tracking-wider sm:text-xs">
-                    Tools Used
-                  </h3>
-                  <div className="mt-2 flex flex-wrap gap-1.5 sm:mt-3 sm:gap-2">
-                    {tools.map((tool) => (
-                      <span
-                        key={tool.id}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-accent-tertiary/10 px-2 py-0.5 font-body text-[10px] text-accent-tertiary sm:px-3 sm:py-1 sm:text-xs"
-                      >
-                        {tool.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {sortedCtas.length > 0 && (
-                <div className="flex flex-col gap-2">
-                    {sortedCtas.map((cta) => (
-                      <a
-                        key={cta.id}
-                        href={cta.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-body text-sm text-background transition-opacity hover:opacity-90 sm:px-6 sm:py-3 md:text-base"
-                      >
-                        {cta.label}
-                      </a>
-                    ))}
-                </div>
-              )}
+            {/* Inline meta */}
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-primary/80 sm:mt-5 sm:gap-x-4 sm:text-sm">
+              {project.role && <span>{project.role}</span>}
+              {project.role && project.client_name && <span className="text-border">|</span>}
+              {project.client_name && <span>{project.client_name}</span>}
+              {(project.role || project.client_name) && dateRange && <span className="text-border">|</span>}
+              {dateRange && <span>{dateRange}</span>}
             </div>
-          </aside>
 
-          <div className="md:col-span-2 md:col-start-2">
-            {project.content_md && (
-              <div
-                className="prose prose-neutral prose-xs mt-6 max-w-none dark:prose-invert sm:mt-8 md:prose-base prose-p:text-[13px] md:prose-p:text-base prose-headings:font-heading prose-headings:text-primary prose-p:text-secondary prose-p:leading-relaxed prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-li:text-secondary"
-                dangerouslySetInnerHTML={{ __html: project.content_md }}
-              />
-            )}
-
-            {sortedMedia.length > 0 && (
-              <div className="mt-10 space-y-6 sm:mt-12 sm:space-y-8">
-                {sortedMedia.map((media) => (
-                  <figure key={media.id}>
-                    {media.media_type === "image" || media.media_type === "gif" ? (
-                      <img
-                        src={media.media_url}
-                        alt={media.alt_text ?? ""}
-                        className="w-full rounded-xl"
-                      />
-                    ) : (
-                      <div className="aspect-video w-full overflow-hidden rounded-xl">
-                        <iframe
-                          src={media.media_url}
-                          title={media.alt_text ?? ""}
-                          className="h-full w-full"
-                          allowFullScreen
-                        />
-                      </div>
-                    )}
-                    {media.caption && (
-                      <figcaption className="mt-2 text-center text-xs text-muted sm:mt-3 sm:text-sm">
-                        {media.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                ))}
-              </div>
-            )}
-
+            {/* Top CTAs */}
             {sortedCtas.length > 0 && (
-              <div className="mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4 md:hidden">
+              <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
                 {sortedCtas.map((cta) => (
                   <a
                     key={cta.id}
                     href={cta.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-body text-sm text-background transition-opacity hover:opacity-90 sm:px-6 sm:py-3"
+                    className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-6 py-3 font-body text-sm text-white transition-all hover:opacity-90 hover:shadow-lg sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
                   >
                     {cta.label}
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
                   </a>
                 ))}
               </div>
             )}
           </div>
         </div>
+
+        {/* Tools */}
+        {tools.length > 0 && (
+          <div className="mt-8 border-t border-border pt-8 sm:mt-10 sm:pt-10">
+            <h3 className="font-body text-[10px] text-primary/80 uppercase tracking-wider sm:text-xs">
+              Tools Used
+            </h3>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {tools.map((tool) => (
+                <span
+                  key={tool.id}
+                  className="inline-flex items-center rounded-full border border-border bg-surface px-3 py-1 font-body text-xs text-secondary transition-colors hover:border-accent-secondary/30 hover:text-accent-secondary sm:px-4 sm:py-1.5 sm:text-sm"
+                >
+                  {tool.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-8 lg:px-6 mt-10 sm:mt-14 md:mt-16">
+        {project.content_md && (
+          <div
+            className="prose prose-neutral dark:prose-invert prose-p:text-xs prose-p:leading-relaxed sm:prose-p:text-sm md:prose-p:text-sm prose-headings:font-heading prose-headings:text-primary prose-headings:tracking-tight prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-code:text-xs prose-code:font-body prose-li:text-secondary prose-img:rounded-xl prose-img:border prose-img:border-border"
+            dangerouslySetInnerHTML={{ __html: project.content_md }}
+          />
+        )}
+
+        {/* Media Gallery */}
+        {sortedMedia.length > 0 && (
+          <div className="mt-12 space-y-8 sm:mt-16 sm:space-y-10">
+            {sortedMedia.map((media) => (
+              <figure key={media.id} className="group">
+                {media.media_type === "image" || media.media_type === "gif" ? (
+                  <div className="overflow-hidden rounded-xl border border-border">
+                    <img
+                      src={media.media_url}
+                      alt={media.alt_text ?? ""}
+                      className="w-full transition-transform duration-500 group-hover:scale-[1.01]"
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-video w-full overflow-hidden rounded-xl border border-border">
+                    <iframe
+                      src={media.media_url}
+                      title={media.alt_text ?? ""}
+                      className="h-full w-full"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+                {media.caption && (
+                  <figcaption className="mt-3 text-center text-xs text-primary/80 sm:text-sm">
+                    {media.caption}
+                  </figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+        )}
+
+        {/* Bottom CTAs - full width */}
+        {sortedCtas.length > 0 && (
+          <div className="mt-12 flex flex-col gap-3 sm:mt-16">
+            {sortedCtas.map((cta) => (
+              <a
+                key={cta.id}
+                href={cta.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-6 py-4 font-body text-sm text-white transition-all hover:opacity-90 hover:shadow-lg sm:text-base"
+              >
+                {cta.label}
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </article>
   );

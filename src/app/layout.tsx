@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Prata, DM_Sans } from "next/font/google";
+import { Hanken_Grotesk, DM_Sans } from "next/font/google";
+import { MeshBlobBackground } from "@/components/layout/MeshBlobBackground";
 import "./globals.css";
 
-const prata = Prata({
+const hankenGrotesk = Hanken_Grotesk({
   weight: "400",
   variable: "--font-heading",
   subsets: ["latin"],
@@ -26,16 +27,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning
-      className={`${prata.variable} ${dmSans.variable}`}
+      className={`${hankenGrotesk.variable} ${dmSans.variable}`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{
-          __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.setAttribute("data-theme","dark");else document.documentElement.setAttribute("data-theme","light")}catch(e){}})();`,
-        }} />
-      </head>
       <body className="min-h-dvh bg-background font-body antialiased">
-        {children}
+        <MeshBlobBackground />
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   );

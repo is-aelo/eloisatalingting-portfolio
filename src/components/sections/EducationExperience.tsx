@@ -42,7 +42,7 @@ export function EducationExperience({
           {/* Experience — left */}
           {experiences.length > 0 && (
             <div>
-              <p className="font-body text-xs text-muted uppercase tracking-wider">Experience</p>
+              <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Experience</p>
               <div className="relative mt-5 space-y-7 sm:mt-6 sm:space-y-8 md:space-y-8">
                 <div className="absolute left-[5px] top-2 bottom-2 w-px bg-border" />
                 {experiences.slice(0, 3).map((exp) => (
@@ -50,7 +50,7 @@ export function EducationExperience({
                     <div className="absolute left-0 top-1.5 h-[10px] w-[10px] rounded-full border-2 border-accent-secondary bg-background" />
                     <p className="font-heading text-sm sm:text-base font-medium text-primary">{renderTextWithAmpersand(exp.role_title)}</p>
                     <p className="mt-0.5 text-xs sm:text-sm text-secondary">{exp.company_name}</p>
-                    <p className="mt-1 text-[10px] sm:text-xs text-muted">
+                    <p className="mt-1 text-[10px] sm:text-xs text-primary/80">
                       {fmtMY(exp.start_date)} — {exp.currently_working ? "Present" : exp.end_date ? fmtMY(exp.end_date) : ""}
                     </p>
                   </div>
@@ -62,7 +62,7 @@ export function EducationExperience({
           {/* Education — right */}
           {education.length > 0 && (
             <div>
-              <p className="font-body text-xs text-muted uppercase tracking-wider">Education</p>
+              <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Education</p>
               <div className="relative mt-5 space-y-7 sm:mt-6 sm:space-y-8 md:space-y-8">
                 <div className="absolute left-[5px] top-2 bottom-2 w-px bg-border" />
                 {education.slice(0, 3).map((edu) => (
@@ -70,7 +70,7 @@ export function EducationExperience({
                     <div className="absolute left-0 top-1.5 h-[10px] w-[10px] rounded-full border-2 border-accent-tertiary bg-background" />
                     <p className="font-heading text-sm sm:text-base font-medium text-primary">{renderTextWithAmpersand(edu.degree)}</p>
                     <p className="mt-0.5 text-xs sm:text-sm text-secondary">{edu.institution}</p>
-                    <p className="mt-1 text-[10px] sm:text-xs text-muted">
+                    <p className="mt-1 text-[10px] sm:text-xs text-primary/80">
                       {fmtY(edu.start_date)} — {edu.end_date ? fmtY(edu.end_date) : "Present"}
                     </p>
                   </div>

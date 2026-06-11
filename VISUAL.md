@@ -2,8 +2,8 @@
 
 ## Brand Overview
 
-- **Vibe**: Editorial warmth. Minimal and clean with bold typographic personality. Wine, cherry, and amber accents for a rich, luxurious identity. Premium without pretension.
-- **Theme**: Dark/light with system preference detection. Manual toggle available.
+- **Vibe**: Terracotta on deep umber. Warm, earthy, and grounded. Organic luxury with modern confidence.
+- **Theme**: Dark-only. No light mode.
 - **No emojis anywhere.** Icons only where functional (react-icons: Simple Icons for tech/brand, Lucide for UI).
 
 ---
@@ -12,37 +12,20 @@
 
 All colors are CSS custom properties in `globals.css`. Components only use Tailwind semantic classes derived from these.
 
-### Light Mode (`:root, [data-theme="light"]`)
+### Palette
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--background` | `#f5f2ed` | Page background — warm cream, not cold white |
-| `--surface` | `#ffffff` | Card, container, elevated areas |
-| `--surface-muted` | `#ede9e3` | Subtle background variant |
-| `--border` | `#d9d4cc` | Borders, dividers, strokes |
-| `--primary` | `#1a1814` | Main body text, headings — rich near-black |
-| `--secondary` | `#6b635a` | Secondary text, labels |
-| `--muted` | `#9e968c` | Placeholder, disabled, subtle text |
-| `--accent` | `#1a1814` | Interactive text, primary buttons (same as primary for minimal look) |
-| `--accent-secondary` | `#9f1239` | Links, hover states, primary accent — wine |
-| `--accent-tertiary` | `#dc2626` | Tags, badges, decorative lines, secondary accent — cherry |
-| `--accent-quaternary` | `#92400e` | Special highlights, icon accents, tertiary accent — amber |
-
-### Dark Mode (`[data-theme="dark"]`)
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--background` | `#1a1814` | Page background — warm charcoal |
-| `--surface` | `#242119` | Card, container, elevated areas |
-| `--surface-muted` | `#2e2a22` | Subtle background variant |
-| `--border` | `#3d3830` | Borders, dividers, strokes |
-| `--primary` | `#f0ece5` | Main body text, headings — warm white |
-| `--secondary` | `#a8a099` | Secondary text, labels |
-| `--muted` | `#6b635a` | Placeholder, disabled, subtle text |
-| `--accent` | `#f0ece5` | Interactive text, primary buttons |
-| `--accent-secondary` | `#f43f5e` | Links, hover states, primary accent — bright wine |
-| `--accent-tertiary` | `#f87171` | Tags, badges, decorative lines, secondary accent — bright cherry |
-| `--accent-quaternary` | `#d97706` | Special highlights, icon accents, tertiary accent — bright amber |
+| `--background` | `#0f0c0a` | Page background — deep umber |
+| `--surface` | `#1a1613` | Card, container, elevated areas |
+| `--surface-muted` | `#231e19` | Subtle background variant |
+| `--border` | `#342c24` | Borders, dividers, strokes |
+| `--primary` | `#f0e6dc` | Main body text, headings — warm cream |
+| `--secondary` | `#a09080` | Secondary text, labels |
+| `--muted` | `#6b5e52` | Placeholder, disabled, subtle text |
+| `--accent` | `#e8dcd0` | Interactive text, primary buttons — light sand |
+| `--accent-secondary` | `#c07850` | Links, hover states, primary accent — terracotta |
+| `--accent-tertiary` | `#9e5e3c` | Tags, badges, decorative lines, secondary accent — burnt sienna |
 
 ### Rule
 
@@ -51,7 +34,6 @@ Never use hex codes in components. Always use Tailwind classes:
 - `text-primary`, `text-secondary`, `text-muted`
 - `text-accent-secondary` for links/hoverable text
 - `text-accent-tertiary` for tags, badges, decorative metadata
-- `text-accent-quaternary` for special highlights, icon accents
 - `border-border`
 - `hover:text-accent-secondary` for interactive hover
 - `bg-accent-secondary/10` for subtle accent backgrounds
@@ -64,7 +46,7 @@ Never use hex codes in components. Always use Tailwind classes:
 
 | Role | Font | CSS Variable | Tailwind Class |
 |------|------|-------------|----------------|
-| Headings | Prata | `--font-heading` | `font-heading` — headings only, never on labels/badges/small text |
+| Headings | Hanken Grotesk | `--font-heading` | `font-heading` — headings only, never on labels/badges/small text |
 | Body | DM Sans | `--font-body` | `font-body` — body, labels, badges, captions, meta text |
 
 ### Scale
@@ -78,9 +60,9 @@ Never use hex codes in components. Always use Tailwind classes:
 
 ### Weights
 
-- Headings: Prata (weight 400 only — hierarchy via size and serif/sans contrast, not weight)
+- Headings: Hanken Grotesk (weight 400 only — hierarchy via size and weight contrast)
 - Body: DM Sans default (400 for body, 500 for emphasis)
-- **Rule**: Prata (`font-heading`) is for headings only — section titles, hero text, card titles, page titles. Never use on labels, badges, captions, meta text, or any element smaller than `text-base`.
+- **Rule**: Hanken Grotesk (`font-heading`) is for headings only — section titles, hero text, card titles, page titles. Never use on labels, badges, captions, meta text, or any element smaller than `text-base`.
 
 ---
 

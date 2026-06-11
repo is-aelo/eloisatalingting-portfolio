@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/data/constants";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
 import { LuDownload, LuFolderKanban, LuMail, LuUser, LuX } from "react-icons/lu";
@@ -31,12 +31,10 @@ const navIcons: Record<string, React.ReactNode> = {
   LuMail: <LuMail size={18} />,
 };
 
-export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: MobileNavProps) {
-  const pathname = usePathname();
+const sectionIds = ["about", "projects", "contact"];
 
-  useEffect(() => {
-    onClose();
-  }, [pathname, onClose]);
+export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: MobileNavProps) {
+  const activeSection = useActiveSection(sectionIds);
 
   useEffect(() => {
     if (open && window.innerWidth < 768) {
@@ -105,7 +103,8 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
 
               <nav className="flex flex-col gap-1">
                 {NAV_LINKS.map((link, i) => {
-                  const isActive = pathname === link.href;
+                  const sectionId = link.href.replace("/#", "");
+                  const isActive = activeSection === sectionId;
                   return (
                     <motion.div
                       key={link.href}

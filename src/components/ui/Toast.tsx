@@ -45,7 +45,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             className={`flex items-center gap-3 rounded-full border px-4 py-3 text-sm shadow-sm transition-all ${
               item.type === "success"
                 ? "border-accent-tertiary/30 bg-accent-tertiary/10 text-accent-tertiary"
-                : "border-accent-quaternary/30 bg-accent-quaternary/10 text-accent-quaternary"
+                : "border-accent-secondary/30 bg-accent-secondary/10 text-accent-secondary"
             }`}
           >
             {item.type === "success" ? (

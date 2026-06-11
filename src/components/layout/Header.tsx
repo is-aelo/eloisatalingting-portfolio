@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { LuMenu, LuMoon, LuSun } from "react-icons/lu";
-import { useTheme } from "@/hooks/useTheme";
+import { LuMenu } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
 
 type ContactLink = {
@@ -16,11 +15,7 @@ type ContactLink = {
 
 export function Header({ fullName, contact, resumeUrl }: { fullName: string; contact?: ContactLink | null; resumeUrl?: string | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { isDark, toggleTheme } = useTheme();
-
-  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -39,15 +34,6 @@ export function Header({ fullName, contact, resumeUrl }: { fullName: string; con
           </Link>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <button
-              onClick={toggleTheme}
-              className="flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm text-secondary transition-colors hover:bg-surface-muted hover:text-primary sm:px-3 sm:py-2"
-              aria-label={`Switch to ${mounted && isDark ? "light" : "dark"} mode`}
-            >
-              {mounted ? (isDark ? <LuSun size={16} /> : <LuMoon size={16} />) : <LuMoon size={16} />}
-              <span className="hidden md:inline">{mounted ? (isDark ? "Light" : "Dark") : "Dark"}</span>
-            </button>
-
             <button
               onClick={() => setMenuOpen(true)}
               className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary sm:h-10 sm:w-10"

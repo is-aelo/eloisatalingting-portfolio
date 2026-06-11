@@ -108,7 +108,7 @@ export function HeroSection({ hero, tools, fullName }: Props) {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-tertiary opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-tertiary" />
             </span>
-            <span className="font-body text-xs text-muted uppercase tracking-wider">Available for remote opportunities</span>
+            <span className="font-body text-xs text-primary/80 uppercase tracking-wider">Available for remote opportunities</span>
           </div>
 
           {/* Name — full width, centered */}
@@ -154,16 +154,16 @@ export function HeroSection({ hero, tools, fullName }: Props) {
           {/* CTAs — centered */}
           <div ref={ctasRef} className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3 md:justify-center" style={{ opacity: 0 }}>
             <Link
-              href={hero?.cta_primary_url || "/#projects"}
-              className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-full bg-accent-secondary px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
+              href={hero?.cta_primary_url || "/#contact"}
+              className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-full bg-gradient-to-r from-accent-secondary to-accent-tertiary px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
             >
-              {hero?.cta_primary_label || "View Projects"}
+              {hero?.cta_primary_label || "Get in Touch"}
             </Link>
             <Link
-              href={hero?.cta_secondary_url || "/contact"}
+              href={hero?.cta_secondary_url || "/#projects"}
               className="inline-block cursor-pointer whitespace-nowrap rounded-full border border-border px-5 py-2.5 text-sm font-body text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary md:px-7 md:py-3 md:text-base"
             >
-              {hero?.cta_secondary_label || "Get in Touch"}
+              {hero?.cta_secondary_label || "View Projects"}
             </Link>
           </div>
         </div>
@@ -171,22 +171,22 @@ export function HeroSection({ hero, tools, fullName }: Props) {
 
       {/* Tech stack band — full width */}
       {tools.length > 0 && (
-        <div className="w-full border-y border-border bg-surface-muted/50 py-3">
-          <div className="flex items-center gap-4 px-5 sm:px-6 md:px-8 lg:px-6">
-            <span className="font-body text-[10px] text-muted uppercase tracking-wider shrink-0">
-              Technologies I work with
+        <div className="w-full border-y border-border bg-gradient-to-r from-accent-secondary/5 via-surface-muted/50 to-accent-secondary/5 py-4">
+          <div className="flex items-center gap-4 px-5 sm:px-6 md:px-8 lg:px-6 mb-3">
+            <span className="font-body text-[10px] text-accent-secondary uppercase tracking-widest shrink-0 font-medium">
+              Technologies
             </span>
-            <div className="h-px flex-1 bg-border" />
+            <div className="h-px flex-1 bg-gradient-to-r from-accent-secondary/20 to-transparent" />
           </div>
           <div
-            className="overflow-hidden mt-2.5"
+            className="overflow-hidden"
             style={{
-              maskImage: "linear-gradient(to right, transparent, black 4%, black 96%, transparent)",
-              WebkitMaskImage: "linear-gradient(to right, transparent, black 4%, black 96%, transparent)",
+              maskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
             }}
           >
             <div
-              className="flex gap-1"
+              className="flex gap-3"
               style={{
                 width: "fit-content",
                 animation: "marquee 30s linear infinite",
@@ -195,9 +195,9 @@ export function HeroSection({ hero, tools, fullName }: Props) {
               {marqueeItems.map((tool, i) => (
                 <span
                   key={`${tool.name}-${i}`}
-                  className="inline-flex shrink-0 items-center font-body text-xs text-secondary md:text-sm"
+                  className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border/50 bg-surface/80 px-4 py-1.5 font-body text-xs text-secondary backdrop-blur-sm transition-colors hover:border-accent-secondary/30 hover:text-accent-secondary md:text-sm"
                 >
-                  {i > 0 && <span className="mx-4 text-accent-secondary/30">/</span>}
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent-secondary/40" />
                   {tool.name}
                 </span>
               ))}
