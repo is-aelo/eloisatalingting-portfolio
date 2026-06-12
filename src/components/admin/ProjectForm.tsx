@@ -59,16 +59,27 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
     }
   }, [projectId]);
 
+  const saveFields = [
+    "slug", "title", "short_description", "client_name", "project_type",
+    "role", "start_date", "end_date", "featured", "display",
+    "thumbnail_url", "cover_image_url", "tech_stack_summary", "content_md",
+  ];
+
+  const savePayload = saveFields.reduce((acc, field) => {
+    (acc as Record<string, unknown>)[field] = (data as Record<string, unknown>)[field];
+    return acc;
+  }, {} as Partial<typeof data>);
+
   const save = async () => {
     setSaving(true);
     try {
       let id = projectId;
 
       if (id) {
-        const { error } = await supabase.from("projects").update(data).eq("id", id);
+        const { error } = await supabase.from("projects").update(savePayload).eq("id", id);
         if (error) throw error;
       } else {
-        const { data: inserted, error } = await supabase.from("projects").insert(data).select().single();
+        const { data: inserted, error } = await supabase.from("projects").insert(savePayload).select().single();
         if (error) throw error;
         if (inserted) id = inserted.id;
       }
@@ -140,13 +151,36 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
         <div>
           <p className="text-sm text-secondary">Project Media</p>
           {media.map((m, i) => (
-            <div key={i} className="mt-2 flex gap-2">
-              <input value={m.media_url} onChange={(e) => { const m2 = [...media]; m2[i] = { ...m2[i], media_url: e.target.value }; setMedia(m2); }} placeholder="URL" className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-primary focus:border-accent-secondary focus:outline-none" />
-              <input value={m.alt_text ?? ""} onChange={(e) => { const m2 = [...media]; m2[i] = { ...m2[i], alt_text: e.target.value }; setMedia(m2); }} placeholder="Alt text" className="w-40 rounded-lg border border-border bg-background px-4 py-2 text-primary focus:border-accent-secondary focus:outline-none" />
-              <button onClick={() => setMedia(media.filter((_, j) => j !== i))} className="cursor-pointer text-muted hover:text-red-500"><LuTrash2 size={18} /></button>
+            <div key={i} className="mt-3 flex flex-wrap items-start gap-3 rounded-lg border border-border bg-surface p-3">
+              <ImageUploader
+                currentUrl={m.media_url}
+                onUpload={(url) => {
+                  const m2 = [...media];
+                  m2[i] = { ...m2[i], media_url: url };
+                  setMedia(m2);
+                }}
+              />
+              <div className="flex flex-1 flex-col gap-2 min-w-[200px]">
+                <input
+                  value={m.alt_text ?? ""}
+                  onChange={(e) => {
+                    const m2 = [...media];
+                    m2[i] = { ...m2[i], alt_text: e.target.value };
+                    setMedia(m2);
+                  }}
+                  placeholder="Alt text"
+                  className="rounded-lg border border-border bg-background px-4 py-2 text-sm text-primary focus:border-accent-secondary focus:outline-none"
+                />
+                <button
+                  onClick={() => setMedia(media.filter((_, j) => j !== i))}
+                  className="self-start cursor-pointer text-sm text-muted hover:text-red-500"
+                >
+                  <LuTrash2 size={16} className="inline" /> Remove
+                </button>
+              </div>
             </div>
           ))}
-          <button onClick={() => setMedia([...media, { media_type: "image", media_url: "", alt_text: "", caption: "" }])} className="mt-2 cursor-pointer text-sm text-accent-secondary hover:underline"><LuPlus size={14} className="inline" /> Add media</button>
+          <button onClick={() => setMedia([...media, { media_type: "image", media_url: "", alt_text: "", caption: "" }])} className="mt-3 cursor-pointer text-sm text-accent-secondary hover:underline"><LuPlus size={14} className="inline" /> Add media</button>
         </div>
 
         <div>

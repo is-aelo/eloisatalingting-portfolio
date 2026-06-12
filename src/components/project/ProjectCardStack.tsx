@@ -126,8 +126,8 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
               if (activeInner && eased > 0.5) {
                 const accentColor = getCSSVariable("--accent-secondary");
                 gsap.to(activeInner, {
-                  borderColor: hexToRgba(accentColor, 0.5),
-                  boxShadow: `0 0 20px ${hexToRgba(accentColor, 0.15)}, 0 0 40px ${hexToRgba(accentColor, 0.05)}`,
+                  borderColor: hexToRgba(accentColor, 0.35),
+                  boxShadow: `0 0 12px ${hexToRgba(accentColor, 0.1)}, 0 0 24px ${hexToRgba(accentColor, 0.04)}`,
                   duration: 0.3,
                   ease: "power2.out",
                 });
@@ -141,23 +141,15 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
           if (firstInner) {
             const accentColor = getCSSVariable("--accent-secondary");
             gsap.set(firstInner, {
-              borderColor: hexToRgba(accentColor, 0.5),
-              boxShadow: `0 0 20px ${hexToRgba(accentColor, 0.15)}, 0 0 40px ${hexToRgba(accentColor, 0.05)}`,
+              borderColor: hexToRgba(accentColor, 0.35),
+              boxShadow: `0 0 12px ${hexToRgba(accentColor, 0.1)}, 0 0 24px ${hexToRgba(accentColor, 0.04)}`,
             });
           }
         }
 
         const img = card.querySelector<HTMLElement>("img");
         if (img && i < cards.length - 1) {
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.4,
-            onUpdate: (self) => {
-              gsap.set(img, { yPercent: self.progress * 8 });
-            },
-          });
+          gsap.set(img, { yPercent: 0 });
         }
       });
     }, section);
@@ -211,8 +203,8 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 scale: 1,
                 opacity: 1,
                 filter: "saturate(1) brightness(1)",
-                borderColor: hexToRgba(accentColor, 0.5),
-                boxShadow: `0 0 20px ${hexToRgba(accentColor, 0.15)}, 0 0 40px ${hexToRgba(accentColor, 0.05)}`,
+                borderColor: hexToRgba(accentColor, 0.35),
+                boxShadow: `0 0 12px ${hexToRgba(accentColor, 0.1)}, 0 0 24px ${hexToRgba(accentColor, 0.04)}`,
                 duration: 0.3,
                 ease: "power2.out",
               });
@@ -314,14 +306,14 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 key={project.slug}
                 href={`/projects/${project.slug}`}
                 ref={(el) => { cardsRef.current[i] = el; }}
-                className="shrink-0 w-[80vw] flex flex-col overflow-hidden rounded-lg border border-border bg-surface-muted"
+                className="shrink-0 w-[80vw] flex flex-col overflow-hidden rounded-lg border border-transparent bg-surface-muted"
                 style={{ scrollSnapAlign: "center" }}
               >
                 {/* Image */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   {(project.cover_image_url || project.thumbnail_url) ? (
                     <img
-                      src={project.cover_image_url ?? project.thumbnail_url!}
+                      src={project.cover_image_url || project.thumbnail_url || undefined}
                       alt={project.title}
                       className="h-full w-full object-cover"
                     />
@@ -431,12 +423,12 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
               >
                 <div
                   data-card-inner
-                  className="flex h-full w-full flex-row overflow-hidden bg-surface-muted rounded-lg border border-border shadow-sm"
+                  className="flex h-full w-full flex-row overflow-hidden rounded-lg border border-transparent bg-surface-muted"
                 >
                   <div className="relative h-full w-3/5 shrink-0 overflow-hidden">
                     {(project.cover_image_url || project.thumbnail_url) ? (
                       <img
-                        src={project.cover_image_url ?? project.thumbnail_url!}
+                        src={project.cover_image_url || project.thumbnail_url || undefined}
                         alt={project.title}
                         className="absolute inset-0 h-full w-full object-cover"
                         style={{ willChange: "transform" }}

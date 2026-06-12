@@ -38,10 +38,10 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
 
       {/* Cover Image */}
       <div className="mx-auto w-full max-w-5xl px-5 sm:px-6 md:px-8 lg:px-6 mt-5 sm:mt-6 md:mt-8">
-        {project.cover_image_url ? (
+        {(project.cover_image_url || project.thumbnail_url) ? (
           <div className="overflow-hidden rounded-xl border border-border">
             <img
-              src={project.cover_image_url}
+              src={project.cover_image_url || project.thumbnail_url || undefined}
               alt={project.title}
               className="w-full object-cover md:h-[40rem]"
             />
