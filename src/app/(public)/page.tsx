@@ -48,9 +48,7 @@ export default async function Home() {
         />
       </ScrollReveal>
       <ProjectCardStack projects={projects ?? []} />
-      <ScrollReveal y={20}>
-        <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
-      </ScrollReveal>
+      <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
     </>  
   );
 }
