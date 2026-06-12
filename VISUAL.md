@@ -24,8 +24,8 @@ All colors are CSS custom properties in `globals.css`. Components only use Tailw
 | `--secondary` | `#a09080` | Secondary text, labels |
 | `--muted` | `#6b5e52` | Placeholder, disabled, subtle text |
 | `--accent` | `#e8dcd0` | Interactive text, primary buttons — light sand |
-| `--accent-secondary` | `#c07850` | Links, hover states, primary accent — terracotta |
-| `--accent-tertiary` | `#9e5e3c` | Tags, badges, decorative lines, secondary accent — burnt sienna |
+| `--accent-secondary` | `#7a9a6d` | Links, hover states, primary accent — sage |
+| `--accent-tertiary` | `#5d7e50` | Tags, badges, decorative lines, secondary accent — forest moss |
 
 ### Rule
 

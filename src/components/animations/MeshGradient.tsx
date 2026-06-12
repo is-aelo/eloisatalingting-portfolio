@@ -70,10 +70,11 @@ export function MeshGradient() {
   const containerRef = useRef<HTMLDivElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);
   const blobsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const [mobileScale] = useState(() => {
-    if (typeof window === "undefined") return 1;
-    return window.innerWidth < 768 ? 0.5 : 1;
-  });
+  const [mobileScale, setMobileScale] = useState(1);
+
+  useEffect(() => {
+    setMobileScale(window.innerWidth < 768 ? 0.5 : 1);
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -81,11 +82,20 @@ export function MeshGradient() {
     if (!container) return;
 
     const mq = matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) return;
-
     const isMobile = window.innerWidth < 768;
-    const driftMult = isMobile ? 2 : 1.5;
-    const timeScale = isMobile ? 0.8 : 1.2;
+
+    if (mq.matches || isMobile) {
+      blobsRef.current.forEach((el, i) => {
+        if (!el) return;
+        const b = BLOBS[i];
+        el.style.left = `${b.from.x}vw`;
+        el.style.top = `${b.from.y}vw`;
+      });
+      return;
+    }
+
+    const driftMult = 1.5;
+    const timeScale = 1.2;
 
     const ctx = gsap.context(() => {
       blobsRef.current.forEach((el, i) => {
@@ -176,7 +186,6 @@ export function MeshGradient() {
             height: blob.size * mobileScale,
             background: blob.color,
             filter: `blur(${blob.blur * mobileScale}px)`,
-            willChange: "transform, filter",
           }}
         />
       ))}

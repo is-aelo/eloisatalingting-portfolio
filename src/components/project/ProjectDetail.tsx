@@ -27,7 +27,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
     <article>
       {/* Breadcrumb */}
       <div className="mx-auto w-full max-w-5xl px-5 sm:px-6 md:px-8 lg:px-6 pt-6 sm:pt-8 md:pt-10">
-        <nav className="font-body text-xs text-primary/80 md:text-sm">
+        <nav className="font-body text-xs text-primary md:text-sm">
           <Link href="/#projects" className="transition-colors hover:text-accent-secondary">
             Projects
           </Link>
@@ -74,7 +74,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
             )}
 
             {/* Inline meta */}
-            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-primary/80 sm:mt-5 sm:gap-x-4 sm:text-sm">
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-primary sm:mt-5 sm:gap-x-4 sm:text-sm">
               {project.role && <span>{project.role}</span>}
               {project.role && project.client_name && <span className="text-border">|</span>}
               {project.client_name && <span>{project.client_name}</span>}
@@ -107,7 +107,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
         {/* Tools */}
         {tools.length > 0 && (
           <div className="mt-8 border-t border-border pt-8 sm:mt-10 sm:pt-10">
-            <h3 className="font-body text-[10px] text-primary/80 uppercase tracking-wider sm:text-xs">
+            <h3 className="font-body text-[10px] text-primary uppercase tracking-wider sm:text-xs">
               Tools Used
             </h3>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -128,7 +128,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
       <div className="mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-8 lg:px-6 mt-10 sm:mt-14 md:mt-16">
         {project.content_md && (
           <div
-            className="prose prose-neutral dark:prose-invert prose-p:text-xs prose-p:leading-relaxed sm:prose-p:text-sm md:prose-p:text-sm prose-headings:font-heading prose-headings:text-primary prose-headings:tracking-tight prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-code:text-xs prose-code:font-body prose-li:text-secondary prose-img:rounded-xl prose-img:border prose-img:border-border"
+            className="prose prose-neutral dark:prose-invert prose-p:text-primary prose-p:text-xs prose-p:leading-relaxed sm:prose-p:text-sm md:prose-p:text-sm prose-headings:font-heading prose-headings:text-primary prose-headings:tracking-tight prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-code:text-xs prose-code:font-body prose-li:text-primary prose-img:rounded-xl prose-img:border prose-img:border-border"
             dangerouslySetInnerHTML={{ __html: project.content_md }}
           />
         )}
@@ -157,7 +157,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
                   </div>
                 )}
                 {media.caption && (
-                  <figcaption className="mt-3 text-center text-xs text-primary/80 sm:text-sm">
+                  <figcaption className="mt-3 text-center text-xs text-primary sm:text-sm">
                     {media.caption}
                   </figcaption>
                 )}

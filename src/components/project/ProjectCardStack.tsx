@@ -53,7 +53,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Desktop: vertical sticky card stack with GSAP
   useEffect(() => {
     if (isMobile) return;
 
@@ -67,7 +66,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     const CARD_SCALE_BURIED = 1;
     const OVERLAP = 0.72;
 
-          // Set initial border state for all cards
           const borderColor = hexToRgba(getCSSVariable("--border"), 0.3);
           cards.forEach((card) => {
             const inner = card.querySelector<HTMLElement>("[data-card-inner]");
@@ -113,7 +111,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                   y: targetY,
                 });
 
-                // Reset border on buried cards
                 const buriedInner = cards[j].querySelector<HTMLElement>("[data-card-inner]");
                 if (buriedInner) {
                   gsap.to(buriedInner, {
@@ -125,7 +122,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 }
               }
 
-              // Apply accent border and glow to incoming card
               const activeInner = card.querySelector<HTMLElement>("[data-card-inner]");
               if (activeInner && eased > 0.5) {
                 const accentColor = getCSSVariable("--accent-secondary");
@@ -140,7 +136,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
           });
         }
 
-        // First card gets accent border immediately
         if (i === 0) {
           const firstInner = card.querySelector<HTMLElement>("[data-card-inner]");
           if (firstInner) {
@@ -170,7 +165,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     return () => ctx.revert();
   }, [projects, isMobile]);
 
-  // Mobile: GSAP-powered horizontal scroll with smooth animations
   useEffect(() => {
     if (!isMobile) return;
 
@@ -287,7 +281,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
       className="relative"
       style={!isMobile ? { height: `${projects.length * 120}vh` } : undefined}
     >
-      {/* Mobile section header */}
       {isMobile && (
         <div
           ref={headerRef}
@@ -309,7 +302,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
         </div>
       )}
 
-      {/* Mobile: horizontal scroll with Apple/Vercel-style cards */}
       {isMobile && (
         <div className="relative">
           <div
@@ -408,7 +400,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
         </div>
       )}
 
-      {/* Desktop: vertical sticky card stack with pinned header */}
       {!isMobile && (
         <div className="sticky top-16 flex h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden">
           <div ref={headerRef} className="shrink-0 px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4 md:pt-12 md:pb-6">

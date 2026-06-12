@@ -16,10 +16,10 @@ export function ContactSection({ email, linkedinUrl }: Props) {
           Let&apos;s work together
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-secondary sm:mt-5 sm:text-base md:text-lg">
-          From concept to launch —
+          Great products aren&apos;t built by accident.
           <br className="hidden sm:inline" />
           <span className="sm:hidden"> </span>
-          designing and building digital products with clarity, purpose, and clean execution.
+          Thoughtful design meets intentional code. Let&apos;s make something that matters.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10">
           {email && (

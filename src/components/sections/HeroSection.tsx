@@ -102,8 +102,7 @@ export function HeroSection({ hero, tools, fullName }: Props) {
     <section id="about" className="relative flex min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)] flex-col overflow-hidden">
       <div className="mx-auto flex w-full max-w-5xl flex-1 items-center px-5 sm:px-6 md:px-8 lg:px-6">
         <div className="flex w-full flex-col items-start text-left md:items-center md:text-center">
-          {/* Available badge */}
-          <div ref={badgeRef} className="mb-5 sm:mb-6 flex items-center gap-2" style={{ opacity: 0 }}>
+          <div ref={badgeRef} className="mb-5 sm:mb-6 flex items-center gap-2 opacity-0">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-tertiary opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-tertiary" />
@@ -111,48 +110,39 @@ export function HeroSection({ hero, tools, fullName }: Props) {
             <span className="font-body text-xs text-primary/80 uppercase tracking-wider">Available for remote opportunities</span>
           </div>
 
-          {/* Name — full width, centered */}
           {fullName && (
             <h1
               ref={nameRef}
-              className="font-body font-bold text-5xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem] uppercase leading-[1.05] tracking-tight text-primary"
-              style={{ opacity: 0 }}
+              className="font-body font-bold text-5xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem] uppercase leading-[1.05] tracking-tight text-primary opacity-0"
             >
               {fullName}
             </h1>
           )}
 
-          {/* Accent line — centered */}
           <div
             ref={lineRef}
-            className="mt-5 sm:mt-6 h-0.5 w-16 bg-accent-secondary"
-            style={{ opacity: 0 }}
+            className="mt-5 sm:mt-6 h-0.5 w-16 bg-accent-secondary opacity-0"
           />
 
-          {/* Headline */}
           {hero?.headline && (
             <p
               ref={headlineRef}
-              className="mt-6 sm:mt-8 max-w-2xl font-heading text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-accent-secondary"
-              style={{ opacity: 0 }}
+              className="mt-6 sm:mt-8 max-w-2xl font-heading text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-accent-secondary opacity-0"
             >
               {renderTextWithAmpersand(hero.headline)}
             </p>
           )}
 
-          {/* Subheadline */}
           {hero?.subheadline && (
             <p
               ref={subheadlineRef}
-              className="mt-3 sm:mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-secondary"
-              style={{ opacity: 0 }}
+              className="mt-3 sm:mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-secondary opacity-0"
             >
               {hero.subheadline}
             </p>
           )}
 
-          {/* CTAs — centered */}
-          <div ref={ctasRef} className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3 md:justify-center" style={{ opacity: 0 }}>
+          <div ref={ctasRef} className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3 md:justify-center opacity-0">
             <Link
               href={hero?.cta_primary_url || "/#contact"}
               className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-full bg-gradient-to-r from-accent-secondary to-accent-tertiary px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
@@ -169,7 +159,6 @@ export function HeroSection({ hero, tools, fullName }: Props) {
         </div>
       </div>
 
-      {/* Tech stack band — full width */}
       {tools.length > 0 && (
         <div className="w-full border-y border-border bg-gradient-to-r from-accent-secondary/5 via-surface-muted/50 to-accent-secondary/5 py-4">
           <div className="flex items-center gap-4 px-5 sm:px-6 md:px-8 lg:px-6 mb-3">
@@ -178,20 +167,8 @@ export function HeroSection({ hero, tools, fullName }: Props) {
             </span>
             <div className="h-px flex-1 bg-gradient-to-r from-accent-secondary/20 to-transparent" />
           </div>
-          <div
-            className="overflow-hidden"
-            style={{
-              maskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-              WebkitMaskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-            }}
-          >
-            <div
-              className="flex gap-3"
-              style={{
-                width: "fit-content",
-                animation: "marquee 30s linear infinite",
-              }}
-            >
+          <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+            <div className="flex gap-3 w-fit animate-[marquee_30s_linear_infinite]">
               {marqueeItems.map((tool, i) => (
                 <span
                   key={`${tool.name}-${i}`}
