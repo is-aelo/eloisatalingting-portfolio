@@ -13,13 +13,11 @@ export function ContactSection({ email, linkedinUrl }: Props) {
       <div className="mx-auto max-w-2xl px-5 sm:px-6 md:px-8 lg:px-6 text-center">
         <div className="mx-auto mb-5 h-0.5 w-12 bg-accent-secondary sm:mb-6" />
         <h2 className="font-heading text-3xl text-primary sm:text-4xl md:text-5xl lg:text-6xl">
-          Let&apos;s work together
+          Let&apos;s build something intentional.
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-secondary sm:mt-5 sm:text-base md:text-lg">
-          Great products aren&apos;t built by accident.
-          <br className="hidden sm:inline" />
-          <span className="sm:hidden"> </span>
-          Thoughtful design meets intentional code. Let&apos;s make something that matters.
+          Great products come from clear thinking, strong design decisions, and solid execution.<br />
+          If it makes sense to work together, I&apos;m one message away.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10">
           {email && (

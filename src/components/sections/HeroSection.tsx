@@ -96,10 +96,8 @@ export function HeroSection({ hero, tools, fullName }: Props) {
     return () => ctx.revert();
   }, [hero?.headline, hero?.subheadline, fullName]);
 
-  const marqueeItems = [...tools, ...tools];
-
   return (
-    <section id="about" className="relative flex min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)] flex-col overflow-hidden">
+    <section className="relative flex min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)] flex-col overflow-hidden">
       <div className="mx-auto flex w-full max-w-5xl flex-1 items-center px-5 sm:px-6 md:px-8 lg:px-6">
         <div className="flex w-full flex-col items-start text-left md:items-center md:text-center">
           <div ref={badgeRef} className="mb-5 sm:mb-6 flex items-center gap-2 opacity-0">
@@ -159,29 +157,6 @@ export function HeroSection({ hero, tools, fullName }: Props) {
         </div>
       </div>
 
-      {tools.length > 0 && (
-        <div className="w-full border-y border-border bg-gradient-to-r from-accent-secondary/5 via-surface-muted/50 to-accent-secondary/5 py-4">
-          <div className="flex items-center gap-4 px-5 sm:px-6 md:px-8 lg:px-6 mb-3">
-            <span className="font-body text-[10px] text-accent-secondary uppercase tracking-widest shrink-0 font-medium">
-              Technologies
-            </span>
-            <div className="h-px flex-1 bg-gradient-to-r from-accent-secondary/20 to-transparent" />
-          </div>
-          <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-            <div className="flex gap-3 w-fit animate-[marquee_30s_linear_infinite]">
-              {marqueeItems.map((tool, i) => (
-                <span
-                  key={`${tool.name}-${i}`}
-                  className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border/50 bg-surface/80 px-4 py-1.5 font-body text-xs text-secondary backdrop-blur-sm transition-colors hover:border-accent-secondary/30 hover:text-accent-secondary md:text-sm"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent-secondary/40" />
-                  {tool.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

@@ -27,7 +27,7 @@ export function Header({ fullName, contact, resumeUrl }: { fullName: string; con
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 bg-background/80 md:backdrop-blur-sm transition-border-color duration-300 ${scrolled ? "border-b border-border/50" : "border-b border-transparent"}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-background/95 md:backdrop-blur-sm transition-border-color duration-300 ${scrolled ? "border-b border-border/50" : "border-b border-transparent"}`}>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 sm:px-6 md:px-8 lg:px-6 py-3 sm:py-4 md:py-5">
           <Link href="/" className="font-heading text-base sm:text-lg font-medium text-primary transition-colors hover:text-accent-secondary">
             {renderTextWithAmpersand(fullName)}

@@ -27,12 +27,12 @@
   --accent: #e8dcd0;
   --accent-secondary: #7a9a6d;
   --accent-tertiary: #5d7e50;
-  --blob-1-bg: color-mix(in srgb, var(--accent-secondary) 10%, transparent);
-  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 8%, transparent);
-  --blob-3-bg: color-mix(in srgb, var(--accent-secondary) 7%, transparent);
-  --blob-4-bg: color-mix(in srgb, var(--accent-secondary) 6%, transparent);
-  --blob-5-bg: color-mix(in srgb, var(--accent-tertiary) 6%, transparent);
-  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-secondary) 7%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 5%, transparent) 50%, transparent 70%);
+  --blob-1-bg: color-mix(in srgb, var(--accent-secondary) 12%, transparent);
+  --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 10%, transparent);
+  --blob-3-bg: color-mix(in srgb, var(--accent-secondary) 9%, transparent);
+  --blob-4-bg: color-mix(in srgb, var(--accent-secondary) 8%, transparent);
+  --blob-5-bg: color-mix(in srgb, var(--accent-tertiary) 8%, transparent);
+  --gradient-layer-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent-secondary) 9%, transparent) 0%, color-mix(in srgb, var(--accent-tertiary) 7%, transparent) 50%, transparent 70%);
 }
 
 html {

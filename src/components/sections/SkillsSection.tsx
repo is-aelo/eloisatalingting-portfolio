@@ -23,7 +23,7 @@ export function SkillsSection({ skillGroups }: { skillGroups: SkillGroup[] }) {
                 {group.items.map((skill) => (
                   <span
                     key={skill}
-                    className="inline-block rounded-full bg-surface-muted px-2.5 py-1 font-body text-[11px] text-secondary transition-colors hover:bg-accent-secondary/10 hover:text-accent-secondary sm:px-3 sm:py-1.5 sm:text-xs md:px-4 md:py-2 md:text-sm"
+                    className="inline-block rounded-full bg-surface-muted px-2 py-0.5 font-body text-[10px] text-secondary transition-colors hover:bg-accent-secondary/10 hover:text-accent-secondary sm:px-2.5 sm:py-1 sm:text-[11px] md:px-3 md:py-1 md:text-xs"
                   >
                     {skill}
                   </span>

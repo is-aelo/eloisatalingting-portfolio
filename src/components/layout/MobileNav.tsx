@@ -31,7 +31,7 @@ const navIcons: Record<string, React.ReactNode> = {
   LuMail: <LuMail size={18} />,
 };
 
-const sectionIds = ["about", "projects", "contact"];
+const sectionIds = ["projects", "background", "contact"];
 
 export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: MobileNavProps) {
   const activeSection = useActiveSection(sectionIds);

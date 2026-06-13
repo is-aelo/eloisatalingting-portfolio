@@ -6,6 +6,7 @@ import { EducationExperience } from "@/components/sections/EducationExperience";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { ProjectCardStack } from "@/components/project/ProjectCardStack";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { TechMarquee } from "@/components/sections/TechMarquee";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 export default async function Home() {
@@ -38,16 +39,19 @@ export default async function Home() {
         tools={tools ?? []}
         fullName={fullName}
       />
-      <ScrollReveal stagger={0.15} selector="[class*='grid'] > *">
-        <SkillsSection skillGroups={skillGroups} />
-      </ScrollReveal>
-      <ScrollReveal>
-        <EducationExperience
-          education={education ?? []}
-          experiences={experiences ?? []}
-        />
-      </ScrollReveal>
       <ProjectCardStack projects={projects ?? []} />
+      <section id="background">
+        <ScrollReveal stagger={0.15} selector="[class*='grid'] > *">
+          <SkillsSection skillGroups={skillGroups} />
+        </ScrollReveal>
+        <ScrollReveal>
+          <EducationExperience
+            education={education ?? []}
+            experiences={experiences ?? []}
+          />
+        </ScrollReveal>
+      </section>
+      <TechMarquee tools={tools ?? []} />
       <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
     </>  
   );
