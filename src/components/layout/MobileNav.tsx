@@ -31,7 +31,7 @@ const navIcons: Record<string, React.ReactNode> = {
   LuMail: <LuMail size={18} />,
 };
 
-const sectionIds = ["projects", "background", "contact"];
+const sectionIds = ["about", "projects", "contact"];
 
 export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: MobileNavProps) {
   const activeSection = useActiveSection(sectionIds);
@@ -137,7 +137,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={onClose}
-                    className="flex items-center gap-4 rounded-full px-4 py-2.5 text-base text-secondary transition-colors hover:bg-surface-muted hover:text-primary sm:gap-5 sm:px-5 sm:py-3 lg:text-lg"
+                    className="flex items-center gap-4 rounded-full bg-gradient-to-r from-accent-secondary to-accent-tertiary px-4 py-2.5 text-base text-white transition-opacity hover:opacity-90 sm:gap-5 sm:px-5 sm:py-3 lg:text-lg"
                   >
                     <LuDownload size={18} />
                     Download Resume

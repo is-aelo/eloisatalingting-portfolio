@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { LuMenu } from "react-icons/lu";
+import { NAV_LINKS } from "@/data/constants";
+import { useActiveSection } from "@/hooks/useActiveSection";
+import { LuFolderKanban, LuUser, LuMail, LuMenu, LuDownload } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
 
 type ContactLink = {
@@ -13,14 +15,31 @@ type ContactLink = {
   tiktok_url?: string | null;
 };
 
+const sectionIds = ["about", "projects", "contact"];
+
+const navIcons: Record<string, React.ReactNode> = {
+  LuFolderKanban: <LuFolderKanban size={16} />,
+  LuUser: <LuUser size={16} />,
+  LuMail: <LuMail size={16} />,
+};
+
 export function Header({ fullName, contact, resumeUrl }: { fullName: string; contact?: ContactLink | null; resumeUrl?: string | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const activeSection = useActiveSection(sectionIds);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setMenuOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
@@ -33,7 +52,39 @@ export function Header({ fullName, contact, resumeUrl }: { fullName: string; con
             {renderTextWithAmpersand(fullName)}
           </Link>
 
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map((link) => {
+              const sectionId = link.href.replace("/#", "");
+              const isActive = activeSection === sectionId;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-colors ${
+                    isActive
+                      ? "bg-accent-secondary/10 text-accent-secondary font-medium"
+                      : "text-secondary hover:bg-surface-muted hover:text-primary"
+                  }`}
+                >
+                  {navIcons[link.icon]}
+                  {link.label}
+                </Link>
+              );
+            })}
+            <a
+              href={resumeUrl ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2 flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-secondary to-accent-tertiary px-4 py-2 text-sm text-white transition-opacity hover:opacity-90"
+            >
+              <LuDownload size={16} />
+              Resume
+            </a>
+          </nav>
+
+          {/* Mobile hamburger */}
+          <div className="flex md:hidden items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => setMenuOpen(true)}
               className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary sm:h-10 sm:w-10"

@@ -270,7 +270,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative"
+      className="relative pb-16 md:pb-24"
       style={!isMobile ? { height: `${projects.length * 120}vh` } : undefined}
     >
       {isMobile && (
@@ -306,7 +306,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 key={project.slug}
                 href={`/projects/${project.slug}`}
                 ref={(el) => { cardsRef.current[i] = el; }}
-                className="shrink-0 w-[80vw] flex flex-col overflow-hidden rounded-lg border border-transparent bg-surface-muted"
+                className="shrink-0 w-[80vw] flex flex-col bg-surface-muted"
                 style={{ scrollSnapAlign: "center" }}
               >
                 {/* Image */}
@@ -327,43 +327,45 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col px-4 pt-4 pb-5">
-                  <div className="flex items-center gap-2.5">
+                <div className="flex flex-col justify-between flex-1 px-4 pt-4 pb-5">
+                  <div className="flex items-center gap-2.5 mb-4">
                     <span className="font-body text-xs font-medium text-accent-secondary">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="h-px w-5 bg-border" />
                     {project.project_type && (
-              <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider">
+                      <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider">
                         {project.project_type}
                       </p>
                     )}
                   </div>
 
-                  <h2 className="mt-2.5 font-heading text-base text-primary">
-                    {renderTextWithAmpersand(project.title)}
-                  </h2>
+                  <div className="flex-1 flex flex-col justify-center">
+                    <h2 className="font-heading text-base text-primary sm:text-lg">
+                      {renderTextWithAmpersand(project.title)}
+                    </h2>
 
-                  {project.short_description && (
-                    <p className="mt-1.5 text-xs leading-relaxed text-secondary line-clamp-2">
-                      {project.short_description}
-                    </p>
-                  )}
+                    {project.short_description && (
+                      <p className="mt-1.5 text-xs leading-relaxed text-secondary line-clamp-2 sm:text-sm">
+                        {project.short_description}
+                      </p>
+                    )}
 
-                  {project.tech_stack_summary && (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {project.tech_stack_summary.split(",").map((tech) => (
-                        <span
-                          key={tech.trim()}
-                          className="rounded-full bg-surface-muted px-2 py-0.5 font-body text-[10px] text-secondary"
-                        >
-                          {tech.trim()}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                    {project.tech_stack_summary && (
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {project.tech_stack_summary.split(",").map((tech) => (
+                          <span
+                            key={tech.trim()}
+                            className="rounded-full bg-accent-secondary/10 px-2 py-0.5 font-body text-[10px] text-accent-secondary"
+                          >
+                            {tech.trim()}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
-                  <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-accent-secondary">
+                  <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-accent-secondary">
                     <span>View case study</span>
                     <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -442,8 +444,8 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                     )}
                   </div>
 
-                  <div className="flex h-full w-2/5 shrink-0 flex-col justify-center overflow-hidden p-5 sm:p-6 md:p-8">
-                    <div className="mt-1 flex items-center gap-2 sm:gap-3">
+                  <div className="flex h-full w-2/5 shrink-0 flex-col justify-between p-6 sm:p-8 md:p-10">
+                    <div className="flex items-center gap-3 mb-6">
                       <span className="font-body text-xs text-accent-secondary">
                         {String(i + 1).padStart(2, "0")}
                       </span>
@@ -455,30 +457,32 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                       )}
                     </div>
 
-                    <h2 className="mt-2 font-heading text-lg text-primary sm:text-xl md:mt-3 md:text-2xl">
-                      {renderTextWithAmpersand(project.title)}
-                    </h2>
+                    <div className="flex-1 flex flex-col justify-center">
+                      <h2 className="font-heading text-lg text-primary sm:text-xl md:text-2xl leading-snug">
+                        {renderTextWithAmpersand(project.title)}
+                      </h2>
 
-                    {project.short_description && (
-                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-secondary md:mt-3 md:text-base">
-                        {project.short_description}
-                      </p>
-                    )}
+                      {project.short_description && (
+                        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-secondary md:mt-4">
+                          {project.short_description}
+                        </p>
+                      )}
 
-                    {project.tech_stack_summary && (
-                      <div className="mt-3 flex flex-wrap gap-1.5 md:mt-5 md:gap-2">
-                        {project.tech_stack_summary.split(",").map((tech) => (
-                          <span
-                            key={tech.trim()}
-                            className="rounded-full bg-accent-secondary/10 px-2 py-0.5 font-body text-[10px] text-accent-secondary sm:px-3 sm:py-1 sm:text-xs"
-                          >
-                            {tech.trim()}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                      {project.tech_stack_summary && (
+                        <div className="mt-4 flex flex-wrap gap-1.5 md:mt-6 md:gap-2">
+                          {project.tech_stack_summary.split(",").map((tech) => (
+                            <span
+                              key={tech.trim()}
+                              className="rounded-full bg-accent-secondary/10 px-2.5 py-1 font-body text-[10px] text-accent-secondary sm:px-3 sm:py-1 sm:text-xs"
+                            >
+                              {tech.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
 
-                    <div className="mt-4 mb-3 flex w-full gap-2 sm:gap-3 md:mt-6 md:mb-4">
+                    <div className="flex w-full gap-2 sm:gap-3">
                       <Link
                         href={`/projects/${project.slug}`}
                         className="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-5 py-2.5 font-body text-sm text-white transition-opacity hover:opacity-90 sm:px-6 sm:py-3 sm:text-base md:px-7"
@@ -490,7 +494,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                           href={project.project_ctas[0].url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex cursor-pointer items-center justify-center gap-2 rounded-full border border-border px-4 py-2.5 font-body text-xs text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:px-5 sm:text-sm"
+                          className="flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/15 px-4 py-2.5 font-body text-xs text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:px-5 sm:text-sm"
                         >
                           {project.project_ctas[0].label}
                         </a>
