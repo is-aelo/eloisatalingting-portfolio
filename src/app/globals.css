@@ -25,8 +25,8 @@
   --secondary: #a09080;
   --muted: #6b5e52;
   --accent: #e8dcd0;
-  --accent-secondary: #b85a4a;
-  --accent-tertiary: #8c3e32;
+  --accent-secondary: #7a9a6d;
+  --accent-tertiary: #5d7e50;
   --blob-1-bg: color-mix(in srgb, var(--accent-secondary) 12%, transparent);
   --blob-2-bg: color-mix(in srgb, var(--accent-tertiary) 10%, transparent);
   --blob-3-bg: color-mix(in srgb, var(--accent-secondary) 9%, transparent);

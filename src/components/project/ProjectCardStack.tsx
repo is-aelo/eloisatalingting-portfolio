@@ -66,16 +66,16 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
     const CARD_SCALE_BURIED = 1;
     const OVERLAP = 0.72;
 
-          const borderColor = hexToRgba(getCSSVariable("--border"), 0.3);
-          cards.forEach((card) => {
-            const inner = card.querySelector<HTMLElement>("[data-card-inner]");
-            if (inner) {
-              gsap.set(inner, {
-                borderColor: borderColor,
-                boxShadow: "none",
-              });
-            }
-          });
+    const borderColor = hexToRgba(getCSSVariable("--border"), 0.3);
+    cards.forEach((card) => {
+      const inner = card.querySelector<HTMLElement>("[data-card-inner]");
+      if (inner) {
+        gsap.set(inner, {
+          borderColor: borderColor,
+          boxShadow: "none",
+        });
+      }
+    });
 
     const ctx = gsap.context(() => {
       cards.forEach((card, i) => {
@@ -222,18 +222,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
             }
           });
 
-          cardEls.forEach((card, i) => {
-            const img = card.querySelector<HTMLElement>("img");
-            if (!img) return;
-            const cardCenter = (cardWidth + gap) * i + cardWidth / 2;
-            const viewCenter = scrollLeft + container.offsetWidth / 2;
-            const offset = (cardCenter - viewCenter) / container.offsetWidth;
-            gsap.to(img, {
-              xPercent: offset * -10,
-              duration: 0.4,
-              ease: "power1.out",
-            });
-          });
+
         }
       });
     };
@@ -306,16 +295,15 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                 key={project.slug}
                 href={`/projects/${project.slug}`}
                 ref={(el) => { cardsRef.current[i] = el; }}
-                className="shrink-0 w-[80vw] flex flex-col bg-surface-muted"
+                className="shrink-0 w-[80vw] flex flex-col bg-surface-muted overflow-hidden"
                 style={{ scrollSnapAlign: "center" }}
               >
-                {/* Image */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                <div className="relative w-full overflow-hidden leading-0" style={{ aspectRatio: "4/3" }}>
                   {(project.cover_image_url || project.thumbnail_url) ? (
                     <img
                       src={project.cover_image_url || project.thumbnail_url || undefined}
                       alt={project.title}
-                      className="h-full w-full object-cover"
+                      className="block h-full w-full object-cover"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-surface-muted">
@@ -326,7 +314,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
                   )}
                 </div>
 
-                {/* Content */}
                 <div className="flex flex-col justify-between flex-1 px-4 pt-4 pb-5">
                   <div className="flex items-center gap-2.5 mb-4">
                     <span className="font-body text-xs font-medium text-accent-secondary">
@@ -376,7 +363,6 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
             ))}
           </div>
 
-          {/* Dot indicator */}
           <div className="mt-4 flex items-center justify-center gap-2">
             {projects.map((_, i) => (
               <button
@@ -412,99 +398,99 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
             </div>
           </div>
           <div className="relative min-h-0 flex-1">
-          {projects.map((project, i) => (
-            <div
-              key={project.slug}
-              data-card
-              className="absolute inset-0 flex items-center justify-center will-change-transform"
-              style={{ zIndex: i + 1 }}
-            >
+            {projects.map((project, i) => (
               <div
-                className="mx-auto w-full max-w-6xl px-4 sm:px-6"
-                style={{ height: CARD_HEIGHT }}
+                key={project.slug}
+                data-card
+                className="absolute inset-0 flex items-center justify-center will-change-transform"
+                style={{ zIndex: i + 1 }}
               >
                 <div
-                  data-card-inner
-                  className="flex h-full w-full flex-row overflow-hidden rounded-lg border border-transparent bg-surface-muted"
+                  className="mx-auto w-full max-w-6xl px-4 sm:px-6"
+                  style={{ height: CARD_HEIGHT }}
                 >
-                  <div className="relative h-full w-3/5 shrink-0 overflow-hidden">
-                    {(project.cover_image_url || project.thumbnail_url) ? (
-                      <img
-                        src={project.cover_image_url || project.thumbnail_url || undefined}
-                        alt={project.title}
-                        className="absolute inset-0 h-full w-full object-cover"
-                        style={{ willChange: "transform" }}
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-surface-muted">
-                        <span className="font-heading text-4xl text-muted md:text-6xl">
-                          {project.title.charAt(0)}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex h-full w-2/5 shrink-0 flex-col justify-between p-6 sm:p-8 md:p-10">
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className="font-body text-xs text-accent-secondary">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="h-px w-6 bg-border sm:w-8" />
-                      {project.project_type && (
-                        <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider sm:text-xs">
-                          {project.project_type}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="flex-1 flex flex-col justify-center">
-                      <h2 className="font-heading text-lg text-primary sm:text-xl md:text-2xl leading-snug">
-                        {renderTextWithAmpersand(project.title)}
-                      </h2>
-
-                      {project.short_description && (
-                        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-secondary md:mt-4">
-                          {project.short_description}
-                        </p>
-                      )}
-
-                      {project.tech_stack_summary && (
-                        <div className="mt-4 flex flex-wrap gap-1.5 md:mt-6 md:gap-2">
-                          {project.tech_stack_summary.split(",").map((tech) => (
-                            <span
-                              key={tech.trim()}
-                              className="rounded-full bg-accent-secondary/10 px-2.5 py-1 font-body text-[10px] text-accent-secondary sm:px-3 sm:py-1 sm:text-xs"
-                            >
-                              {tech.trim()}
-                            </span>
-                          ))}
+                  <div
+                    data-card-inner
+                    className="flex h-full w-full flex-row overflow-hidden rounded-lg border border-transparent bg-surface-muted"
+                  >
+                    <div className="relative h-full w-3/5 shrink-0 overflow-hidden leading-0">
+                      {(project.cover_image_url || project.thumbnail_url) ? (
+                        <img
+                          src={project.cover_image_url || project.thumbnail_url || undefined}
+                          alt={project.title}
+                          className="absolute inset-0 block h-full w-full object-cover"
+                          style={{ willChange: "transform" }}
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-surface-muted">
+                          <span className="font-heading text-4xl text-muted md:text-6xl">
+                            {project.title.charAt(0)}
+                          </span>
                         </div>
                       )}
                     </div>
 
-                    <div className="flex w-full gap-2 sm:gap-3">
-                      <Link
-                        href={`/projects/${project.slug}`}
-                        className="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-5 py-2.5 font-body text-sm text-white transition-opacity hover:opacity-90 sm:px-6 sm:py-3 sm:text-base md:px-7"
-                      >
-                        View case study
-                      </Link>
-                      {project.project_ctas && project.project_ctas.length > 0 && (
-                        <a
-                          href={project.project_ctas[0].url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/15 px-4 py-2.5 font-body text-xs text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:px-5 sm:text-sm"
+                    <div className="flex h-full w-2/5 shrink-0 flex-col justify-between p-6 sm:p-8 md:p-10">
+                      <div className="flex items-center gap-3 mb-6">
+                        <span className="font-body text-xs text-accent-secondary">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="h-px w-6 bg-border sm:w-8" />
+                        {project.project_type && (
+                          <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider sm:text-xs">
+                            {project.project_type}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex-1 flex flex-col justify-center">
+                        <h2 className="font-heading text-lg text-primary sm:text-xl md:text-2xl leading-snug">
+                          {renderTextWithAmpersand(project.title)}
+                        </h2>
+
+                        {project.short_description && (
+                          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-secondary md:mt-4">
+                            {project.short_description}
+                          </p>
+                        )}
+
+                        {project.tech_stack_summary && (
+                          <div className="mt-4 flex flex-wrap gap-1.5 md:mt-6 md:gap-2">
+                            {project.tech_stack_summary.split(",").map((tech) => (
+                              <span
+                                key={tech.trim()}
+                                className="rounded-full bg-accent-secondary/10 px-2.5 py-1 font-body text-[10px] text-accent-secondary sm:px-3 sm:py-1 sm:text-xs"
+                              >
+                                {tech.trim()}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex w-full gap-2 sm:gap-3">
+                        <Link
+                          href={`/projects/${project.slug}`}
+                          className="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-5 py-2.5 font-body text-sm text-white transition-opacity hover:opacity-90 sm:px-6 sm:py-3 sm:text-base md:px-7"
                         >
-                          {project.project_ctas[0].label}
-                        </a>
-                      )}
+                          View case study
+                        </Link>
+                        {project.project_ctas && project.project_ctas.length > 0 && (
+                          <a
+                            href={project.project_ctas[0].url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/15 px-4 py-2.5 font-body text-xs text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:px-5 sm:text-sm"
+                          >
+                            {project.project_ctas[0].label}
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         </div>
       )}
