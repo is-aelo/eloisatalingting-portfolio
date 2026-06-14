@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -46,7 +46,7 @@ export function ProjectCardStack({ projects }: { projects: Project[] }) {
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024);
     check();
     window.addEventListener("resize", check);

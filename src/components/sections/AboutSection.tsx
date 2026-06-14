@@ -103,7 +103,7 @@ export function AboutSection({ skillGroups, tools, education, experiences }: Pro
                         {fmtMY(exp.start_date)} — {exp.currently_working ? "Present" : exp.end_date ? fmtMY(exp.end_date) : ""}
                       </p>
                       {exp.summary && (
-                        <p className="mt-1 text-[10px] sm:text-xs text-secondary leading-relaxed">
+                        <p className="mt-1 text-xs sm:text-sm text-secondary leading-relaxed">
                           {exp.summary}
                         </p>
                       )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -72,7 +72,7 @@ export function MeshGradient() {
   const blobsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [mobileScale, setMobileScale] = useState(1);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setMobileScale(window.innerWidth < 768 ? 0.5 : 1);
   }, []);
 

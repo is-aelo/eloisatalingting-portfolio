@@ -99,7 +99,7 @@ export function HeroSection({ hero, tools, fullName, location }: Props) {
   }, [hero?.headline, hero?.subheadline, fullName]);
 
   return (
-    <section className="relative flex min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)] flex-col overflow-hidden pt-8 md:pt-16 pb-16 md:pb-24">
+    <section className="relative flex min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)] flex-col overflow-hidden pt-8 md:pt-16 pb-10 md:pb-24">
       <div className="mx-auto flex w-full max-w-5xl flex-1 items-center px-5 sm:px-6 md:px-8 lg:px-6">
         <div className="flex w-full flex-col items-start text-left md:items-center md:text-center">
 
