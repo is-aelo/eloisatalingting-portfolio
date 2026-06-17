@@ -128,7 +128,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
       <div className="mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-8 lg:px-6 mt-10 sm:mt-14 md:mt-16">
         {project.content_md && (
           <div
-            className="prose prose-neutral dark:prose-invert prose-p:text-primary prose-p:text-xs prose-p:leading-relaxed sm:prose-p:text-sm md:prose-p:text-sm prose-headings:font-heading prose-headings:text-primary prose-headings:tracking-tight prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-code:text-xs prose-code:font-body prose-li:text-primary prose-img:rounded-xl prose-img:border prose-img:border-border"
+            className="prose prose-neutral dark:prose-invert prose-p:text-primary prose-p:text-xs prose-p:leading-relaxed sm:prose-p:text-sm md:prose-p:text-sm prose-headings:font-heading prose-headings:text-primary prose-headings:tracking-tight prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-code:text-xs prose-code:font-body prose-li:text-primary prose-img:rounded-xl prose-img:border prose-img:border-border prose-video:rounded-xl prose-video:border prose-video:border-border"
             dangerouslySetInnerHTML={{ __html: project.content_md }}
           />
         )}
