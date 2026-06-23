@@ -1,6 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import type { ProjectRow, ProjectMediaRow, ProjectCTARow, ToolRow } from "@/types/database";
 import { renderTextWithAmpersand } from "@/lib/text";
+import { ZoomViewer } from "@/components/ui/ZoomViewer";
 
 interface ProjectWithRelations extends ProjectRow {
   project_media: ProjectMediaRow[];
@@ -16,6 +20,20 @@ function formatDate(date: string | null): string | null {
 }
 
 export function ProjectDetail({ project, tools }: { project: ProjectWithRelations; tools: ToolRow[] }) {
+  const [zoomImage, setZoomImage] = useState<{ src: string; alt: string; isVideo: boolean } | null>(null);
+
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName === "IMG") {
+      const img = target as HTMLImageElement;
+      setZoomImage({
+        src: img.src,
+        alt: img.alt || project.title,
+        isVideo: false,
+      });
+    }
+  };
+
   const startDate = formatDate(project.start_date);
   const endDate = project.end_date ? formatDate(project.end_date) : "Present";
   const dateRange = startDate && endDate ? `${startDate} — ${endDate}` : startDate ?? endDate ?? null;
@@ -39,7 +57,16 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
       {/* Cover Image */}
       <div className="mx-auto w-full max-w-5xl px-5 sm:px-6 md:px-8 lg:px-6 mt-5 sm:mt-6 md:mt-8">
         {(project.cover_image_url || project.thumbnail_url) ? (
-          <div className="overflow-hidden rounded-xl border border-border">
+          <div
+            className="overflow-hidden rounded-xl border border-border cursor-zoom-in"
+            onClick={() =>
+              setZoomImage({
+                src: project.cover_image_url || project.thumbnail_url || "",
+                alt: project.title,
+                isVideo: false,
+              })
+            }
+          >
             <img
               src={project.cover_image_url || project.thumbnail_url || undefined}
               alt={project.title}
@@ -128,8 +155,9 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
       <div className="mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-8 lg:px-6 mt-10 sm:mt-14 md:mt-16">
         {project.content_md && (
           <div
-            className="prose prose-neutral dark:prose-invert prose-p:text-primary prose-p:text-xs prose-p:leading-relaxed sm:prose-p:text-sm md:prose-p:text-sm prose-headings:font-heading prose-headings:text-primary prose-headings:tracking-tight prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-code:text-xs prose-code:font-body prose-li:text-primary prose-img:rounded-xl prose-img:border prose-img:border-border prose-video:rounded-xl prose-video:border prose-video:border-border"
+            className="prose prose-neutral dark:prose-invert prose-p:text-primary prose-p:text-xs prose-p:leading-relaxed sm:prose-p:text-sm md:prose-p:text-sm prose-headings:font-heading prose-headings:text-primary prose-headings:tracking-tight prose-a:text-accent-secondary prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-code:text-accent-tertiary prose-code:text-xs prose-code:font-body prose-li:text-primary prose-img:rounded-xl prose-img:border prose-img:border-border prose-video:rounded-xl prose-video:border prose-video:border-border [&_img]:cursor-zoom-in"
             dangerouslySetInnerHTML={{ __html: project.content_md }}
+            onClick={handleContentClick}
           />
         )}
 
@@ -139,7 +167,16 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
             {sortedMedia.map((media) => (
               <figure key={media.id} className="group">
                 {media.media_type === "image" || media.media_type === "gif" ? (
-                  <div className="overflow-hidden rounded-xl border border-border">
+                  <div
+                    className="overflow-hidden rounded-xl border border-border cursor-zoom-in"
+                    onClick={() =>
+                      setZoomImage({
+                        src: media.media_url,
+                        alt: media.alt_text ?? "",
+                        isVideo: false,
+                      })
+                    }
+                  >
                     <img
                       src={media.media_url}
                       alt={media.alt_text ?? ""}
@@ -186,6 +223,15 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
           </div>
         )}
       </div>
+
+      {zoomImage && (
+        <ZoomViewer
+          src={zoomImage.src}
+          alt={zoomImage.alt}
+          isVideo={zoomImage.isVideo}
+          onClose={() => setZoomImage(null)}
+        />
+      )}
     </article>
   );
 }

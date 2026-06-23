@@ -75,7 +75,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
           <motion.div
             className="fixed z-[60] flex flex-col
               inset-0 md:inset-auto
-              bg-background/70 backdrop-blur-xl
+              bg-background
               md:top-20 md:right-4 md:w-72 md:rounded-2xl md:bg-surface/95 md:shadow-xl md:ring-1 md:ring-border md:p-6
               lg:right-6 lg:w-80
               items-start justify-start
