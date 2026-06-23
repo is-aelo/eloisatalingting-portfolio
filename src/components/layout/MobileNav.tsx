@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/data/constants";
 import { useActiveSection } from "@/hooks/useActiveSection";
@@ -35,7 +36,9 @@ const navIcons: Record<string, React.ReactNode> = {
 const sectionIds = ["about", "projects", "contact"];
 
 export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: MobileNavProps) {
+  const pathname = usePathname();
   const activeSection = useActiveSection(sectionIds);
+  const resolvedSection = pathname.startsWith("/projects/") ? "projects" : activeSection;
 
   useEffect(() => {
     if (open && window.innerWidth < 768) {
@@ -105,7 +108,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
               <nav className="flex flex-col gap-1">
                 {NAV_LINKS.map((link, i) => {
                   const sectionId = link.href.replace("/#", "");
-                  const isActive = activeSection === sectionId;
+                  const isActive = resolvedSection === sectionId;
                   return (
                     <motion.div
                       key={link.href}

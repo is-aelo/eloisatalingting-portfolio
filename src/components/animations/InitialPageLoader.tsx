@@ -11,38 +11,24 @@ export function InitialPageLoader() {
 
     const finish = () => {
       setPhase("finishing");
-      timeoutId = window.setTimeout(() => {
-        setPhase("hidden");
-      }, 500);
+      timeoutId = window.setTimeout(() => setPhase("hidden"), 500);
     };
 
     const tryFinish = () => {
       Promise.all([
         new Promise<void>((resolve) => {
-          if (document.readyState === "complete") {
-            resolve();
-          } else {
-            window.addEventListener("load", () => resolve(), { once: true });
-          }
+          if (document.readyState === "complete") resolve();
+          else window.addEventListener("load", () => resolve(), { once: true });
         }),
         document.fonts.ready,
-      ]).then(() => {
-        requestAnimationFrame(() => finish());
-      });
+      ]).then(() => requestAnimationFrame(() => finish()));
     };
 
     tryFinish();
-
-    return () => {
-      if (timeoutId) {
-        window.clearTimeout(timeoutId);
-      }
-    };
+    return () => { if (timeoutId) window.clearTimeout(timeoutId); };
   }, []);
 
-  if (phase === "hidden") {
-    return null;
-  }
+  if (phase === "hidden") return null;
 
   return (
     <div

@@ -26,11 +26,11 @@
   --primary: #1a1a1a;
   --secondary: #5c5c5c;
   --muted: #8a8a8a;
-  --accent: #7a3b6b;
-  --accent-secondary: #3a1f30;
-  --accent-tertiary: #5a3a50;
-  --danger: #8a3a5a;
-  --danger-bg: #f0e4ec;
+  --accent: #8a7230;
+  --accent-secondary: #5a4820;
+  --accent-tertiary: #bca25a;
+  --danger: #c45a3a;
+  --danger-bg: #f5e4e0;
 }
 
 html {

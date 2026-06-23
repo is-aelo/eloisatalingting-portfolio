@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -26,8 +26,20 @@ export function ScrollReveal({
   className,
 }: ScrollRevealProps) {
   const elRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches,
+  );
 
   useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const el = elRef.current;
     if (!el) return;
 
@@ -59,7 +71,7 @@ export function ScrollReveal({
     }, el);
 
     return () => ctx.revert();
-  }, [y, duration, stagger, selector]);
+  }, [y, duration, stagger, selector, isMobile]);
 
   return <Tag ref={elRef} className={className}>{children}</Tag>;
 }

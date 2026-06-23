@@ -1,9 +1,7 @@
-import { SnakeLadderLoader } from "@/components/animations/SnakeLadderLoader";
-
 export default function Loading() {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background px-6">
-      <SnakeLadderLoader />
+    <div className="flex min-h-dvh items-center justify-center bg-background px-6 pt-16 md:pt-20">
+      <div className="h-6 w-6 animate-spin rounded-full border-2 border-border border-t-accent-secondary" />
     </div>
   );
 }

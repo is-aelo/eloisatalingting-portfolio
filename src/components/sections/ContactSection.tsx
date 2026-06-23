@@ -13,7 +13,7 @@ export function ContactSection({ email, linkedinUrl }: Props) {
       <div className="mx-auto max-w-3xl px-5 sm:px-6 md:px-8 lg:px-6 text-center">
         <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Contact</p>
 
-        <h2 className="mt-6 font-heading text-3xl text-primary sm:text-4xl md:text-5xl">
+        <h2 className="mt-6 font-heading font-bold text-3xl text-primary sm:text-4xl md:text-5xl">
           Let&apos;s build something intentional.
         </h2>
 

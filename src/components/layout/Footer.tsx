@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
 import { createClient } from "@/lib/supabase/server";
 import { NAV_LINKS } from "@/data/constants";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
 import { LuMail } from "react-icons/lu";
-import { renderTextWithAmpersand } from "@/lib/text";
 import { normalizeUrl } from "@/lib/url";
 
 export async function Footer() {
@@ -25,14 +25,12 @@ export async function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 md:px-8 lg:px-6 py-10 sm:py-12">
-        <div className="flex flex-col items-center justify-between gap-6 sm:gap-8 md:flex-row">
-          <div>
-            <Link href="/" className="font-heading text-base sm:text-lg font-medium text-primary transition-colors hover:text-accent-secondary">
-              {renderTextWithAmpersand(name)}
-            </Link>
+        <div className="flex flex-col items-center gap-6 sm:gap-8 md:flex-row">
+          <div className="flex w-[130px] items-center justify-center md:justify-start">
+            <Logo />
           </div>
 
-          <nav className="flex flex-wrap justify-center gap-4 sm:gap-6">
+          <nav className="flex flex-1 justify-center gap-4 sm:gap-6">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -44,8 +42,8 @@ export async function Footer() {
             ))}
           </nav>
 
-          {socialLinks.length > 0 && (
-            <div className="flex gap-2.5 sm:gap-3">
+          {socialLinks.length > 0 ? (
+            <div className="flex w-[130px] justify-end gap-2.5 sm:gap-3">
               {socialLinks.map((link) => {
                 const Icon = link.icon;
                 return (
@@ -62,6 +60,8 @@ export async function Footer() {
                 );
               })}
             </div>
+          ) : (
+            <div className="hidden w-[130px] md:block" />
           )}
         </div>
 

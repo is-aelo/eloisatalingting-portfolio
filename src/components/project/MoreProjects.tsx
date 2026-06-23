@@ -64,7 +64,7 @@ export function MoreProjects({ projects }: { projects: Project[] }) {
                     {project.project_type}
                   </span>
                 )}
-                <h3 className="mt-1.5 font-heading text-lg text-primary sm:text-xl md:text-2xl">
+                <h3 className="mt-1.5 font-heading font-bold text-lg text-primary sm:text-xl md:text-2xl">
                   {renderTextWithAmpersand(project.title)}
                 </h3>
                 {project.short_description && (

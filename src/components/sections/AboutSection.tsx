@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { renderTextWithAmpersand } from "@/lib/text";
@@ -53,8 +53,20 @@ const fmtY = (s: string) => s.split("-")[0];
 
 export function AboutSection({ skillGroups, tools, education, experiences }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches,
+  );
 
   useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const ctx = gsap.context(() => {
       const cards = sectionRef.current?.querySelectorAll<HTMLElement>("[data-reveal]");
       if (cards?.length) {
@@ -78,7 +90,7 @@ export function AboutSection({ skillGroups, tools, education, experiences }: Pro
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section id="about" ref={sectionRef} className="py-16 md:py-24">

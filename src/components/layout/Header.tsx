@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { NAV_LINKS } from "@/data/constants";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import { Logo } from "@/components/ui/Logo";
 import { LuFolderKanban, LuUser, LuMail, LuMenu, LuDownload } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
 
@@ -26,7 +28,9 @@ const navIcons: Record<string, React.ReactNode> = {
 export function Header({ fullName, contact, resumeUrl }: { fullName: string; contact?: ContactLink | null; resumeUrl?: string | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const activeSection = useActiveSection(sectionIds);
+  const resolvedSection = pathname.startsWith("/projects/") ? "projects" : activeSection;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -48,16 +52,14 @@ export function Header({ fullName, contact, resumeUrl }: { fullName: string; con
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 bg-background/95 md:backdrop-blur-sm transition-border-color duration-300 ${scrolled ? "border-b border-border/50" : "border-b border-transparent"}`}>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 sm:px-6 md:px-8 lg:px-6 py-3 sm:py-4 md:py-5">
-          <Link href="/" className="font-heading text-base sm:text-lg font-medium text-primary transition-colors hover:text-accent-secondary">
-            {renderTextWithAmpersand(fullName)}
-          </Link>
+          <Logo />
 
           {/* Desktop nav — pill shape */}
           <div className="hidden md:flex items-center rounded-full border border-border bg-surface-muted p-1">
             <nav className="flex items-center gap-0.5">
               {NAV_LINKS.map((link) => {
                 const sectionId = link.href.replace("/#", "");
-                const isActive = activeSection === sectionId;
+                const isActive = resolvedSection === sectionId;
                 return (
                   <Link
                     key={link.href}

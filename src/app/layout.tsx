@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, DM_Sans } from "next/font/google";
+import { Karla, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const hankenGrotesk = Hanken_Grotesk({
-  weight: "400",
+const karla = Karla({
+  weight: ["400", "700"],
   variable: "--font-heading",
   subsets: ["latin"],
 });
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${hankenGrotesk.variable} ${dmSans.variable}`}
+      className={`${karla.variable} ${dmSans.variable}`}
     >
       <body className="min-h-dvh bg-background font-body antialiased">
         <div className="relative z-10">

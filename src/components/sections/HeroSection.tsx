@@ -426,11 +426,17 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
         {location && (
           <div
             ref={badgeRef}
-            className="mb-5 flex items-center gap-2.5 opacity-0"
+            className="mb-5 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 opacity-0"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-accent-tertiary" />
-            <span className="font-body text-xs text-secondary uppercase tracking-wider">
-              {location}
+            <span className="flex items-center gap-2.5">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-tertiary" />
+              <span className="font-body text-[10px] text-secondary uppercase tracking-wider sm:text-xs">
+                {location}
+              </span>
+            </span>
+            <span className="hidden sm:block h-3 w-px shrink-0 bg-border" />
+            <span className="font-body text-[10px] text-accent-secondary uppercase tracking-wider sm:text-xs">
+              Open for remote opportunities
             </span>
           </div>
         )}
@@ -438,7 +444,7 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
         {fullName && (
           <h1
             ref={nameRef}
-            className="font-heading font-medium text-2xl leading-[1.08] tracking-tight text-primary opacity-0 uppercase sm:text-3xl md:text-4xl lg:text-[2.25rem] xl:text-[2.75rem] 2xl:text-[3.25rem]"
+            className="font-heading font-bold text-2xl leading-[1.08] tracking-tight text-primary opacity-0 uppercase sm:text-3xl md:text-4xl lg:text-[2.25rem] xl:text-[2.75rem] 2xl:text-[3.25rem]"
           >
             {fullName}
           </h1>

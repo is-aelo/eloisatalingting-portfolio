@@ -23,10 +23,10 @@ All colors are CSS custom properties in `globals.css`. Components only use Tailw
 | `--primary` | `#1a1a1a` | Main body text, headings |
 | `--secondary` | `#5c5c5c` | Secondary text, labels |
 | `--muted` | `#8a8a8a` | Placeholder, disabled, subtle text |
-| `--accent` | `#b85c4a` | Primary buttons, interactive — warm terracotta |
-| `--accent-secondary` | `#3c2820` | Links, hover states — dark earthy brown |
-| `--accent-tertiary` | `#8c6a5a` | Tags, badges, decorative — muted clay |
-| `--danger` | `#b84a3a` | Destructive text, delete buttons |
+| `--accent` | `#8a7230` | Primary buttons, interactive — deep gold |
+| `--accent-secondary` | `#5a4820` | Links, hover states — dark bronze |
+| `--accent-tertiary` | `#bca25a` | Tags, badges, decorative — light gold |
+| `--danger` | `#c45a3a` | Destructive text, delete buttons |
 | `--danger-bg` | `#f5e4e0` | Danger state background |
 
 ### Rule
@@ -51,7 +51,7 @@ Never use hex codes in components. Always use Tailwind classes:
 
 | Role | Font | CSS Variable | Tailwind Class |
 |------|------|-------------|----------------|
-| Headings | Hanken Grotesk | `--font-heading` | `font-heading` — headings only, never on labels/badges/small text |
+| Headings | Karla | `--font-heading` | `font-heading` — headings only, never on labels/badges/small text |
 | Body | DM Sans | `--font-body` | `font-body` — body, labels, badges, captions, meta text |
 
 ### Scale
@@ -65,9 +65,9 @@ Never use hex codes in components. Always use Tailwind classes:
 
 ### Weights
 
-- Headings: Hanken Grotesk (weight 400 only — hierarchy via size and weight contrast)
+- Headings: Karla (weight 400 only — hierarchy via size and weight contrast)
 - Body: DM Sans default (400 for body, 500 for emphasis)
-- **Rule**: Hanken Grotesk (`font-heading`) is for headings only — section titles, hero text, card titles, page titles. Never use on labels, badges, captions, meta text, or any element smaller than `text-base`.
+- **Rule**: Karla (`font-heading`) is for headings only — section titles, hero text, card titles, page titles. Never use on labels, badges, captions, meta text, or any element smaller than `text-base`.
 
 ---
 
