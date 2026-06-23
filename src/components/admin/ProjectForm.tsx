@@ -173,7 +173,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
                 />
                 <button
                   onClick={() => setMedia(media.filter((_, j) => j !== i))}
-                  className="self-start cursor-pointer text-sm text-muted hover:text-red-500"
+                  className="self-start cursor-pointer text-sm text-muted hover:text-danger"
                 >
                   <LuTrash2 size={16} className="inline" /> Remove
                 </button>
@@ -189,7 +189,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
             <div key={i} className="mt-2 flex gap-2">
               <input value={c.label} onChange={(e) => { const c2 = [...ctas]; c2[i] = { ...c2[i], label: e.target.value }; setCtas(c2); }} placeholder="Label" className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-primary focus:border-accent-secondary focus:outline-none" />
               <input value={c.url} onChange={(e) => { const c2 = [...ctas]; c2[i] = { ...c2[i], url: e.target.value }; setCtas(c2); }} placeholder="URL" className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-primary focus:border-accent-secondary focus:outline-none" />
-              <button onClick={() => setCtas(ctas.filter((_, j) => j !== i))} className="cursor-pointer text-muted hover:text-red-500"><LuTrash2 size={18} /></button>
+              <button onClick={() => setCtas(ctas.filter((_, j) => j !== i))} className="cursor-pointer text-muted hover:text-danger"><LuTrash2 size={18} /></button>
             </div>
           ))}
           <button onClick={() => setCtas([...ctas, { label: "", url: "" }])} className="mt-2 cursor-pointer text-sm text-accent-secondary hover:underline"><LuPlus size={14} className="inline" /> Add CTA</button>

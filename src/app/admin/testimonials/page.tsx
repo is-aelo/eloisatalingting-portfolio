@@ -137,7 +137,7 @@ export default function AdminTestimonials() {
           {forms.map((form, i) => (
             <div key={i} className="relative rounded-xl border border-border bg-surface p-6">
               {forms.length > 1 && (
-                <button onClick={() => setForms(forms.filter((_, j) => j !== i))} className="absolute top-3 right-3 cursor-pointer text-secondary hover:text-red-500"><LuX size={18} /></button>
+                <button onClick={() => setForms(forms.filter((_, j) => j !== i))} className="absolute top-3 right-3 cursor-pointer text-secondary hover:text-danger"><LuX size={18} /></button>
               )}
               <p className="mb-4 font-body text-sm text-secondary">Testimonial {i + 1}</p>
               <div className="flex flex-col gap-4">
@@ -190,7 +190,7 @@ export default function AdminTestimonials() {
             </div>
             <div className="flex gap-2">
               <button onClick={() => openEdit(t)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted"><LuPencil size={18} /></button>
-              <button onClick={() => remove(t.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-red-500"><LuTrash2 size={18} /></button>
+              <button onClick={() => remove(t.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-danger"><LuTrash2 size={18} /></button>
             </div>
           </div>
         ))}

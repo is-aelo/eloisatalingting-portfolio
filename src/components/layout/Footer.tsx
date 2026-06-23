@@ -5,6 +5,7 @@ import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
 import { LuMail } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
+import { normalizeUrl } from "@/lib/url";
 
 export async function Footer() {
   const supabase = await createClient();
@@ -17,9 +18,9 @@ export async function Footer() {
 
   const socialLinks = [];
   if (contact?.email) socialLinks.push({ href: `mailto:${contact.email}`, icon: LuMail, label: "Email" });
-  if (contact?.linkedin_url) socialLinks.push({ href: contact.linkedin_url, icon: FaLinkedin, label: "LinkedIn" });
-  if (contact?.github_url) socialLinks.push({ href: contact.github_url, icon: SiGithub, label: "GitHub" });
-  if (contact?.tiktok_url) socialLinks.push({ href: contact.tiktok_url, icon: SiTiktok, label: "TikTok" });
+  if (contact?.linkedin_url) socialLinks.push({ href: normalizeUrl(contact.linkedin_url), icon: FaLinkedin, label: "LinkedIn" });
+  if (contact?.github_url) socialLinks.push({ href: normalizeUrl(contact.github_url), icon: SiGithub, label: "GitHub" });
+  if (contact?.tiktok_url) socialLinks.push({ href: normalizeUrl(contact.tiktok_url), icon: SiTiktok, label: "TikTok" });
 
   return (
     <footer className="border-t border-border">
@@ -54,7 +55,7 @@ export async function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={link.label}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary sm:h-9 sm:w-9"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary sm:h-9 sm:w-9"
                   >
                     <Icon size={16} />
                   </a>

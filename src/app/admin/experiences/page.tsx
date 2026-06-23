@@ -86,7 +86,7 @@ export default function AdminExperiences() {
             {tasks.map((t, i) => (
               <div key={i} className="mt-2 flex gap-2">
                 <input value={t} onChange={(e) => { const t2 = [...tasks]; t2[i] = e.target.value; setTasks(t2); }} className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-primary focus:border-accent-secondary focus:outline-none" />
-                <button onClick={() => setTasks(tasks.filter((_, j) => j !== i))} className="cursor-pointer text-muted hover:text-red-500"><LuTrash2 size={18} /></button>
+                <button onClick={() => setTasks(tasks.filter((_, j) => j !== i))} className="cursor-pointer text-muted hover:text-danger"><LuTrash2 size={18} /></button>
               </div>
             ))}
             <button onClick={() => setTasks([...tasks, ""])} className="mt-2 cursor-pointer text-sm text-accent-secondary hover:underline">+ Add task</button>
@@ -115,7 +115,7 @@ export default function AdminExperiences() {
             </div>
             <div className="flex gap-2">
               <button onClick={() => openEdit(exp)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted"><LuPencil size={18} /></button>
-              <button onClick={() => remove(exp.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-red-500"><LuTrash2 size={18} /></button>
+              <button onClick={() => remove(exp.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-danger"><LuTrash2 size={18} /></button>
             </div>
           </div>
         ))}

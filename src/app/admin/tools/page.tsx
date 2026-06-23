@@ -60,7 +60,7 @@ export default function AdminTools() {
           <div key={i} className="flex gap-2">
             <input value={entry.name} onChange={(e) => { const e2 = [...entries]; e2[i] = { ...e2[i], name: e.target.value }; setEntries(e2); }} placeholder="Tool name" className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-primary placeholder:text-muted focus:border-accent-secondary focus:outline-none" />
             <input value={entry.category} onChange={(e) => { const e2 = [...entries]; e2[i] = { ...e2[i], category: e.target.value }; setEntries(e2); }} placeholder="Category (optional)" className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-primary placeholder:text-muted focus:border-accent-secondary focus:outline-none" />
-            <button onClick={() => setEntries(entries.filter((_, j) => j !== i))} className="cursor-pointer text-secondary hover:text-red-500"><LuTrash2 size={18} /></button>
+            <button onClick={() => setEntries(entries.filter((_, j) => j !== i))} className="cursor-pointer text-secondary hover:text-danger"><LuTrash2 size={18} /></button>
           </div>
         ))}
         <div className="flex gap-2">
@@ -75,7 +75,7 @@ export default function AdminTools() {
             <LuGrip size={16} className="text-muted" />
             <span className="flex-1 text-primary">{tool.name}</span>
             {tool.category && <span className="text-xs text-muted">{tool.category}</span>}
-            <button onClick={() => removeTool(tool.id)} className="cursor-pointer text-muted hover:text-red-500"><LuTrash2 size={16} /></button>
+            <button onClick={() => removeTool(tool.id)} className="cursor-pointer text-muted hover:text-danger"><LuTrash2 size={16} /></button>
           </div>
         ))}
       </div>

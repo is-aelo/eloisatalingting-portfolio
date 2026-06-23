@@ -91,7 +91,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
                     href={cta.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-6 py-3 font-body text-sm text-white transition-all hover:opacity-90 hover:shadow-lg sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+                    className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent-secondary px-6 py-3 font-body text-sm text-white transition-all hover:opacity-90 hover:shadow-lg sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
                   >
                     {cta.label}
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -175,7 +175,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
                 href={cta.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-6 py-4 font-body text-sm text-white transition-all hover:opacity-90 hover:shadow-lg sm:text-base"
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent-secondary px-6 py-4 font-body text-sm text-white transition-all hover:opacity-90 hover:shadow-lg sm:text-base"
               >
                 {cta.label}
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

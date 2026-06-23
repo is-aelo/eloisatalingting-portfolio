@@ -19,7 +19,7 @@ export function InputField({
         {...props}
         className="mt-1 w-full rounded-lg border border-border bg-background px-4 py-3 text-primary placeholder:text-muted focus:border-accent-secondary focus:outline-none"
       />
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-1 text-xs text-danger">{error}</p>}
     </div>
   );
 }
@@ -36,7 +36,7 @@ export function TextareaField({
         {...props}
         className="mt-1 w-full rounded-lg border border-border bg-background px-4 py-3 text-primary placeholder:text-muted focus:border-accent-secondary focus:outline-none"
       />
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-1 text-xs text-danger">{error}</p>}
     </div>
   );
 }

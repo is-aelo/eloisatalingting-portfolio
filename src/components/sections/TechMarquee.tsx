@@ -10,12 +10,12 @@ export function TechMarquee({ tools }: { tools: Tool[] }) {
   const marqueeItems = [...tools, ...tools];
 
   return (
-    <div className="w-full border-y border-border bg-gradient-to-r from-accent-secondary/5 via-surface-muted/50 to-accent-secondary/5 py-4">
+    <div className="w-full border-y border-border bg-surface-muted/50 py-4">
       <div className="flex items-center gap-4 px-5 sm:px-6 md:px-8 lg:px-6 mb-3">
         <span className="font-body text-[10px] text-accent-secondary uppercase tracking-widest shrink-0 font-medium">
           Technologies
         </span>
-        <div className="h-px flex-1 bg-gradient-to-r from-accent-secondary/20 to-transparent" />
+        <div className="h-px flex-1 bg-accent-secondary/20" />
       </div>
       <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
         <div className="flex gap-3 w-fit animate-[marquee_30s_linear_infinite]">

@@ -52,42 +52,45 @@ export function Header({ fullName, contact, resumeUrl }: { fullName: string; con
             {renderTextWithAmpersand(fullName)}
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((link) => {
-              const sectionId = link.href.replace("/#", "");
-              const isActive = activeSection === sectionId;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-colors ${
-                    isActive
-                      ? "bg-accent-secondary/10 text-accent-secondary font-medium"
-                      : "text-secondary hover:bg-surface-muted hover:text-primary"
-                  }`}
-                >
-                  {navIcons[link.icon]}
-                  {link.label}
-                </Link>
-              );
-            })}
+          {/* Desktop nav — pill shape */}
+          <div className="hidden md:flex items-center rounded-full border border-border bg-surface-muted p-1">
+            <nav className="flex items-center gap-0.5">
+              {NAV_LINKS.map((link) => {
+                const sectionId = link.href.replace("/#", "");
+                const isActive = activeSection === sectionId;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm transition-colors ${
+                      isActive
+                        ? "bg-accent-secondary/15 text-accent-secondary font-medium"
+                        : "text-secondary hover:text-primary"
+                    }`}
+                  >
+                    {navIcons[link.icon]}
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Resume + Mobile hamburger */}
+          <div className="flex items-center gap-2">
             <a
               href={resumeUrl ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-secondary to-accent-tertiary px-4 py-2 text-sm text-white transition-opacity hover:opacity-90"
+              className="hidden md:flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm text-white transition-opacity hover:opacity-90"
             >
               <LuDownload size={16} />
               Resume
             </a>
-          </nav>
 
-          {/* Mobile hamburger */}
-          <div className="flex md:hidden items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => setMenuOpen(true)}
-              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary sm:h-10 sm:w-10"
+              className="flex md:hidden h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary sm:h-10 sm:w-10"
               aria-label="Open menu"
             >
               <LuMenu size={20} />

@@ -16,16 +16,18 @@ All colors are CSS custom properties in `globals.css`. Components only use Tailw
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--background` | `#0f0c0a` | Page background — deep umber |
-| `--surface` | `#1a1613` | Card, container, elevated areas |
-| `--surface-muted` | `#231e19` | Subtle background variant |
-| `--border` | `#342c24` | Borders, dividers, strokes |
-| `--primary` | `#f0e6dc` | Main body text, headings — warm cream |
-| `--secondary` | `#a09080` | Secondary text, labels |
-| `--muted` | `#6b5e52` | Placeholder, disabled, subtle text |
-| `--accent` | `#e8dcd0` | Interactive text, primary buttons — light sand |
-| `--accent-secondary` | `#7a9a6d` | Links, hover states, primary accent — sage |
-| `--accent-tertiary` | `#5d7e50` | Tags, badges, decorative lines, secondary accent — forest moss |
+| `--background` | `#f7f5f0` | Page background — warm cream |
+| `--surface` | `#efebe4` | Card, container, elevated areas |
+| `--surface-muted` | `#e5e0d7` | Subtle background variant |
+| `--border` | `#d4cdc2` | Borders, dividers, strokes |
+| `--primary` | `#1a1a1a` | Main body text, headings |
+| `--secondary` | `#5c5c5c` | Secondary text, labels |
+| `--muted` | `#8a8a8a` | Placeholder, disabled, subtle text |
+| `--accent` | `#b85c4a` | Primary buttons, interactive — warm terracotta |
+| `--accent-secondary` | `#3c2820` | Links, hover states — dark earthy brown |
+| `--accent-tertiary` | `#8c6a5a` | Tags, badges, decorative — muted clay |
+| `--danger` | `#b84a3a` | Destructive text, delete buttons |
+| `--danger-bg` | `#f5e4e0` | Danger state background |
 
 ### Rule
 
@@ -38,6 +40,9 @@ Never use hex codes in components. Always use Tailwind classes:
 - `hover:text-accent-secondary` for interactive hover
 - `bg-accent-secondary/10` for subtle accent backgrounds
 - `bg-accent-tertiary/10` for subtle tertiary backgrounds
+- `text-danger` for destructive text, form errors
+- `bg-danger` for destructive button backgrounds
+- `bg-danger-bg` for danger state backgrounds
 - `from-accent-secondary to-accent-tertiary` for gradient accents
 
 ---
@@ -126,7 +131,7 @@ Never use hex codes in components. Always use Tailwind classes:
 ### Form Inputs (Contact + Admin)
 - Input: `w-full bg-surface border border-border rounded-lg px-4 py-3 text-primary placeholder:text-muted focus:outline-none focus:border-accent-secondary transition-colors`
 - Label: `text-sm text-secondary mb-1`
-- Error: `text-xs text-red-500 mt-1`
+- Error: `text-xs text-danger mt-1`
 - Textarea: same as input but `min-h-[120px]`
 
 ---

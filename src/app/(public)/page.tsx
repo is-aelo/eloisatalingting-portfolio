@@ -3,7 +3,6 @@ export const dynamic = "force-dynamic";
 import { createClient } from "@/lib/supabase/server";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
-import { ProjectCardStack } from "@/components/project/ProjectCardStack";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export default async function Home() {
@@ -37,6 +36,7 @@ export default async function Home() {
         tools={tools ?? []}
         fullName={fullName}
         location={location}
+        projects={projects ?? []}
       />
       <AboutSection
         skillGroups={skillGroups}
@@ -44,7 +44,6 @@ export default async function Home() {
         education={education ?? []}
         experiences={experiences ?? []}
       />
-      <ProjectCardStack projects={projects ?? []} />
       <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
     </>
   );

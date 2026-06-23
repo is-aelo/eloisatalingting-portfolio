@@ -64,7 +64,7 @@ export function ImageUploader({
           <button
             type="button"
             onClick={handleRemove}
-            className="absolute -right-2 -top-2 cursor-pointer rounded-full bg-red-500 p-1 text-white"
+            className="absolute -right-2 -top-2 cursor-pointer rounded-full bg-danger p-1 text-white"
           >
             <LuX size={14} />
           </button>

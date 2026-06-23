@@ -170,7 +170,7 @@ export function AboutSection({ skillGroups, tools, education, experiences }: Pro
                   <span className="font-body text-[10px] text-accent-secondary uppercase tracking-widest font-medium">
                     Tools
                   </span>
-                  <div className="h-px flex-1 bg-gradient-to-r from-accent-secondary/20 to-transparent" />
+                  <div className="h-px flex-1 bg-accent-secondary/20" />
                 </div>
                 <div className="mt-4 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
                   <div className="flex w-fit gap-3 animate-[marquee_30s_linear_infinite]">

@@ -95,7 +95,7 @@ export default function AdminSkills() {
           <div key={cat.id} className="rounded-xl border border-border bg-surface p-6">
             <div className="flex items-center justify-between">
               <h2 className="font-heading text-lg text-primary">{cat.name}</h2>
-              <button onClick={() => removeCategory(cat.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-red-500" title="Delete category">
+              <button onClick={() => removeCategory(cat.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-danger" title="Delete category">
                 <LuTrash2 size={16} />
               </button>
             </div>
@@ -103,7 +103,7 @@ export default function AdminSkills() {
               {cat.skills?.map((skill: any) => (
                 <span key={skill.id} className="flex items-center gap-2 rounded-full bg-surface-muted px-3 py-1 text-sm text-secondary">
                   {skill.name}
-                  <button onClick={() => removeSkill(skill.id)} className="cursor-pointer text-muted hover:text-red-500"><LuTrash2 size={14} /></button>
+                  <button onClick={() => removeSkill(skill.id)} className="cursor-pointer text-muted hover:text-danger"><LuTrash2 size={14} /></button>
                 </span>
               ))}
             </div>
@@ -138,7 +138,7 @@ export default function AdminSkills() {
                     autoFocus={i === 0}
                     className="flex-1 rounded-lg border border-border bg-background px-4 py-2 text-primary placeholder:text-muted focus:border-accent-secondary focus:outline-none"
                   />
-                  <button onClick={() => setSkillModal({ ...skillModal, names: skillModal.names.filter((_, j) => j !== i) })} className="cursor-pointer text-secondary hover:text-red-500"><LuTrash2 size={18} /></button>
+                  <button onClick={() => setSkillModal({ ...skillModal, names: skillModal.names.filter((_, j) => j !== i) })} className="cursor-pointer text-secondary hover:text-danger"><LuTrash2 size={18} /></button>
                 </div>
               ))}
             </div>

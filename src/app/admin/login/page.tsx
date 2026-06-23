@@ -29,7 +29,6 @@ export default function AdminLogin() {
     }
 
     router.push("/admin");
-    router.refresh();
   };
 
   return (
@@ -72,7 +71,7 @@ export default function AdminLogin() {
           </div>
         </div>
 
-        {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
+        {error && <p className="mt-3 text-sm text-danger">{error}</p>}
 
         <button
           type="submit"

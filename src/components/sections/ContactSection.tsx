@@ -1,5 +1,6 @@
 import { LuMail } from "react-icons/lu";
 import { FaLinkedin } from "react-icons/fa6";
+import { normalizeUrl } from "@/lib/url";
 
 type Props = {
   email: string | null;
@@ -24,7 +25,7 @@ export function ContactSection({ email, linkedinUrl }: Props) {
           {email && (
             <a
               href={`mailto:${email}`}
-              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent-secondary px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
+              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent-secondary px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
             >
               <LuMail size={18} className="shrink-0" />
               Send an email
@@ -32,10 +33,10 @@ export function ContactSection({ email, linkedinUrl }: Props) {
           )}
           {linkedinUrl && (
             <a
-              href={linkedinUrl}
+              href={normalizeUrl(linkedinUrl)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-white/15 px-5 py-3 font-body text-sm text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
+              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 font-body text-sm text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
             >
               <FaLinkedin size={18} className="shrink-0" />
               Connect on LinkedIn

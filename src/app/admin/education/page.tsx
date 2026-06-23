@@ -103,7 +103,7 @@ export default function AdminEducation() {
             </div>
             <div className="flex gap-2">
               <button onClick={() => openEdit(item)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted"><LuPencil size={18} /></button>
-              <button onClick={() => remove(item.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-red-500"><LuTrash2 size={18} /></button>
+              <button onClick={() => remove(item.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-danger"><LuTrash2 size={18} /></button>
             </div>
           </div>
         ))}

@@ -53,7 +53,7 @@ export default function AdminProjects() {
             </div>
             <div className="flex gap-2">
               <Link href={`/admin/projects/${p.id}`} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted"><LuPencil size={18} /></Link>
-              <button onClick={() => remove(p.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-red-500"><LuTrash2 size={18} /></button>
+              <button onClick={() => remove(p.id)} className="cursor-pointer rounded-lg p-2 text-secondary hover:bg-surface-muted hover:text-danger"><LuTrash2 size={18} /></button>
             </div>
           </div>
         ))}

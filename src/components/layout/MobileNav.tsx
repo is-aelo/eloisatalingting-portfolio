@@ -9,6 +9,7 @@ import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
 import { LuDownload, LuFolderKanban, LuMail, LuUser, LuX } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
+import { normalizeUrl } from "@/lib/url";
 
 type ContactLink = {
   email?: string | null;
@@ -49,9 +50,9 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
 
   const socialLinks = [];
   if (contact?.email) socialLinks.push({ href: `mailto:${contact.email}`, icon: LuMail, label: "Email" });
-  if (contact?.linkedin_url) socialLinks.push({ href: contact.linkedin_url, icon: FaLinkedin, label: "LinkedIn" });
-  if (contact?.github_url) socialLinks.push({ href: contact.github_url, icon: SiGithub, label: "GitHub" });
-  if (contact?.tiktok_url) socialLinks.push({ href: contact.tiktok_url, icon: SiTiktok, label: "TikTok" });
+  if (contact?.linkedin_url) socialLinks.push({ href: normalizeUrl(contact.linkedin_url), icon: FaLinkedin, label: "LinkedIn" });
+  if (contact?.github_url) socialLinks.push({ href: normalizeUrl(contact.github_url), icon: SiGithub, label: "GitHub" });
+  if (contact?.tiktok_url) socialLinks.push({ href: normalizeUrl(contact.tiktok_url), icon: SiTiktok, label: "TikTok" });
 
   return (
     <AnimatePresence>
@@ -83,7 +84,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
           >
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+              className="absolute top-6 right-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
               aria-label="Close menu"
             >
               <LuX size={20} />
@@ -115,7 +116,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
                       <Link
                         href={link.href}
                         onClick={onClose}
-                        className={`flex items-center gap-4 rounded-full px-4 py-2.5 text-base transition-colors sm:gap-5 sm:px-5 sm:py-3 lg:text-lg ${
+                        className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-base transition-colors sm:gap-5 sm:px-5 sm:py-3 lg:text-lg ${
                           isActive
                             ? "bg-accent-secondary/10 font-medium text-accent-secondary"
                             : "text-secondary hover:bg-surface-muted hover:text-primary"
@@ -137,7 +138,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={onClose}
-                    className="flex items-center gap-4 rounded-full bg-gradient-to-r from-accent-secondary to-accent-tertiary px-4 py-2.5 text-base text-white transition-opacity hover:opacity-90 sm:gap-5 sm:px-5 sm:py-3 lg:text-lg"
+                    className="flex items-center gap-4 rounded-lg bg-accent px-4 py-2.5 text-base text-white transition-opacity hover:opacity-90 sm:gap-5 sm:px-5 sm:py-3 lg:text-lg"
                   >
                     <LuDownload size={18} />
                     Download Resume
@@ -161,7 +162,7 @@ export function MobileNav({ open, onClose, fullName, contact, resumeUrl }: Mobil
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={link.label}
-                        className="flex h-10 w-10 items-center justify-center rounded-full text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
                       >
                         <Icon size={20} />
                       </a>
