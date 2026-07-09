@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-type CursorShape = "ring" | "dot" | "ring-dot" | "crosshair";
+type CursorShape = "ring" | "dot" | "ring-dot";
 
 type CursorFollowerProps = {
   shape?: CursorShape;
@@ -117,7 +117,7 @@ export function CursorFollower({
             marginLeft: -ringSize / 2,
             marginTop: -ringSize / 2,
             border: `${ringWidth}px solid var(--cursor-color)`,
-            borderRadius: shape === "crosshair" ? "0" : "50%",
+            borderRadius: "50%",
             opacity: 0,
             transition: "border-color 0.3s",
           }}
