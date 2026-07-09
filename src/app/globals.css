@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
@@ -31,6 +33,21 @@
   --accent-tertiary: #bca25a;
   --danger: #c45a3a;
   --danger-bg: #f5e4e0;
+}
+
+.dark {
+  --background: #1a1614;
+  --surface: #25201c;
+  --surface-muted: #2f2925;
+  --border: #3d3631;
+  --primary: #e8e2da;
+  --secondary: #a89f95;
+  --muted: #787168;
+  --accent: #9a8240;
+  --accent-secondary: #c4a84a;
+  --accent-tertiary: #8a7230;
+  --danger: #d46a4a;
+  --danger-bg: #3a2420;
 }
 
 html {

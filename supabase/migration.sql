@@ -229,3 +229,18 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read" ON public.site_settings FOR SELECT USING (true);
 CREATE POLICY "Admin all" ON public.site_settings FOR ALL USING (auth.role() = 'authenticated');
+
+-- 15. PROCESS STEPS
+CREATE TABLE IF NOT EXISTS public.process_steps (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  step_number integer NOT NULL,
+  title text NOT NULL,
+  description text NOT NULL,
+  sort_order integer NOT NULL DEFAULT 0,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT process_steps_pkey PRIMARY KEY (id)
+);
+ALTER TABLE public.process_steps ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public read" ON public.process_steps FOR SELECT USING (true);
+CREATE POLICY "Admin all" ON public.process_steps FOR ALL USING (auth.role() = 'authenticated');

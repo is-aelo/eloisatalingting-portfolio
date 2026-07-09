@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { Header } from "@/components/layout/Header";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
@@ -21,11 +21,13 @@ export default async function PublicLayout({
   return (
     <>
       <SmoothScroll />
-      <Header fullName={fullName} contact={contact} resumeUrl={resumeUrl} />
-      <PageTransition>
-        <main className="min-h-dvh pt-16 md:pt-20">{children}</main>
-      </PageTransition>
-      <Footer />
+      <Sidebar fullName={fullName} contact={contact} resumeUrl={resumeUrl} />
+      <div className="flex min-h-dvh flex-col pt-20 md:pt-8 md:ml-60">
+        <PageTransition>
+          <main className="flex-1">{children}</main>
+        </PageTransition>
+        <Footer />
+      </div>
     </>
   );
 }

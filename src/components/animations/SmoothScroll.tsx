@@ -27,7 +27,7 @@ export function SmoothScroll() {
 
       gsap.to(window, {
         duration: 1.2,
-        scrollTo: { y: target, offsetY: 80 },
+        scrollTo: { y: target, offsetY: 70 },
         ease: "power3.inOut",
       });
     };

@@ -58,6 +58,7 @@ type Props = {
   fullName: string;
   location: string | null;
   projects: Project[];
+  profileImageUrl?: string | null;
 };
 
 const CARD_HEIGHT = "clamp(320px, 60vh, 600px)";
@@ -137,7 +138,7 @@ function CardContent({
   );
 }
 
-export function HeroSection({ hero, fullName, location, projects }: Props) {
+export function HeroSection({ hero, fullName, location, projects, profileImageUrl }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLElement | null)[]>([]);
@@ -422,62 +423,79 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
           : undefined
       }
     >
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 md:px-8 lg:px-6 pt-8 sm:pt-10 lg:pt-14 pb-8 sm:pb-8 lg:pb-2">
-        {location && (
-          <div
-            ref={badgeRef}
-            className="mb-5 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 opacity-0"
-          >
-            <span className="flex items-center gap-2.5">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-tertiary" />
-              <span className="font-body text-[10px] text-secondary uppercase tracking-wider sm:text-xs">
-                {location}
-              </span>
-            </span>
-            <span className="hidden sm:block h-3 w-px shrink-0 bg-border" />
-            <span className="font-body text-[10px] text-accent-secondary uppercase tracking-wider sm:text-xs">
-              Open for remote opportunities
-            </span>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 lg:pt-14 pb-8 sm:pb-8 lg:pb-2">
+        <div className="flex flex-col md:flex-row md:items-center md:gap-16 lg:gap-20">
+          {profileImageUrl && (
+            <div className="mb-10 shrink-0 md:mb-0">
+              <div className="relative">
+                <div className="absolute -inset-2 rounded-xl border border-accent-secondary/20" />
+                <img
+                  src={profileImageUrl}
+                  alt={fullName || "Profile"}
+                  className="relative block w-full max-w-[240px] rounded-xl border border-border object-cover shadow-sm md:w-52 lg:w-64 aspect-square"
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="flex-1">
+            {location && (
+              <div
+                ref={badgeRef}
+                className="mb-5 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 opacity-0"
+              >
+                <span className="flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-tertiary" />
+                  <span className="font-body text-[10px] text-secondary uppercase tracking-wider sm:text-xs">
+                    {location}
+                  </span>
+                </span>
+                <span className="hidden sm:block h-3 w-px shrink-0 bg-border" />
+                <span className="font-body text-[10px] text-accent-secondary uppercase tracking-wider sm:text-xs">
+                  Open for remote opportunities
+                </span>
+              </div>
+            )}
+
+            {fullName && (
+              <h1
+                ref={nameRef}
+                className="font-heading font-bold text-2xl leading-[1.08] tracking-tight text-primary opacity-0 uppercase sm:text-3xl md:text-4xl lg:text-[2.25rem] xl:text-[2.75rem] 2xl:text-[3.25rem]"
+              >
+                {fullName}
+              </h1>
+            )}
+
+            {hero?.headline && (
+              <p
+                ref={headlineRef}
+                className="mt-5 max-w-lg font-heading text-base font-medium text-accent-secondary opacity-0 sm:text-lg md:text-xl"
+              >
+                {renderTextWithAmpersand(hero.headline)}
+              </p>
+            )}
+
+            {hero?.subheadline && (
+              <p
+                ref={subheadlineRef}
+                className="mt-3 max-w-md text-sm leading-relaxed text-secondary opacity-0 sm:text-base"
+              >
+                {hero.subheadline}
+              </p>
+            )}
+
+            <div
+              ref={ctasRef}
+              className="mt-8 flex flex-wrap items-center gap-3 opacity-0"
+            >
+              <Link
+                href={hero?.cta_secondary_url || "/#contact"}
+                className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
+              >
+                {hero?.cta_secondary_label || "Get in Touch"}
+              </Link>
+            </div>
           </div>
-        )}
-
-        {fullName && (
-          <h1
-            ref={nameRef}
-            className="font-heading font-bold text-2xl leading-[1.08] tracking-tight text-primary opacity-0 uppercase sm:text-3xl md:text-4xl lg:text-[2.25rem] xl:text-[2.75rem] 2xl:text-[3.25rem]"
-          >
-            {fullName}
-          </h1>
-        )}
-
-        {hero?.headline && (
-          <p
-            ref={headlineRef}
-            className="mt-5 max-w-lg font-heading text-base font-medium text-accent-secondary opacity-0 sm:text-lg md:text-xl"
-          >
-            {renderTextWithAmpersand(hero.headline)}
-          </p>
-        )}
-
-        {hero?.subheadline && (
-          <p
-            ref={subheadlineRef}
-            className="mt-3 max-w-md text-sm leading-relaxed text-secondary opacity-0 sm:text-base"
-          >
-            {hero.subheadline}
-          </p>
-        )}
-
-        <div
-          ref={ctasRef}
-          className="mt-8 flex flex-wrap items-center gap-3 opacity-0"
-        >
-          <Link
-            href={hero?.cta_secondary_url || "/#contact"}
-            className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
-          >
-            {hero?.cta_secondary_label || "Get in Touch"}
-          </Link>
         </div>
       </div>
 

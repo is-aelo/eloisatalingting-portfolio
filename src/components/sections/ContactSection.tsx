@@ -10,15 +10,15 @@ type Props = {
 export function ContactSection({ email, linkedinUrl }: Props) {
   return (
     <section id="contact" className="py-16 md:py-24">
-      <div className="mx-auto max-w-3xl px-5 sm:px-6 md:px-8 lg:px-6 text-center">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
         <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Contact</p>
 
-        <h2 className="mt-6 font-heading font-bold text-3xl text-primary sm:text-4xl md:text-5xl">
-          Let&apos;s build something intentional.
+        <h2 className="mt-6 font-heading font-bold text-3xl text-primary sm:text-4xl md:text-5xl tracking-tight">
+          Got a site that needs designing and building?
         </h2>
 
         <p className="mt-4 mx-auto max-w-lg text-sm leading-relaxed text-secondary sm:text-base">
-          Great products come from clear thinking, strong design decisions, and solid execution.
+          That&apos;s usually split between two people. I do both &mdash; and you can see the results above.
         </p>
 
         <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3">

@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 export default async function AdminDashboard() {
   const supabase = await createClient();
 
-  const tables = ["hero_content", "about", "skills", "tools", "experiences", "projects", "testimonials"] as const;
+  const tables = ["hero_content", "about", "skills", "tools", "experiences", "projects", "testimonials", "process_steps"] as const;
   const counts: Record<string, number> = {};
 
   for (const table of tables) {

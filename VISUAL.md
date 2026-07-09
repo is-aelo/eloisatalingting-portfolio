@@ -12,6 +12,8 @@
 
 All colors are CSS custom properties in `globals.css`. Components only use Tailwind semantic classes derived from these.
 
+Dark mode is class-based: `.dark` on `<html>` toggles all CSS custom properties. The initial theme respects `localStorage` > `prefers-color-scheme`. A `ThemeToggle` button (sun/moon) in the sidebar lets users switch. A flash-prevention script runs inline in `<head>` before hydration.
+
 ### Palette
 
 | Token | Hex | Usage |
@@ -97,11 +99,13 @@ Never use hex codes in components. Always use Tailwind classes:
 - Image aspect ratio: `aspect-video` or `aspect-4/3` for thumbnails
 - No shadow unless specified.
 
-### Navigation (Header)
-- Fixed at top: `fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm`
-- Inner: `flex items-center justify-between max-w-6xl mx-auto px-6 py-4`
-- Links: `text-secondary hover:text-accent-secondary transition-colors`
-- Active link: `text-primary font-medium`
+### Navigation (Sidebar)
+- Desktop: fixed left sidebar, `w-60`, full height (`h-dvh`), `border-r border-border`, `bg-background`
+  - Logo at top, nav links below, resume + socials pinned to bottom
+  - Nav link active state: `bg-accent-secondary/10 text-accent-secondary font-medium`
+  - Content offset: `md:ml-60` on `<main>`
+- Mobile (<768px): slim top bar (`h-14`) with Logo + hamburger. Drawer slides from left (`w-72`) with backdrop overlay.
+  - Content offset: `pt-14` on `<main>`
 
 ### Hero Section
 - Full-width centered layout (editorial/magazine style)

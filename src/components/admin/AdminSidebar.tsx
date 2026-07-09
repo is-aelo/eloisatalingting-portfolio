@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { LuLayoutDashboard, LuUser, LuBriefcase, LuCode, LuWrench, LuFolderOpen, LuMessageSquare, LuSettings, LuLogOut, LuLink, LuGraduationCap } from "react-icons/lu";
+import { LuLayoutDashboard, LuUser, LuBriefcase, LuCode, LuWrench, LuFolderOpen, LuMessageSquare, LuSettings, LuLogOut, LuLink, LuGraduationCap, LuGitBranch } from "react-icons/lu";
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: LuLayoutDashboard },
@@ -14,6 +14,7 @@ const links = [
   { href: "/admin/experiences", label: "Experience", icon: LuBriefcase },
   { href: "/admin/education", label: "Education", icon: LuGraduationCap },
   { href: "/admin/projects", label: "Projects", icon: LuFolderOpen },
+  { href: "/admin/process", label: "Process", icon: LuGitBranch },
   { href: "/admin/testimonials", label: "Testimonials", icon: LuMessageSquare },
   { href: "/admin/contact", label: "Contact", icon: LuLink },
   { href: "/admin/settings", label: "Settings", icon: LuSettings },

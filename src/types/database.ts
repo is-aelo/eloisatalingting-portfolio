@@ -85,6 +85,12 @@ export interface Database {
         Update: SiteSettingsUpdate;
         Relationships: [];
       };
+      process_steps: {
+        Row: ProcessStepRow;
+        Insert: ProcessStepInsert;
+        Update: ProcessStepUpdate;
+        Relationships: [];
+      };
     };
     Views: {};
     Functions: {};
@@ -552,5 +558,33 @@ export interface SiteSettingsUpdate {
   favicon_url?: string | null;
   og_image_url?: string | null;
   seo_title_template?: string | null;
+  updated_at?: string;
+}
+
+export interface ProcessStepRow {
+  id: string;
+  step_number: number;
+  title: string;
+  description: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProcessStepInsert {
+  id?: string;
+  step_number: number;
+  title: string;
+  description: string;
+  sort_order?: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ProcessStepUpdate {
+  step_number?: number;
+  title?: string;
+  description?: string;
+  sort_order?: number;
   updated_at?: string;
 }
