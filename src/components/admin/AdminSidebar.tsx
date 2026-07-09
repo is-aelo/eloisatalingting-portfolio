@@ -50,8 +50,8 @@ export function AdminSidebar() {
               href={link.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
                 isActive
-                  ? "bg-accent-secondary/10 text-accent-secondary"
-                  : "text-secondary hover:bg-surface-muted hover:text-primary"
+                  ? "font-medium text-accent-secondary"
+                  : "text-secondary hover:text-accent-secondary"
               }`}
             >
               <Icon size={18} />

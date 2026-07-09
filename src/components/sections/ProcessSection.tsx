@@ -48,7 +48,7 @@ export function ProcessSection({ steps }: Props) {
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Process</p>
 
-        <h2 className="mt-6 font-heading font-bold text-3xl text-primary sm:text-4xl tracking-tight">
+        <h2 className="mt-6 font-heading font-bold text-2xl text-primary sm:text-3xl tracking-tight">
           From concept to launch
         </h2>
 
@@ -58,10 +58,10 @@ export function ProcessSection({ steps }: Props) {
               key={step.id}
               className="process-card group flex flex-col rounded-xl border border-border bg-surface p-6 md:p-8 transition-colors hover:border-accent-secondary/30 hover:bg-surface-muted"
             >
-              <span className="font-heading text-5xl text-accent-tertiary/40 transition-colors group-hover:text-accent">
+              <span className="font-heading text-3xl text-accent-tertiary/40 transition-colors group-hover:text-accent">
                 {String(step.step_number).padStart(2, "0")}
               </span>
-              <h3 className="mt-4 font-heading text-xl text-primary">
+              <h3 className="mt-4 font-heading text-lg text-primary">
                 {step.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-secondary">

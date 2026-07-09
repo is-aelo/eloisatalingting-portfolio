@@ -1,7 +1,7 @@
 export const NAV_LINKS = [
-  { label: "Projects", href: "/#projects", icon: "LuFolderKanban" },
-  { label: "About", href: "/#about", icon: "LuUser" },
-  { label: "Contact", href: "/#contact", icon: "LuMail" },
+  { label: "Projects", href: "/#projects" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/#contact" },
 ] as const;
 
 export const SITE_NAME = "Eloisa Talingting";

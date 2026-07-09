@@ -9,7 +9,7 @@ import { useActiveSection } from "@/hooks/useActiveSection";
 import { Logo } from "@/components/ui/Logo";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
-import { LuChevronDown, LuDownload, LuEye, LuFileText, LuFolderKanban, LuMail, LuMenu, LuUser, LuX } from "react-icons/lu";
+import { LuMail, LuMenu, LuX } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
 import { normalizeUrl } from "@/lib/url";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
@@ -28,12 +28,6 @@ type SidebarProps = {
 };
 
 const sectionIds = ["about", "projects", "contact"];
-
-const navIcons: Record<string, React.ReactNode> = {
-  LuFolderKanban: <LuFolderKanban size={18} />,
-  LuUser: <LuUser size={18} />,
-  LuMail: <LuMail size={18} />,
-};
 
 function SocialLinks({ contact }: { contact?: ContactLink | null }) {
   const links: { href: string; icon: React.ComponentType<{ size?: number }>; label: string }[] = [];
@@ -82,13 +76,12 @@ function NavLinks({
             key={link.href}
             href={link.href}
             onClick={onLinkClick}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs uppercase tracking-wider transition-colors ${
               isActive
-                ? "bg-accent-secondary/10 font-medium text-accent-secondary"
-                : "text-secondary hover:bg-surface-muted hover:text-primary"
+                ? "font-medium text-accent-secondary"
+                : "text-secondary hover:text-accent-secondary"
             }`}
           >
-            {navIcons[link.icon]}
             {link.label}
           </Link>
         );
@@ -98,44 +91,28 @@ function NavLinks({
 }
 
 function CVSection({ resumeUrl, onLinkClick }: { resumeUrl?: string | null; onLinkClick?: () => void }) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div>
-      <button
-        onClick={() => setOpen((p) => !p)}
-        className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
-      >
-        <LuFileText size={18} />
-        CV
-        <LuChevronDown
-          size={16}
-          className={`ml-auto transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-        />
-      </button>
-      {open && (
-        <div className="ml-7 mt-1 flex flex-col gap-0.5">
-          <a
-            href={resumeUrl ?? "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={onLinkClick}
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
-          >
-            <LuEye size={16} />
-            View
-          </a>
-          <a
-            href={resumeUrl ?? "#"}
-            download
-            onClick={onLinkClick}
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-secondary transition-colors hover:bg-surface-muted hover:text-primary"
-          >
-            <LuDownload size={16} />
-            Download
-          </a>
-        </div>
-      )}
+    <div className="flex flex-col gap-0.5">
+      <span className="px-3 py-2.5 text-xs uppercase tracking-wider text-secondary">CV</span>
+      <div className="ml-5 border-l border-border pl-3 flex flex-col gap-0.5">
+        <a
+          href={resumeUrl ?? "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={onLinkClick}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-xs uppercase tracking-wider text-secondary transition-colors hover:text-accent-secondary"
+        >
+          View
+        </a>
+        <a
+          href={resumeUrl ?? "#"}
+          download
+          onClick={onLinkClick}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-xs uppercase tracking-wider text-secondary transition-colors hover:text-accent-secondary"
+        >
+          Download
+        </a>
+      </div>
     </div>
   );
 }
@@ -148,7 +125,7 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) setMenuOpen(false);
+      if (window.innerWidth >= 1024) setMenuOpen(false);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -168,7 +145,7 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-border bg-background px-5 py-3 md:hidden">
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-border bg-background px-5 py-3 lg:hidden">
         <Logo />
         <button
           onClick={() => setMenuOpen(true)}
@@ -180,16 +157,16 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
       </div>
 
       {/* Desktop sidebar */}
-      <aside className="fixed top-0 left-0 z-40 hidden h-dvh w-60 flex-col border-r border-border bg-background px-5 py-6 md:flex">
+      <aside className="fixed top-0 left-0 z-40 hidden h-dvh w-60 flex-col border-r border-border bg-background px-5 py-6 lg:flex">
         <Logo />
-        <nav className="mt-10 flex flex-col gap-1">
-          <NavLinks resolvedSection={resolvedSection} />
-        </nav>
-        <div className="mt-2">
+        <div className="mt-4"><ThemeToggle /></div>
+        <div className="flex flex-1 flex-col justify-center overflow-visible">
+          <nav className="flex flex-col gap-1">
+            <NavLinks resolvedSection={resolvedSection} />
+          </nav>
           <CVSection resumeUrl={resumeUrl} />
         </div>
-        <div className="mt-auto flex flex-col gap-4">
-          <ThemeToggle />
+        <div className="flex flex-col gap-4">
           <SocialLinks contact={contact} />
         </div>
       </aside>
@@ -224,21 +201,22 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
                 </button>
               </div>
 
-              <div className="flex flex-1 flex-col gap-3 pt-10">
-                <span className="font-heading text-xl text-primary">
+              <div className="flex flex-1 flex-col gap-3 pt-10 overflow-visible">
+                <span className="text-sm text-primary">
                   {renderTextWithAmpersand(fullName)}
                 </span>
 
-                <nav className="mt-2 flex flex-col gap-1">
-                  <NavLinks resolvedSection={resolvedSection} onLinkClick={closeMenu} />
-                </nav>
-                <div className="mt-2">
+                <div><ThemeToggle /></div>
+
+                <div className="flex flex-1 flex-col justify-center overflow-visible gap-1">
+                  <nav className="flex flex-col gap-1">
+                    <NavLinks resolvedSection={resolvedSection} onLinkClick={closeMenu} />
+                  </nav>
                   <CVSection resumeUrl={resumeUrl} onLinkClick={closeMenu} />
                 </div>
               </div>
 
               <div className="flex flex-col gap-3 pb-6">
-                <ThemeToggle />
                 <SocialLinks contact={contact} />
               </div>
             </motion.aside>

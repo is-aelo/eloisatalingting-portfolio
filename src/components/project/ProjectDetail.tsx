@@ -91,7 +91,7 @@ export function ProjectDetail({ project, tools }: { project: ProjectWithRelation
                 {project.project_type}
               </span>
             )}
-            <h1 className="mt-2 font-heading font-bold text-2xl uppercase tracking-tight text-primary sm:text-3xl md:text-4xl lg:text-5xl">
+            <h1 className="mt-2 font-heading font-bold text-xl uppercase tracking-tight text-primary sm:text-2xl md:text-3xl lg:text-4xl">
               {renderTextWithAmpersand(project.title)}
             </h1>
             {project.short_description && (

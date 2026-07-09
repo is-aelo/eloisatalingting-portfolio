@@ -103,7 +103,7 @@ function CardContent({
         </div>
 
         <div className="flex-1 flex flex-col justify-center">
-          <h2 className="font-heading text-base text-primary sm:text-lg md:text-xl leading-snug">
+          <h2               className="font-heading text-sm text-primary sm:text-base md:text-lg leading-snug">
             {renderTextWithAmpersand(project.title)}
           </h2>
 
@@ -426,7 +426,7 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 lg:pt-14 pb-8 sm:pb-8 lg:pb-2">
         <div className="flex flex-col md:flex-row md:items-center md:gap-16 lg:gap-20">
           {profileImageUrl && (
-            <div className="mb-10 shrink-0 md:mb-0">
+            <div className="mb-10 shrink-0 self-center md:mb-0 md:self-auto">
               <div className="relative">
                 <div className="absolute -inset-2 rounded-xl border border-accent-secondary/20" />
                 <img
@@ -438,11 +438,11 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
             </div>
           )}
 
-          <div className="flex-1">
+          <div className="flex-1 text-center md:text-left">
             {location && (
               <div
                 ref={badgeRef}
-                className="mb-5 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 opacity-0"
+                className="mb-5 flex flex-col items-center sm:flex-row sm:items-center gap-1 sm:gap-2.5 opacity-0"
               >
                 <span className="flex items-center gap-2.5">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-tertiary" />
@@ -460,7 +460,7 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
             {fullName && (
               <h1
                 ref={nameRef}
-                className="font-heading font-bold text-2xl leading-[1.08] tracking-tight text-primary opacity-0 uppercase sm:text-3xl md:text-4xl lg:text-[2.25rem] xl:text-[2.75rem] 2xl:text-[3.25rem]"
+                className="font-heading font-bold text-lg leading-[1.08] tracking-tight text-primary opacity-0 uppercase sm:text-xl md:text-2xl lg:text-3xl"
               >
                 {fullName}
               </h1>
@@ -469,7 +469,7 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
             {hero?.headline && (
               <p
                 ref={headlineRef}
-                className="mt-5 max-w-lg font-heading text-base font-medium text-accent-secondary opacity-0 sm:text-lg md:text-xl"
+                className="mt-5 max-w-lg font-heading text-sm font-medium text-accent-secondary opacity-0 sm:text-base md:text-lg"
               >
                 {renderTextWithAmpersand(hero.headline)}
               </p>
@@ -478,7 +478,7 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
             {hero?.subheadline && (
               <p
                 ref={subheadlineRef}
-                className="mt-3 max-w-md text-sm leading-relaxed text-secondary opacity-0 sm:text-base"
+                className="mt-3 text-xs leading-relaxed text-secondary opacity-0 sm:text-sm"
               >
                 {hero.subheadline}
               </p>
@@ -486,11 +486,11 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
 
             <div
               ref={ctasRef}
-              className="mt-8 flex flex-wrap items-center gap-3 opacity-0"
+              className="mt-8 flex flex-wrap items-center justify-center gap-3 opacity-0 md:justify-start"
             >
               <Link
                 href={hero?.cta_secondary_url || "/#contact"}
-                className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-sm font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-base"
+                className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-xs font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-sm"
               >
                 {hero?.cta_secondary_label || "Get in Touch"}
               </Link>
@@ -501,6 +501,7 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
 
       {!isMobile && hasProjects && (
         <div className="sticky top-16 flex h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden">
+          <p className="px-4 sm:px-6 lg:px-8 pt-16 text-center font-body text-xs text-primary/80 uppercase tracking-wider">Selected Projects</p>
           <div className="relative min-h-0 flex-1">
             {projects.map((project, i) => (
               <div
@@ -529,6 +530,7 @@ export function HeroSection({ hero, fullName, location, projects, profileImageUr
 
       {isMobile && hasProjects && (
         <div>
+          <p className="px-5 pt-16 text-center font-body text-xs text-primary/80 uppercase tracking-wider">Selected Projects</p>
           <div
             ref={scrollContainerRef}
             className="flex gap-4 overflow-x-auto px-5 pb-4 scrollbar-hide [-webkit-overflow-scrolling:touch]"

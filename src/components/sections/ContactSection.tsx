@@ -13,7 +13,7 @@ export function ContactSection({ email, linkedinUrl }: Props) {
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
         <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Contact</p>
 
-        <h2 className="mt-6 font-heading font-bold text-3xl text-primary sm:text-4xl md:text-5xl tracking-tight">
+        <h2 className="mt-6 font-heading font-bold text-2xl text-primary sm:text-3xl md:text-4xl tracking-tight">
           Got a site that needs designing and building?
         </h2>
 
@@ -25,7 +25,7 @@ export function ContactSection({ email, linkedinUrl }: Props) {
           {email && (
             <a
               href={`mailto:${email}`}
-              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent-secondary px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
+              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
             >
               <LuMail size={18} className="shrink-0" />
               Send an email
