@@ -159,16 +159,16 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
       {/* Desktop sidebar */}
       <aside className="fixed top-0 left-0 z-40 hidden h-dvh w-60 flex-col border-r border-border bg-background px-5 py-6 lg:flex">
         <Logo />
-        <div className="mt-4"><ThemeToggle /></div>
+        <div className="mt-4">
+          <SocialLinks contact={contact} />
+        </div>
         <div className="flex flex-1 flex-col justify-center overflow-visible">
           <nav className="flex flex-col gap-1">
             <NavLinks resolvedSection={resolvedSection} />
           </nav>
           <CVSection resumeUrl={resumeUrl} />
         </div>
-        <div className="flex flex-col gap-4">
-          <SocialLinks contact={contact} />
-        </div>
+        <div><ThemeToggle /></div>
       </aside>
 
       {/* Mobile drawer overlay */}
@@ -201,12 +201,14 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
                 </button>
               </div>
 
+              <div className="mt-4">
+                <SocialLinks contact={contact} />
+              </div>
+
               <div className="flex flex-1 flex-col gap-3 pt-10 overflow-visible">
                 <span className="text-sm text-primary">
                   {renderTextWithAmpersand(fullName)}
                 </span>
-
-                <div><ThemeToggle /></div>
 
                 <div className="flex flex-1 flex-col justify-center overflow-visible gap-1">
                   <nav className="flex flex-col gap-1">
@@ -215,10 +217,7 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
                   <CVSection resumeUrl={resumeUrl} onLinkClick={closeMenu} />
                 </div>
               </div>
-
-              <div className="flex flex-col gap-3 pb-6">
-                <SocialLinks contact={contact} />
-              </div>
+              <div><ThemeToggle /></div>
             </motion.aside>
           </>
         )}

@@ -22,7 +22,7 @@ export default async function PublicLayout({
   return (
     <>
       <SmoothScroll />
-      <CursorFollower shape="ring-dot" size={32} />
+      <div className="hidden lg:block"><CursorFollower shape="ring-dot" size={32} /></div>
       <Sidebar fullName={fullName} contact={contact} resumeUrl={resumeUrl} />
       <div className="flex min-h-dvh flex-col pt-20 lg:pt-8 lg:ml-60">
         <PageTransition>

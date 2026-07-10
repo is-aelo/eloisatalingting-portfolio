@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { createClient } from "@/lib/supabase/server";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
+import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
@@ -39,8 +40,6 @@ export default async function Home() {
         tools={tools ?? []}
         fullName={fullName}
         location={location}
-        projects={projects ?? []}
-        profileImageUrl={profileImageUrl}
       />
       <AboutSection
         skillGroups={skillGroups}
@@ -48,8 +47,9 @@ export default async function Home() {
         education={education ?? []}
         experiences={experiences ?? []}
       />
+      <ProjectsSection projects={projects ?? []} />
       <ProcessSection steps={processSteps ?? []} />
-      <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} />
+      <ContactSection email={contact?.email ?? null} linkedinUrl={contact?.linkedin_url ?? null} profileImageUrl={profileImageUrl} />
     </>
   );
 }

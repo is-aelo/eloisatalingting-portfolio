@@ -5,13 +5,27 @@ import { normalizeUrl } from "@/lib/url";
 type Props = {
   email: string | null;
   linkedinUrl: string | null;
+  profileImageUrl?: string | null;
 };
 
-export function ContactSection({ email, linkedinUrl }: Props) {
+export function ContactSection({ email, linkedinUrl, profileImageUrl }: Props) {
   return (
     <section id="contact" className="py-16 md:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
         <p className="font-body text-xs text-primary/80 uppercase tracking-wider">Contact</p>
+
+        {profileImageUrl && (
+          <div className="mt-6 flex justify-center">
+            <div className="relative">
+              <div className="absolute -inset-2 rounded-xl border border-accent-secondary/20" />
+              <img
+                src={profileImageUrl}
+                alt="Profile"
+                className="relative block w-full max-w-[240px] rounded-xl border border-border object-cover shadow-sm lg:w-52 xl:w-64 aspect-square"
+              />
+            </div>
+          </div>
+        )}
 
         <h2 className="mt-6 font-heading font-bold text-2xl text-primary sm:text-3xl md:text-4xl tracking-tight">
           Got a site that needs designing and building?
