@@ -24,7 +24,16 @@ export function ProcessSection({ steps }: Props) {
     const cards = sectionRef.current?.querySelectorAll(".process-card");
     if (!cards || cards.length === 0) return;
 
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
     const ctx = gsap.context(() => {
+      cards.forEach((card) => {
+        if (isDesktop) {
+          const tilt = (Math.random() - 0.5) * 3;
+          gsap.set(card, { rotation: tilt, transformOrigin: "50% 100%" });
+        }
+      });
+
       gsap.from(cards, {
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -32,10 +41,22 @@ export function ProcessSection({ steps }: Props) {
         },
         y: 48,
         opacity: 0,
-        stagger: 0.2,
+        stagger: 0.15,
         duration: 0.8,
         ease: "power3.out",
       });
+
+      if (isDesktop) {
+        cards.forEach((card) => {
+          card.addEventListener("mouseenter", () => {
+            gsap.to(card, { rotation: 0, duration: 0.4, ease: "power2.out" });
+          });
+          card.addEventListener("mouseleave", () => {
+            const tilt = (Math.random() - 0.5) * 3;
+            gsap.to(card, { rotation: tilt, duration: 0.4, ease: "power2.out" });
+          });
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();

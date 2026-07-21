@@ -244,3 +244,6 @@ CREATE TABLE IF NOT EXISTS public.process_steps (
 ALTER TABLE public.process_steps ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read" ON public.process_steps FOR SELECT USING (true);
 CREATE POLICY "Admin all" ON public.process_steps FOR ALL USING (auth.role() = 'authenticated');
+
+-- Add github_url to projects
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS github_url text;

@@ -53,23 +53,27 @@ Never use hex codes in components. Always use Tailwind classes:
 
 | Role | Font | CSS Variable | Tailwind Class |
 |------|------|-------------|----------------|
-| Headings | Karla | `--font-heading` | `font-heading` — headings only, never on labels/badges/small text |
-| Body | DM Sans | `--font-body` | `font-body` — body, labels, badges, captions, meta text |
+| Headings / Titles | Geist Pixel Square | `--font-heading` | `font-heading` — headings only, never on labels/badges/small text |
+| Nav links | Geist Pixel Circle | `--font-nav` | `font-nav` — sidebar nav links only |
+| Body | Geist Mono | `--font-body` | `font-body` — body, labels, badges, captions, meta text |
 
 ### Scale
 
 - **Hero title**: `text-5xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem]` `font-heading` `tracking-tight` centered
 - **Section heading**: `text-3xl md:text-4xl` `font-heading`
 - **Card title**: `text-xl` `font-heading`
+- **Nav link**: `font-nav` `text-sm` `uppercase` `tracking-wider`
 - **Body**: `text-base` `font-body` `leading-relaxed`
 - **Small / meta**: `text-sm` `font-body` `text-muted`
 - **Caption / label**: `text-xs` `font-body` `text-muted` `uppercase` `tracking-wider`
 
 ### Weights
 
-- Headings: Karla (weight 400 only — hierarchy via size and weight contrast)
-- Body: DM Sans default (400 for body, 500 for emphasis)
-- **Rule**: Karla (`font-heading`) is for headings only — section titles, hero text, card titles, page titles. Never use on labels, badges, captions, meta text, or any element smaller than `text-base`.
+- Headings: Geist Pixel Square (weight 400 only — hierarchy via size and weight contrast)
+- Nav: Geist Pixel Circle (weight 400)
+- Body: Geist Mono (weight 400 for body, 500 for emphasis)
+- **Rule**: `font-heading` is for headings only — section titles, hero text, card titles, page titles. Never use on labels, badges, captions, meta text, or any element smaller than `text-base`.
+- **Rule**: `font-nav` is for navigation links in the sidebar only.
 
 ---
 

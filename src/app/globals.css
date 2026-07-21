@@ -16,8 +16,9 @@
   --color-accent-tertiary: var(--accent-tertiary);
   --color-danger: var(--danger);
   --color-danger-bg: var(--danger-bg);
-  --font-heading: var(--font-heading);
-  --font-body: var(--font-body);
+  --font-heading: var(--font-geist-pixel-square);
+  --font-body: var(--font-geist-mono);
+  --font-nav: var(--font-geist-pixel-circle);
 }
 
 :root {
@@ -54,10 +55,23 @@ html {
   overflow-x: hidden;
 }
 
+.card-light {
+  --background: #f7f5f0;
+  --surface: #efebe4;
+  --surface-muted: #e5e0d7;
+  --border: #d4cdc2;
+  --primary: #1a1a1a;
+  --secondary: #5c5c5c;
+  --muted: #8a8a8a;
+  --accent: #8a7230;
+  --accent-secondary: #5a4820;
+  --accent-tertiary: #bca25a;
+}
+
 body {
   background: var(--background);
   color: var(--primary);
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-body), monospace;
 }
 
 *,

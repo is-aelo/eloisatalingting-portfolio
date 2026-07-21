@@ -302,6 +302,7 @@ export interface ProjectRow {
   cover_image_url: string | null;
   tech_stack_summary: string | null;
   content_md: string | null;
+  github_url: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -322,6 +323,7 @@ export interface ProjectInsert {
   cover_image_url?: string | null;
   tech_stack_summary?: string | null;
   content_md?: string | null;
+  github_url?: string | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -341,6 +343,7 @@ export interface ProjectUpdate {
   cover_image_url?: string | null;
   tech_stack_summary?: string | null;
   content_md?: string | null;
+  github_url?: string | null;
   updated_at?: string;
 }
 

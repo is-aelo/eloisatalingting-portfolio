@@ -13,13 +13,13 @@ export default async function Home() {
     await Promise.all([
       supabase.from("hero_content").select("*").eq("display", true).maybeSingle(),
       supabase.from("tools").select("name, logo_url, category").order("sort_order"),
-      supabase.from("about").select("full_name, location, profile_image_url").maybeSingle(),
+      supabase.from("about").select("full_name, location, profile_image_url, resume_url").maybeSingle(),
       supabase.from("education").select("id, institution, degree, field_of_study, start_date, end_date").order("start_date", { ascending: false }),
       supabase.from("experiences").select("id, company_name, role_title, start_date, end_date, currently_working, summary").order("start_date", { ascending: false }),
       supabase.from("skill_categories").select("id, name").order("sort_order"),
       supabase.from("skills").select("id, category_id, name").order("sort_order"),
-      supabase.from("projects").select("slug, title, short_description, cover_image_url, thumbnail_url, project_type, tech_stack_summary, project_ctas(label, url)").eq("display", true).order("featured", { ascending: false }).order("created_at", { ascending: false }),
-      supabase.from("contact").select("email, linkedin_url").maybeSingle(),
+      supabase.from("projects").select("slug, title, short_description, cover_image_url, thumbnail_url, project_type, tech_stack_summary, github_url, project_ctas(label, url)").eq("display", true).order("featured", { ascending: false }).order("created_at", { ascending: false }),
+      supabase.from("contact").select("email, linkedin_url, github_url, tiktok_url").maybeSingle(),
       supabase.from("process_steps").select("id, step_number, title, description").order("sort_order"),
     ]);
 
@@ -40,6 +40,8 @@ export default async function Home() {
         fullName={fullName}
         location={location}
         projects={projects ?? []}
+        contact={contact}
+        resumeUrl={about?.resume_url ?? null}
       />
       <AboutSection
         skillGroups={skillGroups}

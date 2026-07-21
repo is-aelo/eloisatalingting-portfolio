@@ -10,7 +10,6 @@ import { Logo } from "@/components/ui/Logo";
 import { FaLinkedin } from "react-icons/fa6";
 import { SiGithub, SiTiktok } from "react-icons/si";
 import { LuMail, LuMenu, LuX } from "react-icons/lu";
-import { renderTextWithAmpersand } from "@/lib/text";
 import { normalizeUrl } from "@/lib/url";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
@@ -21,7 +20,7 @@ type ContactLink = {
   tiktok_url?: string | null;
 };
 
-type SidebarProps = {
+type HeaderProps = {
   fullName: string;
   contact?: ContactLink | null;
   resumeUrl?: string | null;
@@ -39,7 +38,7 @@ function SocialLinks({ contact }: { contact?: ContactLink | null }) {
   if (links.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1">
       {links.map((link) => {
         const Icon = link.icon;
         return (
@@ -59,65 +58,7 @@ function SocialLinks({ contact }: { contact?: ContactLink | null }) {
   );
 }
 
-function NavLinks({
-  resolvedSection,
-  onLinkClick,
-}: {
-  resolvedSection: string;
-  onLinkClick?: () => void;
-}) {
-  return (
-    <>
-      {NAV_LINKS.map((link) => {
-        const sectionId = link.href.replace("/#", "");
-        const isActive = resolvedSection === sectionId;
-        return (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={onLinkClick}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 font-nav text-xs uppercase tracking-wider transition-colors ${
-              isActive
-                ? "font-medium text-accent-secondary"
-                : "text-secondary hover:text-accent-secondary"
-            }`}
-          >
-            {link.label}
-          </Link>
-        );
-      })}
-    </>
-  );
-}
-
-function CVSection({ resumeUrl, onLinkClick }: { resumeUrl?: string | null; onLinkClick?: () => void }) {
-  return (
-    <div className="flex flex-col gap-0.5">
-      <span className="px-3 py-2.5 text-xs uppercase tracking-wider text-secondary">CV</span>
-      <div className="ml-5 border-l border-border pl-3 flex flex-col gap-0.5">
-        <a
-          href={resumeUrl ?? "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={onLinkClick}
-          className="flex items-center gap-3 rounded-lg px-3 py-2 font-nav text-xs uppercase tracking-wider text-secondary transition-colors hover:text-accent-secondary"
-        >
-          View
-        </a>
-        <a
-          href={resumeUrl ?? "#"}
-          download
-          onClick={onLinkClick}
-          className="flex items-center gap-3 rounded-lg px-3 py-2 font-nav text-xs uppercase tracking-wider text-secondary transition-colors hover:text-accent-secondary"
-        >
-          Download
-        </a>
-      </div>
-    </div>
-  );
-}
-
-export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
+export function Header({ contact, resumeUrl }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const activeSection = useActiveSection(sectionIds);
@@ -125,7 +66,7 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) setMenuOpen(false);
+      if (window.innerWidth >= 768) setMenuOpen(false);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -144,32 +85,46 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile top bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-border bg-background px-5 py-3 lg:hidden">
-        <Logo />
-        <button
-          onClick={() => setMenuOpen(true)}
-          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
-          aria-label="Open menu"
-        >
-          <LuMenu size={20} />
-        </button>
-      </div>
+      <header className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center border-b border-border bg-background">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Logo />
 
-      {/* Desktop sidebar */}
-      <aside className="fixed top-0 left-0 z-40 hidden h-dvh w-60 flex-col border-r border-border bg-background px-5 py-6 lg:flex">
-        <Logo />
-        <div className="mt-4">
-          <SocialLinks contact={contact} />
-        </div>
-        <div className="flex flex-1 flex-col justify-center overflow-visible">
-          <nav className="flex flex-col gap-1">
-            <NavLinks resolvedSection={resolvedSection} />
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-6">
+            {NAV_LINKS.map((link) => {
+              const sectionId = link.href.replace("/#", "");
+              const isActive = resolvedSection === sectionId;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`font-body text-xs uppercase tracking-wider transition-colors ${
+                    isActive
+                      ? "font-bold text-accent-secondary"
+                      : "text-secondary hover:text-accent-secondary"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
-          <CVSection resumeUrl={resumeUrl} />
+
+          {/* Desktop right side */}
+          <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="flex md:hidden h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-primary transition-colors hover:bg-surface-muted hover:text-accent-secondary"
+            aria-label="Open menu"
+          >
+            <LuMenu size={20} />
+          </button>
         </div>
-        <div><ThemeToggle /></div>
-      </aside>
+      </header>
 
       {/* Mobile drawer overlay */}
       <AnimatePresence>
@@ -184,10 +139,10 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
               onClick={closeMenu}
             />
             <motion.aside
-              className="fixed top-0 left-0 z-[60] flex h-dvh w-72 flex-col border-r border-border bg-background px-6 py-6"
-              initial={{ x: "-100%" }}
+              className="fixed top-0 right-0 z-[60] flex h-dvh w-72 flex-col border-l border-border bg-background px-6 py-6"
+              initial={{ x: "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
+              exit={{ x: "100%" }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="flex items-center justify-between">
@@ -201,23 +156,36 @@ export function Sidebar({ fullName, contact, resumeUrl }: SidebarProps) {
                 </button>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-6">
                 <SocialLinks contact={contact} />
               </div>
 
-              <div className="flex flex-1 flex-col gap-3 pt-10 overflow-visible">
-                <span className="text-sm text-primary">
-                  {renderTextWithAmpersand(fullName)}
-                </span>
+              <nav className="mt-10 flex flex-col gap-2">
+                {NAV_LINKS.map((link) => {
+                  const sectionId = link.href.replace("/#", "");
+                  const isActive = resolvedSection === sectionId;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={`rounded-lg px-3 py-3 font-body text-sm uppercase tracking-wider transition-colors ${
+                        isActive
+                          ? "font-medium text-accent-secondary"
+                          : "text-secondary hover:text-accent-secondary"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </nav>
 
-                <div className="flex flex-1 flex-col justify-center overflow-visible gap-1">
-                  <nav className="flex flex-col gap-1">
-                    <NavLinks resolvedSection={resolvedSection} onLinkClick={closeMenu} />
-                  </nav>
-                  <CVSection resumeUrl={resumeUrl} onLinkClick={closeMenu} />
+              <div className="mt-auto flex flex-col gap-3">
+                <div className="flex justify-center">
+                  <ThemeToggle />
                 </div>
               </div>
-              <div><ThemeToggle /></div>
             </motion.aside>
           </>
         )}

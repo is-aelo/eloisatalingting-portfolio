@@ -4,7 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FaLinkedin } from "react-icons/fa6";
+import { SiGithub, SiTiktok } from "react-icons/si";
+import { LuArrowUpRight, LuMail } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
+import { normalizeUrl } from "@/lib/url";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,6 +54,14 @@ type Project = {
   project_type: string | null;
   tech_stack_summary: string | null;
   project_ctas: ProjectCTA[] | null;
+  github_url: string | null;
+};
+
+type ContactLink = {
+  email?: string | null;
+  linkedin_url?: string | null;
+  github_url?: string | null;
+  tiktok_url?: string | null;
 };
 
 type Props = {
@@ -58,6 +70,8 @@ type Props = {
   fullName: string;
   location: string | null;
   projects: Project[];
+  contact?: ContactLink | null;
+  resumeUrl?: string | null;
 };
 
 const CARD_HEIGHT = "clamp(320px, 60vh, 600px)";
@@ -126,18 +140,46 @@ function CardContent({
           )}
         </div>
 
-        <span className="mt-4 flex items-center gap-1.5 text-xs font-medium text-accent-secondary sm:text-sm">
-          <span>View case study</span>
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
+        <span className="mt-4 flex items-center gap-3">
+          {project.project_ctas?.[0]?.url && (
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                window.open(project.project_ctas![0].url, "_blank", "noopener");
+              }}
+              className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
+              aria-label="View live project"
+            >
+              <LuArrowUpRight size={18} />
+            </span>
+          )}
+          {project.github_url && (
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                window.open(project.github_url!, "_blank", "noopener");
+              }}
+              className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
+              aria-label="View source on GitHub"
+            >
+              <SiGithub size={16} />
+            </span>
+          )}
+          <span className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-accent-secondary px-4 py-1.5 font-body text-xs text-white transition-opacity hover:opacity-90 sm:px-5 sm:py-2 sm:text-sm">
+            <span>Process</span>
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
         </span>
       </div>
     </>
   );
 }
 
-export function HeroSection({ hero, fullName, location, projects }: Props) {
+export function HeroSection({ hero, fullName, location, projects, contact, resumeUrl }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLElement | null)[]>([]);
@@ -437,7 +479,7 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
           {location && (
             <div
               ref={badgeRef}
-              className="flex flex-col items-start lg:flex-row lg:items-center gap-1 lg:gap-2.5 opacity-0"
+              className="flex flex-row items-center gap-1 lg:gap-2.5 opacity-0"
             >
               <span className="flex items-center gap-2.5">
                 <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-tertiary" />
@@ -445,7 +487,7 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
                   {location}
                 </span>
               </span>
-              <span className="hidden lg:block h-3 w-px shrink-0 bg-border" />
+              <span className="h-3 w-px shrink-0 bg-border" />
               <span className="font-body text-[10px] text-accent-secondary uppercase tracking-wider sm:text-xs">
                 Open to work
               </span>
@@ -455,7 +497,7 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
           {hero?.subheadline && (
             <p
               ref={subheadlineRef}
-              className="text-left text-xs leading-relaxed text-secondary opacity-0 sm:text-sm"
+              className="mt-3 text-left text-xs leading-relaxed text-secondary opacity-0 sm:text-sm"
             >
               {hero.subheadline}
             </p>
@@ -465,12 +507,30 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
             ref={ctasRef}
             className="mt-6 flex flex-wrap items-center justify-start gap-3 opacity-0"
           >
-            <Link
-              href={hero?.cta_secondary_url || "/#contact"}
+            <a
+              href={resumeUrl ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-xs font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-sm"
             >
-              {hero?.cta_secondary_label || "Get in Touch"}
-            </Link>
+              See CV
+            </a>
+            {contact && (
+              <div className="flex items-center gap-1">
+                {contact.email && (
+                  <a href={`mailto:${contact.email}`} target="_blank" rel="noopener noreferrer" aria-label="Email" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><LuMail size={18} /></a>
+                )}
+                {contact.linkedin_url && (
+                  <a href={normalizeUrl(contact.linkedin_url)} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><FaLinkedin size={18} /></a>
+                )}
+                {contact.github_url && (
+                  <a href={normalizeUrl(contact.github_url)} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><SiGithub size={18} /></a>
+                )}
+                {contact.tiktok_url && (
+                  <a href={normalizeUrl(contact.tiktok_url)} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><SiTiktok size={18} /></a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -493,7 +553,9 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
                   <Link
                     href={`/projects/${project.slug}`}
                     data-card-inner
-                    className="flex h-full w-full flex-row overflow-hidden rounded-lg border border-border bg-background transition-colors hover:border-accent-secondary/30"
+                    className={`card-light flex h-full w-full flex-row overflow-hidden rounded-lg border bg-background transition-colors hover:border-accent-secondary/30 ${
+                      i === 0 ? "border-[#5a4820]" : "border-border"
+                    }`}
                   >
                     <CardContent project={project} index={i} />
                   </Link>
@@ -519,11 +581,11 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
                 ref={(el) => {
                   cardsRef.current[i] = el;
                 }}
-                className="shrink-0 w-[80vw] flex flex-col bg-background border border-border overflow-hidden"
+                className="card-light shrink-0 w-[80vw] flex flex-col bg-background border border-border overflow-hidden"
                 style={{ scrollSnapAlign: "center" }}
               >
                 <div
-                  className="relative w-full overflow-hidden leading-0 bg-surface-muted"
+                  className="card-light relative w-full overflow-hidden leading-0 bg-surface-muted"
                   style={{ aspectRatio: "4/3" }}
                 >
                   {project.cover_image_url || project.thumbnail_url ? (
@@ -537,7 +599,7 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
                       className="block h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-surface-muted">
+                    <div className="card-light flex h-full w-full items-center justify-center bg-surface-muted">
                       <span className="font-heading text-5xl text-muted">
                         {project.title.charAt(0)}
                       </span>
@@ -583,21 +645,49 @@ export function HeroSection({ hero, fullName, location, projects }: Props) {
                     )}
                   </div>
 
-                  <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-accent-secondary">
-                    <span>View case study</span>
-                    <svg
-                      className="h-3.5 w-3.5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                  <div className="mt-3 flex items-center gap-3">
+                    {project.project_ctas?.[0]?.url && (
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          window.open(project.project_ctas![0].url, "_blank", "noopener");
+                        }}
+                        className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
+                        aria-label="View live project"
+                      >
+                        <LuArrowUpRight size={18} />
+                      </span>
+                    )}
+                    {project.github_url && (
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          window.open(project.github_url!, "_blank", "noopener");
+                        }}
+                        className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
+                        aria-label="View source on GitHub"
+                      >
+                        <SiGithub size={16} />
+                      </span>
+                    )}
+                    <span className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-accent-secondary px-4 py-1.5 font-body text-xs text-white transition-opacity hover:opacity-90 sm:px-5 sm:py-2 sm:text-sm">
+                      <span>Process</span>
+                      <svg
+                        className="h-3.5 w-3.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </span>
                   </div>
                 </div>
               </Link>

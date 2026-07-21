@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import { Karla, DM_Sans } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
+import { GeistPixelSquare, GeistPixelCircle } from "geist/font/pixel";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import "./globals.css";
-
-const karla = Karla({
-  weight: ["400", "700"],
-  variable: "--font-heading",
-  subsets: ["latin"],
-});
-
-const dmSans = DM_Sans({
-  variable: "--font-body",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Eloisa Talingting — Product Designer & Developer",
@@ -27,7 +17,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${karla.variable} ${dmSans.variable}`}
+      className={`${GeistPixelSquare.variable} ${GeistMono.variable} ${GeistPixelCircle.variable}`}
       suppressHydrationWarning
     >
       <head>

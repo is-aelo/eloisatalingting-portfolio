@@ -34,6 +34,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
     cover_image_url: "",
     tech_stack_summary: "",
     content_md: "",
+    github_url: "",
   });
   const [media, setMedia] = useState<any[]>([]);
   const [ctas, setCtas] = useState<any[]>([]);
@@ -62,7 +63,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
   const saveFields = [
     "slug", "title", "short_description", "client_name", "project_type",
     "role", "start_date", "end_date", "featured", "display",
-    "thumbnail_url", "cover_image_url", "tech_stack_summary", "content_md",
+    "thumbnail_url", "cover_image_url", "tech_stack_summary", "content_md", "github_url",
   ];
 
   const savePayload = saveFields.reduce((acc, field) => {
@@ -130,6 +131,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
           <InputField label="End Date" type="date" value={data.end_date ?? ""} onChange={(e) => setData({ ...data, end_date: e.target.value })} />
         </div>
         <InputField label="Tech Stack Summary" value={data.tech_stack_summary ?? ""} onChange={(e) => setData({ ...data, tech_stack_summary: e.target.value })} placeholder="React, TypeScript, Tailwind..." />
+        <InputField label="GitHub URL" value={data.github_url ?? ""} onChange={(e) => setData({ ...data, github_url: e.target.value })} placeholder="https://github.com/username/repo" />
         <div className="flex gap-6">
           <ToggleField label="Featured" checked={data.featured} onChange={(v) => setData({ ...data, featured: v })} />
           <ToggleField label="Display on site" checked={data.display} onChange={(v) => setData({ ...data, display: v })} />
