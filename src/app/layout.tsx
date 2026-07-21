@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { GeistMono } from "geist/font/mono";
-import { GeistPixelSquare, GeistPixelCircle } from "geist/font/pixel";
+import { GeistMono, GeistPixelSquare, GeistPixelCircle } from "@/lib/fonts";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import "./globals.css";
 
