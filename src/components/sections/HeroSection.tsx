@@ -152,6 +152,7 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
         </div>
       </div>
 
+      <div id="projects" className="scroll-mt-24">
       {summary && (
         <div className="mx-auto max-w-5xl px-4 pt-8 sm:px-6 lg:px-8">
           <p className="text-sm leading-relaxed text-secondary sm:text-base">
@@ -161,7 +162,7 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
       )}
 
       {hasProjects && (
-        <section id="projects" className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-24">
+        <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
           <p className="font-body text-xs text-primary/80 uppercase tracking-wider">
             Selected Projects
           </p>
@@ -231,6 +232,7 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
           </div>
         </section>
       )}
+      </div>
     </>
   );
 }

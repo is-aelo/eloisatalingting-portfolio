@@ -17,7 +17,7 @@ const navIcons: Record<string, React.ComponentType<{ size?: number }>> = {
   contact: LuMessageSquare,
 };
 
-export function Header() {
+export function Nav() {
   const pathname = usePathname();
   const activeSection = useActiveSection(sectionIds);
   const resolvedSection = pathname.startsWith("/projects/") ? "projects" : activeSection;
@@ -72,7 +72,7 @@ export function Header() {
         className="flex items-center justify-center rounded-full border border-border bg-background p-2.5 text-primary transition-colors hover:text-accent"
         aria-label={tabsVisible ? "Hide navigation" : "Show navigation"}
       >
-        {tabsVisible ? <LuX size={16} /> : <LuMenu size={16} />}
+        {tabsVisible ? <LuX size={18} /> : <LuMenu size={18} />}
       </button>
 
       <div
@@ -89,11 +89,11 @@ export function Header() {
               href={link.href}
               className={`flex items-center justify-center rounded-sm p-2 font-body text-[10px] uppercase tracking-wider transition-colors sm:gap-1.5 sm:px-4 sm:py-1.5 sm:text-xs ${
                 isActive
-                  ? "bg-primary text-background"
+                  ? "bg-accent/10 text-accent font-medium"
                   : "text-secondary hover:text-accent"
               }`}
             >
-              {Icon && <Icon size={15} />}
+              {Icon && <Icon size={17} />}
               <span className="hidden sm:inline">{link.label}</span>
             </Link>
           );

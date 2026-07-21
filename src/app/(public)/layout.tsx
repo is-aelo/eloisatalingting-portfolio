@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
@@ -13,7 +13,7 @@ export default async function PublicLayout({
     <>
       <SmoothScroll />
       <div className="hidden lg:block"><CursorFollower shape="ring-dot" size={32} /></div>
-      <Header />
+      <Nav />
       <div className="flex min-h-dvh flex-col pb-20">
         <PageTransition>
           <main className="flex-1">{children}</main>
