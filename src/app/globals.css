@@ -22,33 +22,33 @@
 }
 
 :root {
-  --background: #f7f5f0;
-  --surface: #efebe4;
-  --surface-muted: #e5e0d7;
-  --border: #d4cdc2;
-  --primary: #1a1a1a;
-  --secondary: #5c5c5c;
-  --muted: #8a8a8a;
-  --accent: #8a7230;
-  --accent-secondary: #5a4820;
-  --accent-tertiary: #bca25a;
-  --danger: #c45a3a;
-  --danger-bg: #f5e4e0;
+  --background: #faf4ef;
+  --surface: #faf4ef;
+  --surface-muted: color-mix(in srgb, #1c0e10 8%, #faf4ef);
+  --border: color-mix(in srgb, #1c0e10 20%, #faf4ef);
+  --primary: #1c0e10;
+  --secondary: color-mix(in srgb, #1c0e10 65%, #faf4ef);
+  --muted: color-mix(in srgb, #1c0e10 45%, #faf4ef);
+  --accent: #961520;
+  --accent-secondary: #961520;
+  --accent-tertiary: #961520;
+  --danger: #961520;
+  --danger-bg: color-mix(in srgb, #961520 15%, #faf4ef);
 }
 
 .dark {
-  --background: #1a1614;
-  --surface: #25201c;
-  --surface-muted: #2f2925;
-  --border: #3d3631;
-  --primary: #e8e2da;
-  --secondary: #a89f95;
-  --muted: #787168;
-  --accent: #9a8240;
-  --accent-secondary: #c4a84a;
-  --accent-tertiary: #8a7230;
-  --danger: #d46a4a;
-  --danger-bg: #3a2420;
+  --background: #1c0e10;
+  --surface: #1c0e10;
+  --surface-muted: color-mix(in srgb, #faf4ef 8%, #1c0e10);
+  --border: color-mix(in srgb, #faf4ef 20%, #1c0e10);
+  --primary: #faf4ef;
+  --secondary: color-mix(in srgb, #faf4ef 65%, #1c0e10);
+  --muted: color-mix(in srgb, #faf4ef 45%, #1c0e10);
+  --accent: #e45580;
+  --accent-secondary: #e45580;
+  --accent-tertiary: #e45580;
+  --danger: #e45580;
+  --danger-bg: color-mix(in srgb, #e45580 15%, #1c0e10);
 }
 
 html {
@@ -56,16 +56,16 @@ html {
 }
 
 .card-light {
-  --background: #f7f5f0;
-  --surface: #efebe4;
-  --surface-muted: #e5e0d7;
-  --border: #d4cdc2;
-  --primary: #1a1a1a;
-  --secondary: #5c5c5c;
-  --muted: #8a8a8a;
-  --accent: #8a7230;
-  --accent-secondary: #5a4820;
-  --accent-tertiary: #bca25a;
+  --background: #faf4ef;
+  --surface: #faf4ef;
+  --surface-muted: color-mix(in srgb, #1c0e10 8%, #faf4ef);
+  --border: color-mix(in srgb, #1c0e10 20%, #faf4ef);
+  --primary: #1c0e10;
+  --secondary: color-mix(in srgb, #1c0e10 65%, #faf4ef);
+  --muted: color-mix(in srgb, #1c0e10 45%, #faf4ef);
+  --accent: #961520;
+  --accent-secondary: #961520;
+  --accent-tertiary: #961520;
 }
 
 body {

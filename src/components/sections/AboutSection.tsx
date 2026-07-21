@@ -165,7 +165,7 @@ export function AboutSection({ skillGroups, tools, education, experiences }: Pro
                       {group.items.map((skill) => (
                         <span
                           key={skill}
-                          className="inline-block rounded-full bg-surface-muted px-2 py-0.5 font-body text-[10px] text-secondary transition-colors hover:bg-accent-secondary/10 hover:text-accent-secondary sm:px-2.5 sm:py-1 sm:text-[11px] md:px-3 md:py-1 md:text-xs"
+                          className="inline-block rounded-full bg-accent/10 px-2 py-0.5 font-body text-[10px] text-primary transition-colors hover:bg-accent/20 sm:px-2.5 sm:py-1 sm:text-[11px] md:px-3 md:py-1 md:text-xs"
                         >
                           {skill}
                         </span>

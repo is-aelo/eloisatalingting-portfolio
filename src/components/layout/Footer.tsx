@@ -21,7 +21,7 @@ export async function Footer() {
   if (contact?.tiktok_url) socialLinks.push({ href: normalizeUrl(contact.tiktok_url), icon: SiTiktok, label: "TikTok" });
 
   return (
-    <footer className="border-t border-border">
+    <footer id="footer" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 md:px-8 lg:px-6 py-10 sm:py-12">
         <div className="flex flex-col items-center gap-6 sm:gap-8 md:flex-row">
           <div className="flex flex-1 items-center justify-center md:justify-start">

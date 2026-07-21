@@ -16,36 +16,35 @@ Dark mode is class-based: `.dark` on `<html>` toggles all CSS custom properties.
 
 ### Palette
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--background` | `#f7f5f0` | Page background — warm cream |
-| `--surface` | `#efebe4` | Card, container, elevated areas |
-| `--surface-muted` | `#e5e0d7` | Subtle background variant |
-| `--border` | `#d4cdc2` | Borders, dividers, strokes |
-| `--primary` | `#1a1a1a` | Main body text, headings |
-| `--secondary` | `#5c5c5c` | Secondary text, labels |
-| `--muted` | `#8a8a8a` | Placeholder, disabled, subtle text |
-| `--accent` | `#8a7230` | Primary buttons, interactive — deep gold |
-| `--accent-secondary` | `#5a4820` | Links, hover states — dark bronze |
-| `--accent-tertiary` | `#bca25a` | Tags, badges, decorative — light gold |
-| `--danger` | `#c45a3a` | Destructive text, delete buttons |
-| `--danger-bg` | `#f5e4e0` | Danger state background |
+All colors derive from three base tokens. Variants use `color-mix` for transparency.
+
+| Token | Light Value | Dark Value | Usage |
+|-------|-------------|------------|-------|
+| `--background` | `#faf4ef` | `#1c0e10` | Page background |
+| `--surface` | `#faf4ef` | `#1c0e10` | Card, container, elevated areas |
+| `--surface-muted` | `color-mix(#1c0e10 8%, #faf4ef)` | `color-mix(#faf4ef 8%, #1c0e10)` | Subtle background variant |
+| `--border` | `color-mix(#1c0e10 20%, #faf4ef)` | `color-mix(#faf4ef 20%, #1c0e10)` | Borders, dividers, strokes |
+| `--primary` | `#1c0e10` | `#faf4ef` | Main body text, headings |
+| `--secondary` | `color-mix(#1c0e10 65%, #faf4ef)` | `color-mix(#faf4ef 65%, #1c0e10)` | Secondary text, labels |
+| `--muted` | `color-mix(#1c0e10 45%, #faf4ef)` | `color-mix(#faf4ef 45%, #1c0e10)` | Placeholder, disabled, subtle text |
+| `--accent` | `#e45580` | `#e45580` | Buttons, interactive, links |
+| `--accent-secondary` | `#e45580` | `#e45580` | Same as accent |
+| `--accent-tertiary` | `#e45580` | `#e45580` | Same as accent |
+| `--danger` | `#e45580` | `#e45580` | Destructive text, delete buttons |
+| `--danger-bg` | `color-mix(#e45580 15%, #faf4ef)` | `color-mix(#e45580 15%, #1c0e10)` | Danger state background |
 
 ### Rule
 
 Never use hex codes in components. Always use Tailwind classes:
 - `bg-background`, `bg-surface`, `bg-surface-muted`
 - `text-primary`, `text-secondary`, `text-muted`
-- `text-accent-secondary` for links/hoverable text
-- `text-accent-tertiary` for tags, badges, decorative metadata
+- `text-accent` for links, buttons, interactive elements
 - `border-border`
-- `hover:text-accent-secondary` for interactive hover
-- `bg-accent-secondary/10` for subtle accent backgrounds
-- `bg-accent-tertiary/10` for subtle tertiary backgrounds
+- `hover:text-accent` for interactive hover
+- `bg-accent/10` for subtle accent backgrounds
 - `text-danger` for destructive text, form errors
 - `bg-danger` for destructive button backgrounds
 - `bg-danger-bg` for danger state backgrounds
-- `from-accent-secondary to-accent-tertiary` for gradient accents
 
 ---
 
@@ -92,21 +91,21 @@ Never use hex codes in components. Always use Tailwind classes:
 ## 4. Component Patterns
 
 ### Buttons
-- Primary: `bg-accent-secondary text-white font-body px-6 py-3 rounded-full hover:opacity-90 transition-opacity`
-- Secondary/Outline: `border border-border text-primary px-6 py-3 rounded-full hover:border-accent-secondary hover:text-accent-secondary transition-colors`
-- Ghost: `text-secondary hover:text-accent-secondary transition-colors`
+- Primary: `bg-accent text-white font-body px-6 py-3 rounded-full hover:opacity-90 transition-opacity`
+- Secondary/Outline: `border border-border text-primary px-6 py-3 rounded-full hover:border-accent hover:text-accent transition-colors`
+- Ghost: `text-secondary hover:text-accent transition-colors`
 - Cursor: add `cursor-pointer` on all interactive elements.
 
 ### Cards (Project cards, etc.)
 - Container: `bg-surface border border-border rounded-xl overflow-hidden`
-- Hover: `hover:border-accent-secondary/30 transition-colors`
+- Hover: `hover:border-accent/30 transition-colors`
 - Image aspect ratio: `aspect-video` or `aspect-4/3` for thumbnails
 - No shadow unless specified.
 
 ### Navigation (Sidebar)
 - Desktop: fixed left sidebar, `w-60`, full height (`h-dvh`), `border-r border-border`, `bg-background`
   - Logo at top, nav links below, resume + socials pinned to bottom
-  - Nav link active state: `bg-accent-secondary/10 text-accent-secondary font-medium`
+  - Nav link active state: `bg-accent/10 text-accent font-medium`
   - Content offset: `md:ml-60` on `<main>`
 - Mobile (<768px): slim top bar (`h-14`) with Logo + hamburger. Drawer slides from left (`w-72`) with backdrop overlay.
   - Content offset: `pt-14` on `<main>`
@@ -114,8 +113,8 @@ Never use hex codes in components. Always use Tailwind classes:
 ### Hero Section
 - Full-width centered layout (editorial/magazine style)
 - Name: `font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem] tracking-tight uppercase` centered
-- Accent line: `h-0.5 w-16 bg-accent-secondary mx-auto` centered below name
-- Headline: `font-heading text-lg md:text-xl lg:text-2xl text-accent-secondary max-w-2xl mx-auto`
+- Accent line: `h-0.5 w-16 bg-accent mx-auto` centered below name
+- Headline: `font-heading text-lg md:text-xl lg:text-2xl text-accent max-w-2xl mx-auto`
 - Subheadline: `text-base md:text-lg text-secondary max-w-xl mx-auto`
 - CTA buttons: `mt-8 flex gap-4 justify-center`
 - Tech marquee: label "TECHNOLOGIES I WORK WITH" with thin line, scrolling tools below
@@ -134,10 +133,10 @@ Never use hex codes in components. Always use Tailwind classes:
 
 ### Tags / Tech Stack
 - Container: `flex flex-wrap gap-2`
-- Individual tag: `text-xs font-body text-accent-tertiary bg-accent-tertiary/10 px-3 py-1 rounded-full`
+- Individual tag: `text-xs font-body text-accent bg-accent/10 px-3 py-1 rounded-full`
 
 ### Form Inputs (Contact + Admin)
-- Input: `w-full bg-surface border border-border rounded-lg px-4 py-3 text-primary placeholder:text-muted focus:outline-none focus:border-accent-secondary transition-colors`
+- Input: `w-full bg-surface border border-border rounded-lg px-4 py-3 text-primary placeholder:text-muted focus:outline-none focus:border-accent transition-colors`
 - Label: `text-sm text-secondary mb-1`
 - Error: `text-xs text-danger mt-1`
 - Textarea: same as input but `min-h-[120px]`
@@ -201,5 +200,5 @@ No overflowing text, no broken grids, no elements clipped by containers, no awkw
   - Tech/brand logos: `import { SiReact, SiFigma } from "react-icons/si"`
   - UI icons: `import { LuSun, LuMoon } from "react-icons/lu"`
 - Sizing: `size={20}` for inline, `size={24}` for larger UI icons
-- Color: inherit parent text color by default, or use `className="text-accent-secondary"`
+- Color: inherit parent text color by default, or use `className="text-accent"`
 - All interactive icons need `aria-label` for accessibility.

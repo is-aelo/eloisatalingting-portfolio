@@ -18,8 +18,8 @@ export function useActiveSection(sectionIds: string[]) {
         setActiveSection(best.target.id);
       },
       {
-        rootMargin: "-20% 0px -60% 0px",
-        threshold: 0,
+        rootMargin: "-10% 0px -30% 0px",
+        threshold: 0.1,
       },
     );
 

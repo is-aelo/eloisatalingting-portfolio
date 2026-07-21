@@ -13,6 +13,7 @@ export default function AdminContact() {
     linkedin_url: "",
     github_url: "",
     tiktok_url: "",
+    behance_url: "",
   });
   const [id, setId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -53,6 +54,7 @@ export default function AdminContact() {
         <InputField label="LinkedIn URL" value={data.linkedin_url ?? ""} onChange={(e) => setData({ ...data, linkedin_url: e.target.value })} placeholder="https://linkedin.com/in/..." />
         <InputField label="GitHub URL" value={data.github_url ?? ""} onChange={(e) => setData({ ...data, github_url: e.target.value })} placeholder="https://github.com/..." />
         <InputField label="TikTok URL" value={data.tiktok_url ?? ""} onChange={(e) => setData({ ...data, tiktok_url: e.target.value })} placeholder="https://tiktok.com/..." />
+        <InputField label="Behance URL" value={data.behance_url ?? ""} onChange={(e) => setData({ ...data, behance_url: e.target.value })} placeholder="https://behance.net/..." />
         <button onClick={handleSave} disabled={saving} className="self-start cursor-pointer rounded-lg bg-accent px-6 py-3 font-body text-background transition-opacity hover:opacity-90 disabled:opacity-50">
           {saving ? "Saving..." : "Save"}
         </button>

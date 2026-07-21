@@ -1,49 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaLinkedin } from "react-icons/fa6";
-import { SiGithub, SiTiktok } from "react-icons/si";
-import { LuArrowUpRight, LuMail } from "react-icons/lu";
+import { SiBehance, SiGithub } from "react-icons/si";
+import { LuArrowUpRight } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
 import { normalizeUrl } from "@/lib/url";
-
-gsap.registerPlugin(ScrollTrigger);
-
-function getCSSVariable(name: string): string {
-  if (typeof window === "undefined") return "#000000";
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-}
-
-function hexToRgba(hex: string, alpha: number): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
-type Tool = {
-  name: string;
-  logo_url: string | null;
-  category: string | null;
-};
-
-type HeroContent = {
-  headline: string;
-  subheadline?: string | null;
-  cta_primary_label?: string | null;
-  cta_primary_url?: string | null;
-  cta_secondary_label?: string | null;
-  cta_secondary_url?: string | null;
-  display?: boolean;
-};
-
-type ProjectCTA = {
-  label: string;
-  url: string;
-};
 
 type Project = {
   slug: string;
@@ -53,599 +16,185 @@ type Project = {
   cover_image_url: string | null;
   project_type: string | null;
   tech_stack_summary: string | null;
-  project_ctas: ProjectCTA[] | null;
+  project_ctas: { label: string; url: string }[] | null;
   github_url: string | null;
 };
 
 type ContactLink = {
   email?: string | null;
   linkedin_url?: string | null;
-  github_url?: string | null;
-  tiktok_url?: string | null;
+  behance_url?: string | null;
 };
 
 type Props = {
-  hero?: HeroContent | null;
-  tools: Tool[];
+  hero?: { headline: string; subheadline?: string | null; cta_primary_label?: string | null; cta_primary_url?: string | null; cta_secondary_label?: string | null; cta_secondary_url?: string | null; display?: boolean } | null;
+  tools: { name: string; logo_url: string | null; category: string | null }[];
   fullName: string;
+  role: string | null;
   location: string | null;
+  summary: string | null;
   projects: Project[];
   contact?: ContactLink | null;
   resumeUrl?: string | null;
 };
 
-const CARD_HEIGHT = "clamp(320px, 60vh, 600px)";
+function useCurrentTime() {
+  const [time, setTime] = useState("");
 
-function CardContent({
-  project,
-  index,
-}: {
-  project: Project;
-  index: number;
-}) {
-  return (
-    <>
-      <div className="relative h-full w-3/5 shrink-0 overflow-hidden leading-0 bg-surface-muted">
-        {project.cover_image_url || project.thumbnail_url ? (
-          <img
-            src={project.cover_image_url || project.thumbnail_url || undefined}
-            alt={project.title}
-            className="absolute inset-0 block h-full w-full object-cover"
-            style={{ willChange: "transform" }}
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-surface-muted">
-            <span className="font-heading text-4xl text-muted md:text-6xl">
-              {project.title.charAt(0)}
-            </span>
-          </div>
-        )}
-      </div>
+  useEffect(() => {
+    function update() {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+      setTime(formatter.format(now));
+    }
+    update();
+    const id = setInterval(update, 30_000);
+    return () => clearInterval(id);
+  }, []);
 
-      <div className="flex h-full w-2/5 shrink-0 flex-col justify-between p-5 sm:p-6 md:p-8">
-        <div className="flex items-center gap-2.5 mb-4">
-          <span className="font-body text-xs text-accent-secondary">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="h-px w-5 bg-border sm:w-6" />
-          {project.project_type && (
-            <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider sm:text-xs">
-              {project.project_type}
-            </p>
-          )}
-        </div>
-
-        <div className="flex-1 flex flex-col justify-center">
-          <h2               className="font-heading text-sm text-primary sm:text-base md:text-lg leading-snug">
-            {renderTextWithAmpersand(project.title)}
-          </h2>
-
-          {project.short_description && (
-            <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-secondary md:mt-3 md:text-sm">
-              {project.short_description}
-            </p>
-          )}
-
-          {project.tech_stack_summary && (
-            <div className="mt-3 flex flex-wrap gap-1.5 md:mt-4 md:gap-2">
-              {project.tech_stack_summary.split(",").map((tech) => (
-                <span
-                  key={tech.trim()}
-                  className="rounded-full bg-accent-secondary/10 px-2 py-0.5 font-body text-[10px] text-accent-secondary sm:px-2.5 sm:py-1 sm:text-xs"
-                >
-                  {tech.trim()}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <span className="mt-4 flex items-center gap-3">
-          {project.project_ctas?.[0]?.url && (
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                window.open(project.project_ctas![0].url, "_blank", "noopener");
-              }}
-              className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
-              aria-label="View live project"
-            >
-              <LuArrowUpRight size={18} />
-            </span>
-          )}
-          {project.github_url && (
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                window.open(project.github_url!, "_blank", "noopener");
-              }}
-              className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
-              aria-label="View source on GitHub"
-            >
-              <SiGithub size={16} />
-            </span>
-          )}
-          <span className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-accent-secondary px-4 py-1.5 font-body text-xs text-white transition-opacity hover:opacity-90 sm:px-5 sm:py-2 sm:text-sm">
-            <span>Process</span>
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </span>
-        </span>
-      </div>
-    </>
-  );
+  return time;
 }
 
-export function HeroSection({ hero, fullName, location, projects, contact, resumeUrl }: Props) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLElement | null)[]>([]);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const nameRef = useRef<HTMLHeadingElement>(null);
-  const headlineRef = useRef<HTMLParagraphElement>(null);
-  const subheadlineRef = useRef<HTMLParagraphElement>(null);
-  const ctasRef = useRef<HTMLDivElement>(null);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
+export function HeroSection({ fullName, role, location, summary, projects, contact }: Props) {
+  const currentTime = useCurrentTime();
   const hasProjects = projects.length > 0;
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-card]"));
-    if (!cards.length) return;
-
-    const CARD_PEEK = 28;
-    const CARD_SCALE_BURIED = 1;
-    const OVERLAP = 0.72;
-
-    const ctx = gsap.context(() => {
-      cards.forEach((card, i) => {
-        gsap.set(card, {
-          y: i === 0 ? 0 : "100vh",
-          scale: 1,
-          transformOrigin: "50% 100%",
-        });
-
-        if (i > 0) {
-          const triggerStart = (i - OVERLAP) / cards.length;
-          const triggerEnd = i / cards.length;
-
-          ScrollTrigger.create({
-            trigger: section,
-            start: `${triggerStart * 100}% top`,
-            end: `${triggerEnd * 100}% top`,
-            scrub: 0.6,
-            onUpdate: (self) => {
-              const p = self.progress;
-              const eased = gsap.parseEase("power3.out")(p);
-
-              gsap.set(card, { y: `${(1 - eased) * 100}vh` });
-
-              for (let j = 0; j < i; j++) {
-                const depth = i - j;
-                const maxScale = 1 - ((depth - 1) * (1 - CARD_SCALE_BURIED)) / (cards.length - 1);
-                const targetScale = maxScale - (eased * (1 - CARD_SCALE_BURIED)) / (cards.length - 1);
-                const targetY = -(depth - 1) * CARD_PEEK - eased * CARD_PEEK;
-
-                gsap.set(cards[j], {
-                  scale: Math.max(targetScale, CARD_SCALE_BURIED),
-                  y: targetY,
-                });
-
-                const buriedInner = cards[j].querySelector<HTMLElement>(
-                  "[data-card-inner]"
-                );
-                if (buriedInner) {
-                  gsap.to(buriedInner, {
-                    borderColor: hexToRgba(getCSSVariable("--border"), 0.3),
-                    boxShadow: "none",
-                    duration: 0.3,
-                    ease: "power2.out",
-                  });
-                }
-              }
-
-              const activeInner = card.querySelector<HTMLElement>(
-                "[data-card-inner]"
-              );
-              if (activeInner && eased > 0.5) {
-                const accentColor = getCSSVariable("--accent-secondary");
-                gsap.to(activeInner, {
-                  borderColor: hexToRgba(accentColor, 0.35),
-                  boxShadow: `0 0 12px ${hexToRgba(accentColor, 0.1)}, 0 0 24px ${hexToRgba(accentColor, 0.04)}`,
-                  duration: 0.3,
-                  ease: "power2.out",
-                });
-              }
-            },
-          });
-        }
-
-        if (i === 0) {
-          const firstInner = card.querySelector<HTMLElement>(
-            "[data-card-inner]"
-          );
-          if (firstInner) {
-            const accentColor = getCSSVariable("--accent-secondary");
-            gsap.set(firstInner, {
-              borderColor: hexToRgba(accentColor, 0.35),
-              boxShadow: `0 0 12px ${hexToRgba(accentColor, 0.1)}, 0 0 24px ${hexToRgba(accentColor, 0.04)}`,
-            });
-          }
-        }
-
-        const img = card.querySelector<HTMLElement>("img");
-        if (img && i < cards.length - 1) {
-          gsap.set(img, { yPercent: 0 });
-        }
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, [projects]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      if (badgeRef.current) {
-        tl.fromTo(
-          badgeRef.current,
-          { x: -20, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.5 }
-        );
-      }
-
-      if (nameRef.current) {
-        tl.fromTo(
-          nameRef.current,
-          { x: -30, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.7 },
-          "-=0.2"
-        );
-      }
-
-      if (headlineRef.current) {
-        tl.fromTo(
-          headlineRef.current,
-          { x: -20, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.6 },
-          "-=0.3"
-        );
-      }
-
-      if (subheadlineRef.current) {
-        tl.fromTo(
-          subheadlineRef.current,
-          { x: -20, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.6 },
-          "-=0.3"
-        );
-      }
-
-      if (ctasRef.current) {
-        tl.fromTo(
-          ctasRef.current,
-          { x: -20, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.5 },
-          "-=0.25"
-        );
-      }
-    });
-
-    return () => ctx.revert();
-  }, [hero?.headline, hero?.subheadline, fullName]);
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const cardEls = cardsRef.current.filter(Boolean) as HTMLElement[];
-    if (!cardEls.length) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        cardEls,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: "power2.out",
-          delay: 0.2,
-        }
-      );
-    }, container);
-
-    let rafId: number;
-    let lastIndex = -1;
-
-    const onScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const scrollLeft = container.scrollLeft;
-        const cardWidth = cardEls[0]?.offsetWidth ?? 0;
-        const gap = 16;
-        const newIndex = Math.round(scrollLeft / (cardWidth + gap));
-
-        if (
-          newIndex !== lastIndex &&
-          newIndex >= 0 &&
-          newIndex < cardEls.length
-        ) {
-          lastIndex = newIndex;
-          setActiveIndex(newIndex);
-
-          cardEls.forEach((card, i) => {
-            if (i === newIndex) {
-              const accentColor = getCSSVariable("--accent-secondary");
-              gsap.to(card, {
-                scale: 1,
-                opacity: 1,
-                filter: "saturate(1) brightness(1)",
-                borderColor: hexToRgba(accentColor, 0.35),
-                boxShadow: `0 0 12px ${hexToRgba(accentColor, 0.1)}, 0 0 24px ${hexToRgba(accentColor, 0.04)}`,
-                duration: 0.3,
-                ease: "power2.out",
-              });
-            } else {
-              const distance = Math.abs(i - newIndex);
-              gsap.to(card, {
-                scale: Math.max(0.92, 1 - distance * 0.04),
-                opacity: Math.max(0.5, 1 - distance * 0.25),
-                filter: "saturate(0.3) brightness(0.7)",
-                borderColor: hexToRgba(getCSSVariable("--border"), 0.3),
-                boxShadow: "none",
-                duration: 0.3,
-                ease: "power2.out",
-              });
-            }
-          });
-        }
-      });
-    };
-
-    container.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    return () => {
-      ctx.revert();
-      cancelAnimationFrame(rafId);
-      container.removeEventListener("scroll", onScroll);
-    };
-  }, [projects]);
-
-  const scrollToCard = useCallback(
-    (index: number) => {
-      const container = scrollContainerRef.current;
-      const card = cardsRef.current[index];
-      if (!container || !card) return;
-
-      const cardWidth = card.offsetWidth;
-      const gap = 16;
-      const scrollTo = index * (cardWidth + gap);
-
-      gsap.to(container, {
-        scrollLeft: scrollTo,
-        duration: 0.6,
-        ease: "power3.out",
-      });
-    },
-    []
-  );
-
   return (
-    <section
-      id="projects"
-      ref={sectionRef}
-      className="relative h-auto lg:h-[var(--section-height)]"
-      style={
-        hasProjects
-          ? ({ "--section-height": `${projects.length * 120 + 30}vh` } as React.CSSProperties)
-          : undefined
-      }
-    >
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 lg:pt-14 pb-8 sm:pb-8 lg:pb-2">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16 xl:gap-20">
-          <div className="w-full max-w-[240px] lg:mx-0 lg:max-w-none lg:flex-1 text-left">
-            {fullName && (
-              <h1
-                ref={nameRef}
-                className="font-heading font-bold text-lg leading-[1.08] tracking-tight text-primary opacity-0 uppercase sm:text-xl lg:text-2xl xl:text-3xl"
-              >
-                {fullName}
-              </h1>
-            )}
-
-            {hero?.headline && (
-              <p
-                ref={headlineRef}
-                className="mt-3 max-w-lg font-heading text-sm font-medium text-accent-secondary opacity-0 sm:text-base lg:text-lg"
-              >
-                {renderTextWithAmpersand(hero.headline)}
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-6">
-          {location && (
-            <div
-              ref={badgeRef}
-              className="flex flex-row items-center gap-1 lg:gap-2.5 opacity-0"
-            >
-              <span className="flex items-center gap-2.5">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-tertiary" />
-                <span className="font-body text-[10px] text-secondary uppercase tracking-wider sm:text-xs">
-                  {location}
+    <>
+      <div className="sticky top-0 z-40 bg-background mt-8 sm:mt-12">
+        <div className="mx-auto max-w-5xl border border-border">
+          <div className="flex items-stretch divide-x divide-border">
+            <div className="flex min-w-0 flex-1 flex-col justify-center gap-1 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 shrink-0 bg-accent" />
+                <span className="font-body text-[9px] text-accent uppercase tracking-wider sm:text-[10px]">
+                  Open For Remote Opportunities
                 </span>
-              </span>
-              <span className="h-3 w-px shrink-0 bg-border" />
-              <span className="font-body text-[10px] text-accent-secondary uppercase tracking-wider sm:text-xs">
-                Open to work
-              </span>
-            </div>
-          )}
-
-          {hero?.subheadline && (
-            <p
-              ref={subheadlineRef}
-              className="mt-3 text-left text-xs leading-relaxed text-secondary opacity-0 sm:text-sm"
-            >
-              {hero.subheadline}
-            </p>
-          )}
-
-          <div
-            ref={ctasRef}
-            className="mt-6 flex flex-wrap items-center justify-start gap-3 opacity-0"
-          >
-            <a
-              href={resumeUrl ?? "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-shine inline-block cursor-pointer whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-xs font-body text-white transition-opacity hover:opacity-90 md:px-7 md:py-3 md:text-sm"
-            >
-              See CV
-            </a>
-            {contact && (
-              <div className="flex items-center gap-1">
-                {contact.email && (
-                  <a href={`mailto:${contact.email}`} target="_blank" rel="noopener noreferrer" aria-label="Email" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><LuMail size={18} /></a>
-                )}
-                {contact.linkedin_url && (
-                  <a href={normalizeUrl(contact.linkedin_url)} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><FaLinkedin size={18} /></a>
-                )}
-                {contact.github_url && (
-                  <a href={normalizeUrl(contact.github_url)} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><SiGithub size={18} /></a>
-                )}
-                {contact.tiktok_url && (
-                  <a href={normalizeUrl(contact.tiktok_url)} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="flex h-9 w-9 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-muted hover:text-accent-secondary"><SiTiktok size={18} /></a>
-                )}
               </div>
-            )}
+              {fullName && (
+                <h1 className="truncate font-heading text-xs text-primary sm:text-sm">
+                  {fullName}
+                </h1>
+              )}
+            </div>
+
+            <div className="hidden divide-x divide-border md:flex">
+              {role && (
+                <div className="flex flex-col justify-center gap-1 px-4 py-3 sm:px-6">
+                  <span className="font-body text-[9px] text-secondary uppercase tracking-wider">
+                    Role
+                  </span>
+                  <span className="font-heading text-xs text-primary sm:text-sm">
+                    {role}
+                  </span>
+                </div>
+              )}
+
+              {location && (
+                <div className="flex flex-col justify-center gap-1 px-4 py-3 sm:px-6">
+                  <span className="font-body text-[9px] text-secondary uppercase tracking-wider">
+                    Based In
+                  </span>
+                  <span className="font-heading text-xs text-primary sm:text-sm">
+                    {location}
+                  </span>
+                </div>
+              )}
+
+              {currentTime && (
+                <div className="flex flex-col justify-center gap-1 px-4 py-3 sm:px-6">
+                  <span className="font-body text-[9px] text-secondary uppercase tracking-wider">
+                    Local Time
+                  </span>
+                  <span className="font-heading text-xs text-primary sm:text-sm">
+                    {currentTime}
+                  </span>
+                </div>
+              )}
+
+              {contact?.linkedin_url && (
+                <a
+                  href={normalizeUrl(contact.linkedin_url)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="flex w-12 items-center justify-center text-secondary transition-colors hover:text-accent"
+                >
+                  <FaLinkedin size={16} />
+                </a>
+              )}
+
+              {contact?.behance_url && (
+                <a
+                  href={normalizeUrl(contact.behance_url)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Behance"
+                  className="flex w-12 items-center justify-center text-secondary transition-colors hover:text-accent"
+                >
+                  <SiBehance size={15} />
+                </a>
+              )}
+            </div>
+
+            <a
+              href={contact?.email ? `mailto:${contact.email}` : "#"}
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-primary px-4 font-body text-[9px] text-background uppercase tracking-wider transition-opacity hover:opacity-90 sm:px-6 sm:text-[10px] md:text-xs lg:px-8"
+            >
+              Work With Me
+              <LuArrowUpRight size={13} />
+            </a>
           </div>
         </div>
       </div>
 
-      {hasProjects && (
-        <div className="hidden lg:flex sticky top-16 h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden">
-          <p className="px-4 sm:px-6 lg:px-8 pt-16 text-center font-body text-xs text-primary/80 uppercase tracking-wider">Selected Projects</p>
-          <div className="relative min-h-0 flex-1">
-            {projects.map((project, i) => (
-              <div
-                key={project.slug}
-                data-card
-                className="absolute inset-0 flex items-center justify-center will-change-transform"
-                style={{ zIndex: i + 1 }}
-              >
-                <div
-                  className="w-full max-w-5xl px-4 sm:px-6 lg:px-8"
-                  style={{ height: CARD_HEIGHT }}
-                >
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    data-card-inner
-                    className={`card-light flex h-full w-full flex-row overflow-hidden rounded-lg border bg-background transition-colors hover:border-accent-secondary/30 ${
-                      i === 0 ? "border-[#5a4820]" : "border-border"
-                    }`}
-                  >
-                    <CardContent project={project} index={i} />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+      {summary && (
+        <div className="mx-auto max-w-5xl px-4 pt-8 sm:px-6 lg:px-8">
+          <p className="text-sm leading-relaxed text-secondary sm:text-base">
+            {summary}
+          </p>
         </div>
       )}
 
       {hasProjects && (
-        <div className="py-20 lg:hidden">
-          <p className="px-5 text-center font-body text-xs text-primary/80 uppercase tracking-wider">Selected Projects</p>
-          <div
-            ref={scrollContainerRef}
-            className="mt-8 flex gap-4 overflow-x-auto px-5 pb-4 scrollbar-hide [-webkit-overflow-scrolling:touch]"
-            style={{ scrollSnapType: "x mandatory" }}
-          >
-            {projects.map((project, i) => (
+        <section id="projects" className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-24">
+          <p className="font-body text-xs text-primary/80 uppercase tracking-wider">
+            Selected Projects
+          </p>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+            {projects.map((project) => (
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                ref={(el) => {
-                  cardsRef.current[i] = el;
-                }}
-                className="card-light shrink-0 w-[80vw] flex flex-col bg-background border border-border overflow-hidden"
-                style={{ scrollSnapAlign: "center" }}
+                className="group flex flex-col border border-border bg-background transition-colors hover:border-accent"
               >
-                <div
-                  className="card-light relative w-full overflow-hidden leading-0 bg-surface-muted"
-                  style={{ aspectRatio: "4/3" }}
-                >
+                <div className="relative overflow-hidden bg-surface-muted leading-0">
                   {project.cover_image_url || project.thumbnail_url ? (
                     <img
-                      src={
-                        project.cover_image_url ||
-                        project.thumbnail_url ||
-                        undefined
-                      }
+                      src={project.cover_image_url || project.thumbnail_url || undefined}
                       alt={project.title}
-                      className="block h-full w-full object-cover"
+                      className="block w-full object-cover"
+                      style={{ aspectRatio: "4/3" }}
                     />
                   ) : (
-                    <div className="card-light flex h-full w-full items-center justify-center bg-surface-muted">
-                      <span className="font-heading text-5xl text-muted">
+                    <div className="flex items-center justify-center bg-surface-muted" style={{ aspectRatio: "4/3" }}>
+                      <span className="font-heading text-4xl text-muted">
                         {project.title.charAt(0)}
                       </span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex flex-col justify-between flex-1 px-4 pt-4 pb-5">
-                  <div className="flex items-center gap-2.5 mb-4">
-                    <span className="font-body text-xs font-medium text-accent-secondary">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="h-px w-5 bg-border" />
-                    {project.project_type && (
-                      <p className="font-body text-[10px] text-primary/80 uppercase tracking-wider">
-                        {project.project_type}
-                      </p>
-                    )}
-                  </div>
+                <div className="flex items-center justify-between border-t border-border px-3 py-2 sm:px-4 sm:py-3">
+                  <h2 className="min-w-0 truncate font-heading text-xs text-primary sm:text-sm">
+                    {renderTextWithAmpersand(project.title)}
+                  </h2>
 
-                  <div className="flex-1 flex flex-col justify-center">
-                    <h2 className="font-heading text-base text-primary sm:text-lg">
-                      {renderTextWithAmpersand(project.title)}
-                    </h2>
-
-                    {project.short_description && (
-                      <p className="mt-1.5 text-xs leading-relaxed text-secondary line-clamp-2 sm:text-sm">
-                        {project.short_description}
-                      </p>
-                    )}
-
-                    {project.tech_stack_summary && (
-                      <div className="mt-3 flex flex-wrap gap-1.5">
-                        {project.tech_stack_summary.split(",").map((tech) => (
-                          <span
-                            key={tech.trim()}
-                            className="rounded-full bg-accent-secondary/10 px-2 py-0.5 font-body text-[10px] text-accent-secondary"
-                          >
-                            {tech.trim()}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-3 flex items-center gap-3">
+                  <div className="flex shrink-0 items-center gap-3">
                     {project.project_ctas?.[0]?.url && (
                       <span
                         onClick={(e) => {
@@ -653,10 +202,10 @@ export function HeroSection({ hero, fullName, location, projects, contact, resum
                           e.preventDefault();
                           window.open(project.project_ctas![0].url, "_blank", "noopener");
                         }}
-                        className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
+                        className="flex cursor-pointer items-center justify-center rounded-full border border-border p-1.5 text-secondary transition-colors hover:border-accent hover:text-accent"
                         aria-label="View live project"
                       >
-                        <LuArrowUpRight size={18} />
+                        <LuArrowUpRight size={13} />
                       </span>
                     )}
                     {project.github_url && (
@@ -666,50 +215,22 @@ export function HeroSection({ hero, fullName, location, projects, contact, resum
                           e.preventDefault();
                           window.open(project.github_url!, "_blank", "noopener");
                         }}
-                        className="flex cursor-pointer items-center gap-1 rounded-md p-1 text-secondary transition-colors hover:text-accent-secondary"
+                        className="flex cursor-pointer items-center justify-center rounded-full border border-border p-1.5 text-secondary transition-colors hover:border-accent hover:text-accent"
                         aria-label="View source on GitHub"
                       >
-                        <SiGithub size={16} />
+                        <SiGithub size={12} />
                       </span>
                     )}
-                    <span className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-accent-secondary px-4 py-1.5 font-body text-xs text-white transition-opacity hover:opacity-90 sm:px-5 sm:py-2 sm:text-sm">
-                      <span>Process</span>
-                      <svg
-                        className="h-3.5 w-3.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                    <span className="flex cursor-pointer items-center rounded-sm border border-accent bg-accent px-3 py-1.5 font-body text-[9px] text-background uppercase tracking-wider transition-opacity hover:opacity-90 sm:px-4 sm:text-[10px]">
+                      Process
                     </span>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-
-          <div className="mt-4 flex items-center justify-center gap-2 pb-8">
-            {projects.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => scrollToCard(i)}
-                className={`cursor-pointer rounded-full transition-all duration-300 ${
-                  i === activeIndex
-                    ? "h-2 w-5 bg-accent-secondary"
-                    : "h-2 w-2 bg-border hover:bg-muted"
-                }`}
-                aria-label={`Go to project ${i + 1}`}
-              />
-            ))}
-          </div>
-        </div>
+        </section>
       )}
-    </section>
+    </>
   );
 }

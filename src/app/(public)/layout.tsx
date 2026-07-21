@@ -1,4 +1,3 @@
-import { createClient } from "@/lib/supabase/server";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/animations/PageTransition";
@@ -10,21 +9,12 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const [{ data: about }, { data: contact }] = await Promise.all([
-    supabase.from("about").select("full_name, resume_url").maybeSingle(),
-    supabase.from("contact").select("email, linkedin_url, github_url, tiktok_url").maybeSingle(),
-  ]);
-
-  const fullName = about?.full_name ?? "Portfolio";
-  const resumeUrl = about?.resume_url ?? null;
-
   return (
     <>
       <SmoothScroll />
       <div className="hidden lg:block"><CursorFollower shape="ring-dot" size={32} /></div>
-      <Header fullName={fullName} contact={contact} resumeUrl={resumeUrl} />
-      <div className="flex min-h-dvh flex-col pt-16">
+      <Header />
+      <div className="flex min-h-dvh flex-col pb-20">
         <PageTransition>
           <main className="flex-1">{children}</main>
         </PageTransition>
