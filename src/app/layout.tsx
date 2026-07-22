@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Eloisa Talingting — Product Designer & Developer",
+  title: "Eloisa Talingting — UI/UX Designer & AI-Assisted Developer",
   description: "Portfolio of Eloisa Talingting",
 };
 

@@ -125,7 +125,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
         <TextareaField label="Short Description" value={data.short_description ?? ""} onChange={(e) => setData({ ...data, short_description: e.target.value })} />
         <InputField label="Client Name" value={data.client_name ?? ""} onChange={(e) => setData({ ...data, client_name: e.target.value })} />
         <InputField label="Project Type" value={data.project_type ?? ""} onChange={(e) => setData({ ...data, project_type: e.target.value })} placeholder="Web App, Mobile, Branding..." />
-        <InputField label="Role" value={data.role ?? ""} onChange={(e) => setData({ ...data, role: e.target.value })} placeholder="Product Designer, Frontend Dev..." />
+        <InputField label="Role" value={data.role ?? ""} onChange={(e) => setData({ ...data, role: e.target.value })} placeholder="UI/UX Designer, AI-Assisted Developer..." />
         <div className="flex gap-4">
           <InputField label="Start Date" type="date" value={data.start_date ?? ""} onChange={(e) => setData({ ...data, start_date: e.target.value })} />
           <InputField label="End Date" type="date" value={data.end_date ?? ""} onChange={(e) => setData({ ...data, end_date: e.target.value })} />

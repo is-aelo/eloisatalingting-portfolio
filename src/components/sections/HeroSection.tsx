@@ -89,7 +89,7 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
                     Role
                   </span>
                   <span className="font-heading text-xs text-primary sm:text-sm">
-                    {role}
+                    {renderTextWithAmpersand(role)}
                   </span>
                 </div>
               )}
@@ -203,10 +203,10 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
                           e.preventDefault();
                           window.open(project.project_ctas![0].url, "_blank", "noopener");
                         }}
-                        className="flex cursor-pointer items-center justify-center rounded-full border border-border p-1.5 text-secondary transition-colors hover:border-accent hover:text-accent"
+                        className="flex cursor-pointer items-center justify-center rounded-full border border-border p-2 text-secondary transition-colors hover:border-accent hover:text-accent"
                         aria-label="View live project"
                       >
-                        <LuArrowUpRight size={13} />
+                        <LuArrowUpRight size={14} />
                       </span>
                     )}
                     {project.github_url && (
@@ -216,13 +216,13 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
                           e.preventDefault();
                           window.open(project.github_url!, "_blank", "noopener");
                         }}
-                        className="flex cursor-pointer items-center justify-center rounded-full border border-border p-1.5 text-secondary transition-colors hover:border-accent hover:text-accent"
+                        className="flex cursor-pointer items-center justify-center rounded-full border border-border p-2 text-secondary transition-colors hover:border-accent hover:text-accent"
                         aria-label="View source on GitHub"
                       >
-                        <SiGithub size={12} />
+                        <SiGithub size={14} />
                       </span>
                     )}
-                    <span className="flex cursor-pointer items-center rounded-sm border border-accent bg-accent px-3 py-1.5 font-body text-[9px] text-background uppercase tracking-wider transition-opacity hover:opacity-90 sm:px-4 sm:text-[10px]">
+                    <span className="flex cursor-pointer items-center rounded-sm border border-accent bg-accent px-4 py-2 font-body text-[11px] text-background uppercase tracking-wider transition-opacity hover:opacity-90 sm:px-4 sm:text-[10px]">
                       Process
                     </span>
                   </div>
