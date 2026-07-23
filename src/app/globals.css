@@ -44,9 +44,9 @@
   --primary: #faf4ef;
   --secondary: color-mix(in srgb, #faf4ef 65%, #1c0e10);
   --muted: color-mix(in srgb, #faf4ef 45%, #1c0e10);
-  --accent: #f74346;
-  --accent-secondary: #f74346;
-  --accent-tertiary: #f74346;
+  --accent: #e45580;
+  --accent-secondary: #e45580;
+  --accent-tertiary: #e45580;
   --danger: #e45580;
   --danger-bg: color-mix(in srgb, #e45580 15%, #1c0e10);
 }
