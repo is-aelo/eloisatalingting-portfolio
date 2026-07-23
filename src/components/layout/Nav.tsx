@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LuFolder, LuUser, LuMessageSquare, LuMenu, LuX } from "react-icons/lu";
+import { LuFolder, LuUser, LuMessageSquare, LuHouse, LuMenu, LuX } from "react-icons/lu";
 import gsap from "gsap";
 import { NAV_LINKS } from "@/data/constants";
 import { useActiveSection } from "@/hooks/useActiveSection";
@@ -12,6 +12,7 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 const sectionIds = ["about", "projects", "contact"];
 
 const navIcons: Record<string, React.ComponentType<{ size?: number }>> = {
+  home: LuHouse,
   projects: LuFolder,
   about: LuUser,
   contact: LuMessageSquare,
@@ -20,7 +21,14 @@ const navIcons: Record<string, React.ComponentType<{ size?: number }>> = {
 export function Nav() {
   const pathname = usePathname();
   const activeSection = useActiveSection(sectionIds);
-  const resolvedSection = pathname.startsWith("/projects/") ? "projects" : activeSection;
+  const isHome = pathname === "/";
+  const isProjectPage = pathname.startsWith("/projects/");
+
+  const resolvedSection = isProjectPage
+    ? "projects"
+    : isHome
+      ? activeSection
+      : "home";
   const [footerVisible, setFooterVisible] = useState(false);
   const [tabsVisible, setTabsVisible] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -79,7 +87,10 @@ export function Nav() {
         ref={contentRef}
         className="flex items-center gap-0.5 rounded-sm border border-border bg-background px-1.5 py-1 sm:gap-2 sm:px-3 sm:py-2"
       >
-        {NAV_LINKS.map((link) => {
+        {NAV_LINKS.filter((link) => {
+          if (link.href === "/#home") return !isHome;
+          return isHome;
+        }).map((link) => {
           const sectionId = link.href.replace("/#", "");
           const isActive = resolvedSection === sectionId;
           const Icon = navIcons[sectionId];

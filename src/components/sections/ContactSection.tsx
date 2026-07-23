@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { LuMail } from "react-icons/lu";
 import { FaLinkedin } from "react-icons/fa6";
 import { normalizeUrl } from "@/lib/url";
@@ -9,6 +12,19 @@ type Props = {
 };
 
 export function ContactSection({ email, linkedinUrl, profileImageUrl }: Props) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = async () => {
+    if (!email) return;
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.open(`mailto:${email}`, "_blank");
+    }
+  };
+
   return (
     <section id="contact" className="py-16 md:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
@@ -35,15 +51,23 @@ export function ContactSection({ email, linkedinUrl, profileImageUrl }: Props) {
           That&apos;s usually split between two people. I do both &mdash; and you can see the results above.
         </p>
 
-        <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 sm:mt-10 flex flex-wrap items-start justify-center gap-3">
           {email && (
-            <a
-              href={`mailto:${email}`}
-              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
-            >
-              <LuMail size={18} className="shrink-0" />
-              Send an email
-            </a>
+            <div className="flex flex-col items-center gap-2">
+              <a
+                href={`mailto:${email}`}
+                className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
+              >
+                <LuMail size={18} className="shrink-0" />
+                Send an email
+              </a>
+              <button
+                onClick={handleCopyEmail}
+                className="cursor-pointer font-body text-xs text-secondary transition-colors hover:text-accent"
+              >
+                {copied ? "Copied!" : "Copy email address"}
+              </button>
+            </div>
           )}
           {linkedinUrl && (
             <a

@@ -74,12 +74,18 @@ export function ProcessSection({ steps }: Props) {
         </h2>
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3 md:gap-8">
-          {steps.map((step) => (
+          {steps.map((step, i) => (
             <div
               key={step.id}
-              className="process-card group flex flex-col rounded-xl border border-border bg-surface p-6 md:p-8 transition-colors hover:border-accent-secondary/30 hover:bg-surface-muted"
+              className={`process-card group flex flex-col rounded-xl border p-6 md:p-8 transition-colors hover:border-accent-secondary/30 ${
+                i % 2 === 0
+                  ? "border-border bg-surface hover:bg-surface-muted"
+                  : "border-accent-secondary/20 bg-surface-muted hover:bg-surface"
+              }`}
             >
-              <span className="font-heading text-3xl text-accent-tertiary/40 transition-colors group-hover:text-accent">
+              <span className={`font-heading text-3xl transition-colors group-hover:text-accent ${
+                i % 2 === 0 ? "text-accent-tertiary/40" : "text-accent-secondary/40"
+              }`}>
                 {String(step.step_number).padStart(2, "0")}
               </span>
               <h3 className="mt-4 font-heading text-lg text-primary">

@@ -19,7 +19,7 @@ export default async function Home() {
       supabase.from("skill_categories").select("id, name").order("sort_order"),
       supabase.from("skills").select("id, category_id, name").order("sort_order"),
       supabase.from("projects").select("slug, title, short_description, cover_image_url, thumbnail_url, project_type, tech_stack_summary, github_url, project_ctas(label, url)").eq("display", true).order("featured", { ascending: false }).order("created_at", { ascending: false }),
-      supabase.from("contact").select("email, linkedin_url, github_url, tiktok_url, behance_url").maybeSingle(),
+      supabase.from("contact").select("email, linkedin_url, github_url, tiktok_url").maybeSingle(),
       supabase.from("process_steps").select("id, step_number, title, description").order("sort_order"),
     ]);
 

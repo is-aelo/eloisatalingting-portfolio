@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaLinkedin } from "react-icons/fa6";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { SiBehance, SiGithub } from "react-icons/si";
 import { LuArrowUpRight } from "react-icons/lu";
 import { renderTextWithAmpersand } from "@/lib/text";
 import { normalizeUrl } from "@/lib/url";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 type Project = {
   slug: string;
@@ -22,7 +25,6 @@ type Project = {
 
 type ContactLink = {
   email?: string | null;
-  linkedin_url?: string | null;
   behance_url?: string | null;
 };
 
@@ -59,13 +61,13 @@ function useCurrentTime() {
   return time;
 }
 
-export function HeroSection({ fullName, role, location, summary, projects, contact }: Props) {
+export function HeroSection({ fullName, role, location, summary, projects, contact, resumeUrl }: Props) {
   const currentTime = useCurrentTime();
   const hasProjects = projects.length > 0;
 
   return (
     <>
-      <div className="sticky top-0 z-40 bg-background mt-8 sm:mt-12">
+      <div id="home" className="sticky top-0 z-40 bg-background mt-8 sm:mt-12">
         <div className="mx-auto max-w-5xl border border-border">
           <div className="flex items-stretch divide-x divide-border">
             <div className="flex min-w-0 flex-1 flex-col justify-center gap-1 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
@@ -116,18 +118,6 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
                 </div>
               )}
 
-              {contact?.linkedin_url && (
-                <a
-                  href={normalizeUrl(contact.linkedin_url)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="flex w-12 items-center justify-center text-secondary transition-colors hover:text-accent"
-                >
-                  <FaLinkedin size={16} />
-                </a>
-              )}
-
               {contact?.behance_url && (
                 <a
                   href={normalizeUrl(contact.behance_url)}
@@ -141,13 +131,13 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
               )}
             </div>
 
-            <a
-              href={contact?.email ? `mailto:${contact.email}` : "#"}
-              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-primary px-4 font-body text-[9px] text-background uppercase tracking-wider transition-opacity hover:opacity-90 sm:px-6 sm:text-[10px] md:text-xs lg:px-8"
+            <button
+              onClick={() => gsap.to(window, { scrollTo: { y: "#contact", offsetY: 70 }, duration: 1, ease: "power2.inOut" })}
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-primary px-4 font-body text-[9px] text-background uppercase tracking-wider transition-opacity hover:opacity-90 sm:px-6 sm:text-[10px] md:text-xs lg:px-8 cursor-pointer"
             >
               Work With Me
               <LuArrowUpRight size={13} />
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -158,6 +148,16 @@ export function HeroSection({ fullName, role, location, summary, projects, conta
           <p className="text-sm leading-relaxed text-secondary sm:text-base">
             {summary}
           </p>
+          {resumeUrl && (
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex cursor-pointer items-center border border-accent bg-accent px-4 py-2 font-body text-xs text-background uppercase tracking-wider transition-opacity hover:opacity-90 sm:px-6 sm:text-sm"
+            >
+              View Resume
+            </a>
+          )}
         </div>
       )}
 

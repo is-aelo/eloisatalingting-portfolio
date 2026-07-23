@@ -8,34 +8,27 @@ export function useActiveSection(sectionIds: string[]) {
   const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const intersecting = entries.filter((e) => e.isIntersecting);
-        if (intersecting.length === 0) return;
-        const best = intersecting.reduce((a, b) =>
-          a.intersectionRatio > b.intersectionRatio ? a : b,
-        );
-        setActiveSection(best.target.id);
-      },
-      {
-        rootMargin: "-10% 0px -30% 0px",
-        threshold: 0.1,
-      },
-    );
+    const handleScroll = () => {
+      const offset = 120;
+      let current = "";
+      let closestTop = -Infinity;
 
-    const elements: Element[] = [];
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) {
-        observer.observe(el);
-        elements.push(el);
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= offset && rect.top > closestTop) {
+          closestTop = rect.top;
+          current = id;
+        }
       }
-    });
 
-    return () => {
-      elements.forEach((el) => observer.unobserve(el));
-      observer.disconnect();
+      setActiveSection(current);
     };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [sectionIds, pathname]);
 
   return activeSection;
