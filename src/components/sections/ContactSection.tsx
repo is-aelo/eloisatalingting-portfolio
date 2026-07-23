@@ -51,15 +51,15 @@ export function ContactSection({ email, linkedinUrl, profileImageUrl }: Props) {
           That&apos;s usually split between two people. I do both &mdash; and you can see the results above.
         </p>
 
-        <div className="mt-8 sm:mt-10 flex flex-wrap items-start justify-center gap-3">
+        <div className="mt-8 sm:mt-10 flex items-start justify-center gap-3">
           {email && (
             <div className="flex flex-col items-center gap-2">
               <a
                 href={`mailto:${email}`}
-                className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 font-body text-sm text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
+                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 font-body text-sm text-white transition-opacity hover:opacity-90"
               >
                 <LuMail size={18} className="shrink-0" />
-                Send an email
+                Email me
               </a>
               <button
                 onClick={handleCopyEmail}
@@ -74,10 +74,10 @@ export function ContactSection({ email, linkedinUrl, profileImageUrl }: Props) {
               href={normalizeUrl(linkedinUrl)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 font-body text-sm text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary sm:w-auto sm:px-6 md:px-8 md:py-3.5 md:text-base"
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-border px-6 py-3 font-body text-sm text-primary transition-colors hover:border-accent-secondary hover:text-accent-secondary"
             >
               <FaLinkedin size={18} className="shrink-0" />
-              Connect on LinkedIn
+              Connect
             </a>
           )}
         </div>
