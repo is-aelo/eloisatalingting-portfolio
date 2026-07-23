@@ -21,42 +21,21 @@ export function ProcessSection({ steps }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const cards = sectionRef.current?.querySelectorAll(".process-card");
-    if (!cards || cards.length === 0) return;
-
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const rows = sectionRef.current?.querySelectorAll(".process-row");
+    if (!rows || rows.length === 0) return;
 
     const ctx = gsap.context(() => {
-      cards.forEach((card) => {
-        if (isDesktop) {
-          const tilt = (Math.random() - 0.5) * 3;
-          gsap.set(card, { rotation: tilt, transformOrigin: "50% 100%" });
-        }
-      });
-
-      gsap.from(cards, {
+      gsap.from(rows, {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 80%",
         },
-        y: 48,
+        y: 24,
         opacity: 0,
-        stagger: 0.15,
-        duration: 0.8,
+        stagger: 0.1,
+        duration: 0.6,
         ease: "power3.out",
       });
-
-      if (isDesktop) {
-        cards.forEach((card) => {
-          card.addEventListener("mouseenter", () => {
-            gsap.to(card, { rotation: 0, duration: 0.4, ease: "power2.out" });
-          });
-          card.addEventListener("mouseleave", () => {
-            const tilt = (Math.random() - 0.5) * 3;
-            gsap.to(card, { rotation: tilt, duration: 0.4, ease: "power2.out" });
-          });
-        });
-      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -73,25 +52,26 @@ export function ProcessSection({ steps }: Props) {
           From concept to launch
         </h2>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3 md:gap-8">
+        <div className="mt-10 grid grid-cols-1 border border-border sm:grid-cols-3">
           {steps.map((step, i) => (
             <div
               key={step.id}
-              className={`process-card group flex flex-col rounded-xl border p-6 md:p-8 transition-colors hover:border-accent-secondary/30 ${
-                i % 2 === 0
-                  ? "border-border bg-surface hover:bg-surface-muted"
-                  : "border-accent-secondary/20 bg-surface-muted hover:bg-surface"
+              className={`process-row group flex flex-col gap-3 px-6 py-6 transition-colors hover:bg-surface-muted md:px-8 md:py-8 ${
+                i % 3 !== 2 ? "border-r border-border" : ""
+              } ${
+                i < steps.length - 3 ? "border-b border-border" : ""
               }`}
             >
-              <span className={`font-heading text-3xl transition-colors group-hover:text-accent ${
-                i % 2 === 0 ? "text-accent-tertiary/40" : "text-accent-secondary/40"
-              }`}>
-                {String(step.step_number).padStart(2, "0")}
-              </span>
-              <h3 className="mt-4 font-heading text-lg text-primary">
+              <div className="flex items-center gap-3">
+                <span className="h-px w-6 bg-accent/40 transition-colors group-hover:w-8 group-hover:bg-accent" />
+                <span className="font-heading text-xl text-accent/60 transition-colors group-hover:text-accent md:text-2xl">
+                  {String(step.step_number).padStart(2, "0")}
+                </span>
+              </div>
+              <h3 className="font-heading text-base font-medium text-primary sm:text-lg">
                 {step.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-secondary">
+              <p className="text-sm leading-relaxed text-secondary">
                 {step.description}
               </p>
             </div>
